@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Isyara</string>
+    <string name="name_dummy">Nama Pengguna</string>
+    <string name="quote">Mari kita komunikasikan melalui gerakan</string>
+    <string name="profile_picture">profpic</string>
+    <string name="settings">settings</string>
+    <string name="feature_text">Fitur Kami</string>
+    <string name="translate_feature">Terjemahkan \nBahasa Isyarat</string>
+    <string name="translate_image">Translate Image</string>
+    <string name="dictionary_image">Dictionary Image</string>
+    <string name="dictionary_feature">Buka Kamus\nBisindo</string>
+    <string name="information_image">information image</string>
+    <string name="information_feature">Informasi</string>
+    <string name="quiz_feature">Quiz</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
