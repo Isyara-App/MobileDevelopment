@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.isyara.databinding.ActivityMainBinding
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

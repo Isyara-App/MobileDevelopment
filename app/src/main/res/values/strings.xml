@@ -12,6 +12,13 @@
     <string name="information_image">information image</string>
     <string name="information_feature">Informasi</string>
     <string name="quiz_feature">Quiz</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="onboard_ic">onboard_ic</string>
+    <string name="isyara_title">ISYARA</string>
+    <string name="isyara_onboard">Connecting through motions</string>
+    <string name="login_text">Login</string>
+    <string name="signup_text">Sign Up</string>
+    <string name="hello_blank_fragment">Hello</string>
+    <string name="email_text">Email</string>
+    <string name="password_text">Password</string>
+    <string name="image_description">information_image</string>
 </resources>

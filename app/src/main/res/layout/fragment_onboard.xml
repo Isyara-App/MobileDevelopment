@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#33767C">
+
+    <!-- Gambar besar di tengah -->
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginVertical="150dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/onboard_ic"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_launcher_background" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bottomCard"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="-17dp"
+        android:background="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/cardTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/isyara_title"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#33767C" />
+
+            <TextView
+                android:id="@+id/cardDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/cardTitle"
+                android:layout_marginTop="8dp"
+                android:text="@string/isyara_onboard"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="400dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/cardDescription"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/login_text"
+                android:textSize="15sp"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/signupButton"
+                android:layout_width="400dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/loginButton"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:text="@string/signup_text"
+                android:textSize="15sp"
+                android:background="@drawable/button_background"
+                android:textColor="@android:color/white" />
+
+
+
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

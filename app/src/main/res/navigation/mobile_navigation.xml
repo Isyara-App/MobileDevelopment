@@ -2,9 +2,42 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/homeScreenFragment">
+    app:startDestination="@id/onboardFragment">
 
     <!-- Define the fragment you want to navigate to -->
+    <fragment
+        android:id="@+id/onboardFragment"
+        android:name="com.example.isyara.ui.onboard.OnboardFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_onboard" >
+        <action
+            android:id="@+id/action_onboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_onboardFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.isyara.ui.loginandsignup.LoginFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.isyara.ui.loginandsignup.SignupFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/homeScreenFragment"
         android:name="com.example.isyara.ui.homescreen.HomeScreenFragment"
