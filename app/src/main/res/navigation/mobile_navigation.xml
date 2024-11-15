@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/onboardFragment">
+
+    <!-- Define the fragment you want to navigate to -->
+    <fragment
+        android:id="@+id/onboardFragment"
+        android:name="com.example.isyara.ui.onboard.OnboardFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_onboard" >
+        <action
+            android:id="@+id/action_onboardFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_onboardFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.isyara.ui.loginandsignup.LoginFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.example.isyara.ui.loginandsignup.SignupFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeScreenFragment"
+        android:name="com.example.isyara.ui.homescreen.HomeScreenFragment"
+        android:label="Home Screen"
+        tools:layout="@layout/fragment_home_screen">
+        <action
+            android:id="@+id/action_homeScreenFragment_to_translateFragment"
+            app:destination="@id/translateFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_informationFragment"
+            app:destination="@id/informationFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_dictionaryFragment"
+            app:destination="@id/dictionaryFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/translateFragment"
+        android:name="com.example.isyara.ui.translate.TranslateFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_translate" />
+
+    <fragment
+        android:id="@+id/dictionaryFragment"
+        android:name="com.example.isyara.ui.dictionary.DictionaryFragment"
+        android:label="Translate"
+        tools:layout="@layout/fragment_dictionary" />
+
+    <fragment
+        android:id="@+id/informationFragment"
+        android:name="com.example.isyara.ui.information.InformationFragment"
+        android:label="Information"
+        tools:layout="@layout/fragment_information" />
+
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.example.isyara.ui.quiz.QuizFragment"
+        android:label="Quiz"
+        tools:layout="@layout/fragment_quiz" />
+</navigation>
