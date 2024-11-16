@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#33767C">
+    android:background="@color/primary">
 
     <!-- Gambar besar di tengah -->
     <ImageView
@@ -40,7 +40,7 @@
                 android:text="@string/isyara_title"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="#33767C" />
+                android:textColor="@color/primary" />
 
             <TextView
                 android:id="@+id/cardDescription"

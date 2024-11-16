@@ -25,4 +25,14 @@
     <string name="mencari_kata">Mencari kata...</string>
     <string name="huruf">Huruf</string>
     <string name="kata">Kata</string>
+    <string name="login_text1">Selamat datang kembali</string>
+    <string name="login_text2">Masukan data anda untuk login</string>
+    <string name="email_input">Enter your email</string>
+    <string name="password_input">Enter your password</string>
+    <string name="no_account">Belum punya akun?</string>
+    <string name="signup_text1">Selamat datang di</string>
+    <string name="signup_text2">Masukan data anda untuk sign up</string>
+    <string name="name_text">Name</string>
+    <string name="name_input">Enter your name</string>
+    <string name="have_account_text">Sudah punya akun?</string>
 </resources>
