@@ -21,4 +21,8 @@
     <string name="email_text">Email</string>
     <string name="password_text">Password</string>
     <string name="image_description">information_image</string>
+    <string name="mencari_huruf">Mencari Huruf...</string>
+    <string name="mencari_kata">Mencari kata...</string>
+    <string name="huruf">Huruf</string>
+    <string name="kata">Kata</string>
 </resources>

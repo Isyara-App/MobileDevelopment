@@ -9,7 +9,7 @@
         android:id="@+id/onboardFragment"
         android:name="com.example.isyara.ui.onboard.OnboardFragment"
         android:label="Translate"
-        tools:layout="@layout/fragment_onboard" >
+        tools:layout="@layout/fragment_onboard">
         <action
             android:id="@+id/action_onboardFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -22,7 +22,7 @@
         android:id="@+id/loginFragment"
         android:name="com.example.isyara.ui.loginandsignup.LoginFragment"
         android:label="Translate"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
@@ -32,7 +32,7 @@
         android:id="@+id/signupFragment"
         android:name="com.example.isyara.ui.loginandsignup.SignupFragment"
         android:label="Translate"
-        tools:layout="@layout/fragment_signup" >
+        tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signupFragment_to_homeScreenFragment"
             app:destination="@id/homeScreenFragment" />
@@ -67,7 +67,14 @@
         android:id="@+id/dictionaryFragment"
         android:name="com.example.isyara.ui.dictionary.DictionaryFragment"
         android:label="Translate"
-        tools:layout="@layout/fragment_dictionary" />
+        tools:layout="@layout/fragment_dictionary">
+        <action
+            android:id="@+id/action_dictionaryFragment_to_dictionaryWordFragment"
+            app:destination="@id/dictionaryWordFragment" />
+        <action
+            android:id="@+id/action_dictionaryFragment_to_dictionarySentenceFragment"
+            app:destination="@id/dictionarySentenceFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/informationFragment"
@@ -80,4 +87,24 @@
         android:name="com.example.isyara.ui.quiz.QuizFragment"
         android:label="Quiz"
         tools:layout="@layout/fragment_quiz" />
+
+    <fragment
+        android:id="@+id/dictionaryWordFragment"
+        android:name="com.example.isyara.ui.dictionary_word.DictionaryWordFragment"
+        android:label="DictionaryWord"
+        tools:layout="@layout/fragment_dictionary_word">
+        <action
+            android:id="@+id/action_dictionaryWordFragment_to_dictionaryFragment"
+            app:destination="@id/dictionaryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/dictionarySentenceFragment"
+        android:name="com.example.isyara.ui.dictionary_sentence.DictionarySentenceFragment"
+        android:label="DictionarySentence"
+        tools:layout="@layout/fragment_dictionary_sentence">
+        <action
+            android:id="@+id/action_dictionarySentenceFragment_to_dictionaryFragment"
+            app:destination="@id/dictionaryFragment" />
+    </fragment>
 </navigation>
