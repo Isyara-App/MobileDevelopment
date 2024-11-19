@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.isyara.ui.loginandsignup.SignupFragment"
+        android:name="com.example.isyara.ui.loginandsignup.SignUpFragment"
         android:label="Translate"
         tools:layout="@layout/fragment_signup">
         <action

@@ -115,15 +115,31 @@
                 android:drawableStart="@drawable/ic_password"
                 android:drawableTint="@color/primary" />
 
-            <Button
-                style="@style/RoundedButton"
-                android:id="@+id/loginButton"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/login_text"
-                android:textSize="16sp"
-                android:layout_marginTop="30dp"
-                android:backgroundTint="@color/primary" />
+                android:layout_height="match_parent">
+
+                <Button
+                    style="@style/RoundedButton"
+                    android:id="@+id/loginButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_text"
+                    android:textSize="16sp"
+                    android:layout_marginTop="30dp"
+                    android:backgroundTint="@color/primary" />
+
+                <ProgressBar
+                    android:layout_marginTop="14dp"
+                    android:id="@+id/loadingIndicator"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/white"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="gone" />
+            </FrameLayout>
 
         </LinearLayout>
 
