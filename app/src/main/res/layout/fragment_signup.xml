@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/primary">
@@ -15,8 +14,8 @@
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginTop="20sp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -30,7 +29,7 @@
         android:textSize="16sp"
         android:textColor="@color/white"
         android:layout_marginTop="16dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintTop_toBottomOf="@id/titleSignup"
         app:layout_constraintStart_toStartOf="parent" />
@@ -58,7 +57,7 @@
         android:textSize="16sp"
         android:textColor="@color/white"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintTop_toBottomOf="@id/signupText1"
         app:layout_constraintStart_toStartOf="parent" />
@@ -66,15 +65,16 @@
     <!-- CardView for Email, Password, and Login Button -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewLogin"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintTop_toBottomOf="@id/signupText1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent="0.9">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +89,7 @@
                 android:text="@string/name_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary"/>
+                android:textColor="@color/primary" />
 
             <EditText
                 android:id="@+id/nameInput"
@@ -101,8 +101,10 @@
                 android:textSize="14sp"
                 android:background="@drawable/input_border"
                 android:drawableTint="@color/primary"
+                android:textColor="@color/primary"
                 android:padding="10dp"
-                android:drawableStart="@drawable/ic_profile"/>
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/ic_profile" />
 
             <!-- Email Input -->
             <TextView
@@ -112,7 +114,7 @@
                 android:text="@string/email_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary"/>
+                android:textColor="@color/primary" />
 
             <EditText
                 android:id="@+id/emailInput"
@@ -123,10 +125,11 @@
                 android:hint="@string/email_input"
                 android:inputType="textEmailAddress"
                 android:textSize="14sp"
+                android:drawablePadding="8dp"
                 android:background="@drawable/input_border"
                 android:drawableTint="@color/primary"
                 android:padding="10dp"
-                android:drawableStart="@drawable/ic_email"/>
+                android:drawableStart="@drawable/ic_email" />
 
             <!-- Password Input -->
             <TextView
@@ -137,7 +140,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/primary"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp" />
 
             <EditText
                 android:id="@+id/passwordInput"
@@ -148,19 +151,22 @@
                 android:inputType="textPassword"
                 android:layout_marginTop="5dp"
                 android:textSize="14sp"
+                android:drawablePadding="8dp"
                 android:background="@drawable/input_border"
                 android:drawableTint="@color/primary"
                 android:padding="10dp"
-                android:drawableStart="@drawable/ic_password"/>
+                android:drawableStart="@drawable/ic_password" />
 
             <!-- Login Button -->
             <Button
+                style="@style/RoundedButton"
                 android:id="@+id/signupButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/signup_text"
+                android:backgroundTint="@color/black"
                 android:textSize="16sp"
-                android:layout_marginTop="30dp"/>
+                android:layout_marginTop="30dp" />
 
         </LinearLayout>
 
@@ -185,7 +191,7 @@
             android:text="@string/have_account_text"
             android:textSize="14sp"
             android:textColor="@color/white"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/loginText"
@@ -198,7 +204,7 @@
             android:layout_marginStart="4dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true" />
 
     </LinearLayout>
 
