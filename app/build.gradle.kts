@@ -42,7 +42,7 @@ android {
 
 dependencies {
 
-    implementation (libs.androidx.multidex)
+    implementation(libs.androidx.multidex)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -58,4 +58,17 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx.v274)
+
+    //ifqy add depedency
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.picasso.transformations)
+    implementation(libs.picasso)
+    implementation(libs.gpuimage)
+    //datastore A.K.A sharedpref
+    implementation(libs.androidx.datastore.preferences)
+    //coroutine
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
 }
