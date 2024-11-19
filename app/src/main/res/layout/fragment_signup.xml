@@ -114,7 +114,8 @@
                 android:text="@string/email_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="@color/primary" />
+                android:textColor="@color/primary"
+                android:layout_marginTop="16dp" />
 
             <EditText
                 android:id="@+id/emailInput"
@@ -125,6 +126,7 @@
                 android:hint="@string/email_input"
                 android:inputType="textEmailAddress"
                 android:textSize="14sp"
+                android:textColor="@color/primary"
                 android:drawablePadding="8dp"
                 android:background="@drawable/input_border"
                 android:drawableTint="@color/primary"
@@ -157,16 +159,31 @@
                 android:padding="10dp"
                 android:drawableStart="@drawable/ic_password" />
 
-            <!-- Login Button -->
-            <Button
-                style="@style/RoundedButton"
-                android:id="@+id/signupButton"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/signup_text"
-                android:backgroundTint="@color/black"
-                android:textSize="16sp"
-                android:layout_marginTop="30dp" />
+                android:layout_height="wrap_content">
+
+                <Button
+                    style="@style/RoundedButton"
+                    android:id="@+id/signupButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/signup_text"
+                    android:backgroundTint="@color/black"
+                    android:textSize="16sp"
+                    android:layout_marginTop="30dp" />
+
+                <ProgressBar
+                    android:layout_marginTop="14dp"
+                    android:id="@+id/loadingIndicator"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/white"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="gone" />
+            </FrameLayout>
 
         </LinearLayout>
 
