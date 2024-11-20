@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.isyara.R
 import com.example.isyara.databinding.FragmentNewsDetailBinding
 
@@ -27,7 +28,18 @@ class NewsDetailFragment : Fragment(R.layout.fragment_news_detail) {
         // Menampilkan data pada TextView yang sesuai
         binding.tvTitle.text = itemTitle
         binding.tvContent.text = itemDescription
+        // Menangani klik tombol back
 
+        binding.btnBack.setOnClickListener {
+            // Menggunakan findNavController() untuk navigasi kembali
+            findNavController().popBackStack()
+        }
+
+        // Menangani klik teks "Back to News List"
+        binding.tvBackText.setOnClickListener {
+            // Menggunakan findNavController() untuk navigasi kembali
+            findNavController().popBackStack()
+        }
         return binding.root
     }
 
