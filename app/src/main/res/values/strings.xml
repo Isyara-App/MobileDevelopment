@@ -35,4 +35,6 @@
     <string name="name_text">Name</string>
     <string name="name_input">Enter your name</string>
     <string name="have_account_text">Sudah punya akun?</string>
+    <string name="image_cover_description">news cover</string>
+    <string name="news_text">Berita</string>
 </resources>

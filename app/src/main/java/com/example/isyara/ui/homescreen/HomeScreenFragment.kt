@@ -16,16 +16,11 @@ class HomeScreenFragment : Fragment() {
     private var _binding: FragmentHomeScreenBinding? = null
     private val binding get() = _binding!!
 
-    private fun getDummyInformationList(): List<InformationSample> {
-        return listOf(
-            InformationSample("Title 1", "Description 1"),
-            InformationSample("Title 2", "Description 2"),
-            InformationSample("Title 3", "Description 3"),
-            InformationSample("Title 4", "Description 4")
-        )
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
         // Setup navigasi untuk tiap CardView
@@ -41,14 +36,23 @@ class HomeScreenFragment : Fragment() {
         binding.cardView4.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
         }
-        // Setup RecyclerView
-        val informationList = getDummyInformationList()
-        val adapter = HomeScreenAdapter(informationList)
-        binding.recyclerViewInformation.layoutManager = LinearLayoutManager(requireContext())
+
+        val informationList = InformationSample.getDummyData()
+        val adapter = HomeScreenAdapter(informationList) { item ->
+            val bundle = Bundle().apply {
+                putString("itemId", item.id)  // Mengirimkan ID bertipe String
+                putString("itemTitle", item.title)  // Mengirimkan title
+                putString("itemDescription", item.description)  // Mengirimkan ID bertipe String
+            }
+            findNavController().navigate(R.id.action_homeScreenFragment_to_newsDetailFragment, bundle)
+        }
+
         binding.recyclerViewInformation.adapter = adapter
+        binding.recyclerViewInformation.layoutManager = LinearLayoutManager(requireContext())
 
         return binding.root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

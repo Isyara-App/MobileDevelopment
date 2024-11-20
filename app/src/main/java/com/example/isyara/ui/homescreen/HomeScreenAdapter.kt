@@ -8,17 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.isyara.R
 import com.example.isyara.data.InformationSample
 
-class HomeScreenAdapter (private val items: List<InformationSample>) :
-    RecyclerView.Adapter<HomeScreenAdapter.InformationViewHolder>() {
+class HomeScreenAdapter(
+    private val items: List<InformationSample>,
+    private val onItemClicked: (InformationSample) -> Unit
+) : RecyclerView.Adapter<HomeScreenAdapter.InformationViewHolder>() {
 
     inner class InformationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textTitle: TextView = itemView.findViewById(R.id.item_title)
         val textDescription: TextView = itemView.findViewById(R.id.item_content)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClicked(items[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InformationViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.information_list, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.information_list, parent, false)
         return InformationViewHolder(view)
     }
 
