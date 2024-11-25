@@ -27,11 +27,11 @@ class HomeScreenFragment : Fragment() {
         val userPreferences = UserPreferences(requireContext())
         val token = userPreferences.getToken()
 
-//        if (token!!.isEmpty()) {
-//            findNavController().navigate(R.id.action_homeScreenFragment_to_loginscreen)
-//        }
+        if (token!!.isEmpty()) {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
+        }
 
-        // Setup navigasi untuk tiap CardView
+       
         binding.cardView1.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
         }
@@ -52,7 +52,10 @@ class HomeScreenFragment : Fragment() {
                 putString("itemTitle", item.title)  // Mengirimkan title
                 putString("itemDescription", item.description)  // Mengirimkan ID bertipe String
             }
-            findNavController().navigate(R.id.action_homeScreenFragment_to_newsDetailFragment, bundle)
+            findNavController().navigate(
+                R.id.action_homeScreenFragment_to_newsDetailFragment,
+                bundle
+            )
         }
         binding.recyclerViewInformation.adapter = adapter
         binding.recyclerViewInformation.layoutManager = LinearLayoutManager(requireContext())

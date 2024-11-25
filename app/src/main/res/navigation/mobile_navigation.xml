@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_newsDetailFragment"
             app:destination="@id/newsDetailFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment

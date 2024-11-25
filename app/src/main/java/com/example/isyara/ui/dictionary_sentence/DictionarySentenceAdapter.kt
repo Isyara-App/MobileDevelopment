@@ -1,18 +1,27 @@
+package com.example.isyara.ui.dictionary_sentence
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.isyara.data.Sentence
+import com.example.isyara.R
+import com.example.isyara.data.remote.response.DataItem
 import com.example.isyara.databinding.DictionarySentenceListBinding
+import com.example.isyara.util.LoadImage
 
-
-class DictionarySentenceAdapter(private val sentences: List<Sentence>) :
-    RecyclerView.Adapter<DictionarySentenceAdapter.SentenceViewHolder>() {
+class DictionarySentenceAdapter(
+    private val sentences: List<DataItem>
+) : RecyclerView.Adapter<DictionarySentenceAdapter.SentenceViewHolder>() {
 
     inner class SentenceViewHolder(private val binding: DictionarySentenceListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(sentence: Sentence) {
-            binding.tvTitle.text = sentence.title
-            binding.ivPicture.setImageResource(sentence.imageResId)
+        fun bind(sentence: DataItem) {
+            binding.tvTitle.text = sentence.huruf
+            LoadImage.load(
+                context = binding.root.context,
+                imageView = binding.ivPicture,
+                imageUrl = sentence.imageUrl ?: "",
+                placeholder = R.color.placeholder,
+            )
         }
     }
 

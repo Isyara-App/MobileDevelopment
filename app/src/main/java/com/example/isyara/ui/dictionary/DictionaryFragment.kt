@@ -1,11 +1,12 @@
 package com.example.isyara.ui.dictionary
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.isyara.R
 import com.example.isyara.databinding.FragmentDictionaryBinding
 
 class DictionaryFragment : Fragment() {
@@ -20,9 +21,12 @@ class DictionaryFragment : Fragment() {
         _binding = FragmentDictionaryBinding.inflate(inflater, container, false)
 
         // Inisialisasi tombol back
-        binding.backButton.setOnClickListener {
+        binding.openWord.setOnClickListener {
             // Navigasi kembali ke HomeScreenFragment
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.action_dictionaryFragment_to_dictionaryWordFragment)
+        }
+        binding.openSentence.setOnClickListener {
+            findNavController().navigate(R.id.action_dictionaryFragment_to_dictionarySentenceFragment)
         }
         return binding.root
     }
