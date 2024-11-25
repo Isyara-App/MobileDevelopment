@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Baris untuk Tombol Back dan Teks -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start|center_vertical"
+            android:layout_marginBottom="16dp">
+
+            <!-- Tombol Back -->
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_back"
+                android:contentDescription="Back"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginEnd="8dp"/>
+
+            <!-- Teks di Sebelah Tombol Back -->
+            <TextView
+                android:id="@+id/tvBackText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detail Berita"
+                android:textSize="20sp"
+                android:textColor="@color/primary"/>
+
+        </LinearLayout>
+
+        <!-- Judul Berita -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Judul Berita"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"
+            android:textColor="#000000"
+            android:gravity="center"/>
+
+        <!-- Gambar Cover Berita -->
+        <ImageView
+            android:id="@+id/imgCover"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+            android:contentDescription="@string/image_cover_description"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Isi Berita -->
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Isi berita akan ditampilkan di sini."
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            android:textColor="#333333"/>
+    </LinearLayout>
+</ScrollView>

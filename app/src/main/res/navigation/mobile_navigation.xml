@@ -61,7 +61,16 @@
         <action
             android:id="@+id/action_homeScreenFragment_to_quizFragment"
             app:destination="@id/quizFragment" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_newsDetailFragment"
+            app:destination="@id/newsDetailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.example.isyara.ui.news_detail.NewsDetailFragment"
+        android:label="NewsDetail"
+        tools:layout="@layout/fragment_news_detail" />
 
     <fragment
         android:id="@+id/translateFragment"

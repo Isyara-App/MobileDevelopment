@@ -39,4 +39,5 @@
     <string name="error_email_required">Email Tidak Boleh Kosong</string>
     <string name="error_password_required">Password Tidak Boleh Kosong</string>
     <string name="error_name_required">nama tidak boleh kosong</string>
+    <string name="image_cover_description">cover image</string>
 </resources>
