@@ -1,18 +1,18 @@
-package com.example.isyara.ui.dictionary_sentence
+package com.example.isyara.ui.dictionary_word
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.isyara.data.Result
-import com.example.isyara.data.remote.response.DataItemSentence
+import com.example.isyara.data.remote.response.DataItemWord
 import com.example.isyara.data.repository.DictionaryRepository
 import kotlinx.coroutines.launch
 
-class DictionarySentenceViewModel(private val repository: DictionaryRepository) : ViewModel() {
+class DictionaryWordViewModel(private val repository: DictionaryRepository) : ViewModel() {
 
-    private val _sentences = MutableLiveData<List<DataItemSentence>>()
-    val sentences: LiveData<List<DataItemSentence>> get() = _sentences
+    private val _sentences = MutableLiveData<List<DataItemWord>>()
+    val sentences: LiveData<List<DataItemWord>> get() = _sentences
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -23,7 +23,7 @@ class DictionarySentenceViewModel(private val repository: DictionaryRepository) 
     fun searchSentence(token: String, query: String) {
         _isLoading.value = true
         viewModelScope.launch {
-            when (val result = repository.searchSentence(token, query)) {
+            when (val result = repository.searchWord(token, query)) {
                 is Result.Success -> {
                     _isLoading.value = false
                     _sentences.value = result.data.data?.filterNotNull() ?: emptyList()

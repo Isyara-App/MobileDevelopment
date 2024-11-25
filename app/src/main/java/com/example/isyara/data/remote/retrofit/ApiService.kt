@@ -1,6 +1,7 @@
 package com.example.isyara.data.remote.retrofit
 
 import com.example.isyara.data.remote.response.DictionarySentenceResponse
+import com.example.isyara.data.remote.response.DictionaryWordResponse
 import com.example.isyara.data.remote.response.LoginResponse
 import com.example.isyara.data.remote.response.RegisterResponse
 import retrofit2.http.Field
@@ -28,6 +29,12 @@ interface ApiService {
 
     @GET("dictionary/letters")
     suspend fun searchLetters(
+        @Header("Authorization") token: String,
+        @Query("search") query: String
+    ): DictionaryWordResponse
+
+    @GET("dictionary/words")
+    suspend fun searchSentence(
         @Header("Authorization") token: String,
         @Query("search") query: String
     ): DictionarySentenceResponse

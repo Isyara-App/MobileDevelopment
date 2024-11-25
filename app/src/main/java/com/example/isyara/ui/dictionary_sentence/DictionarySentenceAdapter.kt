@@ -4,18 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.isyara.R
-import com.example.isyara.data.remote.response.DataItem
+import com.example.isyara.data.remote.response.DataItemSentence
 import com.example.isyara.databinding.DictionarySentenceListBinding
 import com.example.isyara.util.LoadImage
 
+
 class DictionarySentenceAdapter(
-    private val sentences: List<DataItem>
+    private val words: List<DataItemSentence>
 ) : RecyclerView.Adapter<DictionarySentenceAdapter.SentenceViewHolder>() {
 
     inner class SentenceViewHolder(private val binding: DictionarySentenceListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(sentence: DataItem) {
-            binding.tvTitle.text = sentence.huruf
+        fun bind(sentence: DataItemSentence) {
+            binding.tvTitle.text = sentence.kata
             LoadImage.load(
                 context = binding.root.context,
                 imageView = binding.ivPicture,
@@ -33,8 +34,8 @@ class DictionarySentenceAdapter(
     }
 
     override fun onBindViewHolder(holder: SentenceViewHolder, position: Int) {
-        holder.bind(sentences[position])
+        holder.bind(words[position])
     }
 
-    override fun getItemCount(): Int = sentences.size
+    override fun getItemCount(): Int = words.size
 }

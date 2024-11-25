@@ -2,10 +2,10 @@ package com.example.isyara.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class DictionarySentenceResponse(
+data class DictionaryWordResponse(
 
     @field:SerializedName("data")
-    val data: List<DataItemSentence?>? = null,
+    val data: List<DataItemWord?>? = null,
 
     @field:SerializedName("message")
     val message: String? = null,
@@ -14,16 +14,16 @@ data class DictionarySentenceResponse(
     val status: String? = null
 )
 
-data class DataItemSentence(
-
-    @field:SerializedName("kata")
-    val kata: String? = null,
+data class DataItemWord(
 
     @field:SerializedName("updated_at")
     val updatedAt: String? = null,
 
     @field:SerializedName("image_url")
     val imageUrl: String? = null,
+
+    @field:SerializedName("huruf")
+    val huruf: String? = null,
 
     @field:SerializedName("created_at")
     val createdAt: String? = null,
