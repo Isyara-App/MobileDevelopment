@@ -30,7 +30,8 @@ class NewsDetailFragment : Fragment(R.layout.fragment_news_detail) {
 
         // Menampilkan data pada TextView yang sesuai
         binding.tvTitle.text = itemTitle
-        binding.tvContent.text = itemDescription
+        val formattedDescription = itemDescription?.replace(". ", ".\n\n")
+        binding.tvContent.text = formattedDescription
 
         // Memuat gambar dengan util LoadImage
         imageUrl?.let {
