@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.isyara.data.remote.retrofit.ApiConfig
 import com.example.isyara.data.repository.AuthRepository
 import com.example.isyara.data.repository.DictionaryRepository
+import com.example.isyara.data.repository.InformationRepository
 
 object Injection {
 
@@ -15,5 +16,10 @@ object Injection {
     fun dictionaryRepository(context: Context): DictionaryRepository {
         val apiService = ApiConfig.getApiService()
         return DictionaryRepository.getInstance(apiService)
+    }
+
+    fun informationRepository(context: Context): InformationRepository {
+        val apiService = ApiConfig.getApiService()
+        return InformationRepository.getInstance(apiService)
     }
 }

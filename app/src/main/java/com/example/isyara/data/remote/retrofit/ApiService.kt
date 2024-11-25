@@ -3,6 +3,7 @@ package com.example.isyara.data.remote.retrofit
 import com.example.isyara.data.remote.response.DictionarySentenceResponse
 import com.example.isyara.data.remote.response.DictionaryWordResponse
 import com.example.isyara.data.remote.response.LoginResponse
+import com.example.isyara.data.remote.response.NewsResponse
 import com.example.isyara.data.remote.response.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -38,4 +39,7 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Query("search") query: String
     ): DictionarySentenceResponse
+
+    @GET("news")
+    suspend fun news(@Header("Authorization") token: String): NewsResponse
 }
