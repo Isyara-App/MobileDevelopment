@@ -42,7 +42,7 @@ android {
 
 dependencies {
 
-    implementation (libs.androidx.multidex)
+    implementation(libs.androidx.multidex)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -52,11 +52,26 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.annotation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx.v274)
-    implementation (libs.androidx.annotation.v130)
-    implementation (libs.androidx.core.splashscreen)
+
+    //ifqy add depedency
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.picasso.transformations)
+    implementation(libs.picasso)
+    implementation(libs.gpuimage)
+    //datastore A.K.A sharedpref
+    implementation(libs.androidx.datastore.preferences)
+    //coroutine
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+
+    //splashscreen
+    implementation (libs.core.splashscreen)
 }

@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.isyara.ui.loginandsignup.SignupFragment"
+        android:name="com.example.isyara.ui.loginandsignup.SignUpFragment"
         android:label="Translate"
         tools:layout="@layout/fragment_signup">
         <action
@@ -65,6 +65,12 @@
             android:id="@+id/action_homeScreenFragment_to_newsDetailFragment"
             app:destination="@id/newsDetailFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.example.isyara.ui.news_detail.NewsDetailFragment"
+        android:label="NewsDetail"
+        tools:layout="@layout/fragment_news_detail" />
 
     <fragment
         android:id="@+id/translateFragment"
@@ -116,10 +122,4 @@
             android:id="@+id/action_dictionarySentenceFragment_to_dictionaryFragment"
             app:destination="@id/dictionaryFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/newsDetailFragment"
-        android:name="com.example.isyara.ui.news_detail.NewsDetailFragment"
-        android:label="News detail"
-        tools:layout="@layout/fragment_news_detail" />
 </navigation>

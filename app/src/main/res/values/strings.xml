@@ -35,6 +35,9 @@
     <string name="name_text">Name</string>
     <string name="name_input">Enter your name</string>
     <string name="have_account_text">Sudah punya akun?</string>
-    <string name="image_cover_description">news cover</string>
-    <string name="news_text">Berita</string>
+    <string name="berita">Berita</string>
+    <string name="error_email_required">Email Tidak Boleh Kosong</string>
+    <string name="error_password_required">Password Tidak Boleh Kosong</string>
+    <string name="error_name_required">nama tidak boleh kosong</string>
+    <string name="image_cover_description">cover image</string>
 </resources>

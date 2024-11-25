@@ -1,8 +1,8 @@
 package com.example.isyara
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         installSplashScreen()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         // Inisialisasi NavController dari NavHostFragment
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         navController = navHostFragment.navController
-
 
         // No back-back geming
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

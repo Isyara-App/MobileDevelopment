@@ -4,7 +4,8 @@ data class InformationSample(
     val id: String,
     val title: String,
     val description: String
-) {
+)
+{
     companion object {
         fun getDummyData(): List<InformationSample> {
             return listOf(

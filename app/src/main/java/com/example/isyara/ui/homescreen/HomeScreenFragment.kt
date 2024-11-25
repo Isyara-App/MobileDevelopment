@@ -1,14 +1,15 @@
 package com.example.isyara.ui.homescreen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.isyara.R
 import com.example.isyara.data.InformationSample
+import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.databinding.FragmentHomeScreenBinding
 
 class HomeScreenFragment : Fragment() {
@@ -22,6 +23,13 @@ class HomeScreenFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
+
+        val userPreferences = UserPreferences(requireContext())
+        val token = userPreferences.getToken()
+
+//        if (token!!.isEmpty()) {
+//            findNavController().navigate(R.id.action_homeScreenFragment_to_loginscreen)
+//        }
 
         // Setup navigasi untuk tiap CardView
         binding.cardView1.setOnClickListener {
@@ -46,13 +54,11 @@ class HomeScreenFragment : Fragment() {
             }
             findNavController().navigate(R.id.action_homeScreenFragment_to_newsDetailFragment, bundle)
         }
-
         binding.recyclerViewInformation.adapter = adapter
         binding.recyclerViewInformation.layoutManager = LinearLayoutManager(requireContext())
 
         return binding.root
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -24,6 +24,7 @@ class HomeScreenAdapter(
         }
     }
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InformationViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.information_list, parent, false)
         return InformationViewHolder(view)
