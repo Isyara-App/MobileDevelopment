@@ -1,40 +1,51 @@
 package com.example.isyara.ui.homescreen
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.isyara.R
-import com.example.isyara.data.InformationSample
+import com.example.isyara.data.remote.response.DataItem
+import com.example.isyara.databinding.InformationListBinding
+import com.example.isyara.util.LoadImage
 
 class HomeScreenAdapter(
-    private val items: List<InformationSample>,
-    private val onItemClicked: (InformationSample) -> Unit
-) : RecyclerView.Adapter<HomeScreenAdapter.InformationViewHolder>() {
+    private val newsItems: List<DataItem>,
+    private val onItemClicked: (DataItem) -> Unit
+) : RecyclerView.Adapter<HomeScreenAdapter.NewsViewHolder>() {
 
-    inner class InformationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textTitle: TextView = itemView.findViewById(R.id.item_title)
-        val textDescription: TextView = itemView.findViewById(R.id.item_content)
+    inner class NewsViewHolder(private val binding: InformationListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(newsItem: DataItem) {
+            binding.itemTitle.text = newsItem.title
+            binding.itemContent.text = newsItem.description
 
-        init {
-            itemView.setOnClickListener {
-                onItemClicked(items[adapterPosition])
+            // Load image with utility
+            LoadImage.load(
+                context = binding.root.context,
+                imageView = binding.itemImage,
+                imageUrl = newsItem.imageUrl ?: "",
+                placeholder = R.color.placeholder
+            )
+
+            // Click listener for item
+            binding.root.setOnClickListener {
+                onItemClicked(newsItem)
             }
         }
     }
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InformationViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.information_list, parent, false)
-        return InformationViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
+        val binding = InformationListBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return NewsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: InformationViewHolder, position: Int) {
-        val item = items[position]
-        holder.textTitle.text = item.title
-        holder.textDescription.text = item.description
+    override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+        holder.bind(newsItems[position])
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = newsItems.size
 }

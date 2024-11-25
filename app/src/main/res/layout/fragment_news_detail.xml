@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -27,7 +26,7 @@
                 android:src="@drawable/ic_back"
                 android:contentDescription="Back"
                 android:background="?android:attr/selectableItemBackground"
-                android:layout_marginEnd="8dp"/>
+                android:layout_marginEnd="8dp" />
 
             <!-- Teks di Sebelah Tombol Back -->
             <TextView
@@ -36,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:text="Detail Berita"
                 android:textSize="20sp"
-                android:textColor="@color/primary"/>
+                android:textColor="@color/primary" />
 
         </LinearLayout>
 
@@ -48,9 +47,9 @@
             android:text="Judul Berita"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:textAlignment="textStart"
             android:paddingBottom="8dp"
-            android:textColor="#000000"
-            android:gravity="center"/>
+            android:textColor="#000000" />
 
         <!-- Gambar Cover Berita -->
         <ImageView
@@ -60,7 +59,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"
             android:contentDescription="@string/image_cover_description"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp" />
 
         <!-- Isi Berita -->
         <TextView
@@ -69,7 +68,9 @@
             android:layout_height="wrap_content"
             android:text="Isi berita akan ditampilkan di sini."
             android:textSize="16sp"
+            android:textAlignment="textStart"
+            android:justificationMode="inter_word"
             android:lineSpacingExtra="4dp"
-            android:textColor="#333333"/>
+            android:textColor="#333333" />
     </LinearLayout>
 </ScrollView>

@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.isyara.R
-import com.example.isyara.data.InformationSample
 import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.databinding.FragmentHomeScreenBinding
 
@@ -16,6 +18,10 @@ class HomeScreenFragment : Fragment() {
 
     private var _binding: FragmentHomeScreenBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: HomeScreenViewModel by viewModels {
+        HomeScreenViewModelFactory.getInstance(requireContext())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,11 +33,15 @@ class HomeScreenFragment : Fragment() {
         val userPreferences = UserPreferences(requireContext())
         val token = userPreferences.getToken()
 
-//        if (token!!.isEmpty()) {
-//            findNavController().navigate(R.id.action_homeScreenFragment_to_loginscreen)
-//        }
+        if (token.isNullOrEmpty()) {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
+        }
 
-        // Setup navigasi untuk tiap CardView
+        setupRecyclerView()
+        setupObservers()
+
+        viewModel.fetchAllNews(token!!)
+
         binding.cardView1.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
         }
@@ -45,19 +55,40 @@ class HomeScreenFragment : Fragment() {
             findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
         }
 
-        val informationList = InformationSample.getDummyData()
-        val adapter = HomeScreenAdapter(informationList) { item ->
-            val bundle = Bundle().apply {
-                putString("itemId", item.id)  // Mengirimkan ID bertipe String
-                putString("itemTitle", item.title)  // Mengirimkan title
-                putString("itemDescription", item.description)  // Mengirimkan ID bertipe String
-            }
-            findNavController().navigate(R.id.action_homeScreenFragment_to_newsDetailFragment, bundle)
-        }
-        binding.recyclerViewInformation.adapter = adapter
-        binding.recyclerViewInformation.layoutManager = LinearLayoutManager(requireContext())
-
         return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        binding.recyclerViewInformation.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setupObservers() {
+        viewModel.news.observe(viewLifecycleOwner, Observer { informationList ->
+            val adapter = HomeScreenAdapter(informationList) { item ->
+                val bundle = Bundle().apply {
+                    putString("itemId", item.id.toString())
+                    putString("itemTitle", item.title)
+                    putString("itemDescription", item.description)
+                    putString("itemImageUrl", item.imageUrl)
+                }
+                findNavController().navigate(
+                    R.id.action_homeScreenFragment_to_newsDetailFragment,
+                    bundle
+                )
+            }
+            binding.recyclerViewInformation.adapter = adapter
+        })
+
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
+
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
+            errorMessage?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                viewModel.clearError()
+            }
+        })
     }
 
     override fun onDestroyView() {

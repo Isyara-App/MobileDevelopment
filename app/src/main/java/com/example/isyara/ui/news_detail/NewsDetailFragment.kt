@@ -1,13 +1,14 @@
 package com.example.isyara.ui.news_detail
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.isyara.R
 import com.example.isyara.databinding.FragmentNewsDetailBinding
+import com.example.isyara.util.LoadImage
 
 class NewsDetailFragment : Fragment(R.layout.fragment_news_detail) {
 
@@ -24,22 +25,34 @@ class NewsDetailFragment : Fragment(R.layout.fragment_news_detail) {
         val itemId = arguments?.getString("itemId")
         val itemTitle = arguments?.getString("itemTitle")
         val itemDescription = arguments?.getString("itemDescription")
+        val imageUrl =
+            arguments?.getString("itemImageUrl") // Pastikan URL gambar dikirim melalui Bundle
 
         // Menampilkan data pada TextView yang sesuai
         binding.tvTitle.text = itemTitle
-        binding.tvContent.text = itemDescription
-        // Menangani klik tombol back
+        val formattedDescription = itemDescription?.replace(". ", ".\n\n")
+        binding.tvContent.text = formattedDescription
 
+        // Memuat gambar dengan util LoadImage
+        imageUrl?.let {
+            LoadImage.load(
+                context = requireContext(),
+                imageView = binding.imgCover,
+                imageUrl = it,
+                placeholder = R.color.placeholder
+            )
+        }
+
+        // Menangani klik tombol back
         binding.btnBack.setOnClickListener {
-            // Menggunakan findNavController() untuk navigasi kembali
             findNavController().popBackStack()
         }
 
         // Menangani klik teks "Back to News List"
         binding.tvBackText.setOnClickListener {
-            // Menggunakan findNavController() untuk navigasi kembali
             findNavController().popBackStack()
         }
+
         return binding.root
     }
 
@@ -48,4 +61,3 @@ class NewsDetailFragment : Fragment(R.layout.fragment_news_detail) {
         _binding = null
     }
 }
-
