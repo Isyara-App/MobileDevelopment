@@ -1,28 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.translate.TranslateFragment">
+    android:background="@color/placeholder">
 
-    <!-- Teks judul untuk fragment Translate -->
-    <TextView
-        android:id="@+id/textViewTitle"
+    <!-- Lapisan untuk Kamera -->
+    <TextureView
+        android:id="@+id/cameraView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/camera_view" />
+
+    <!-- Tombol Back di Atas -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/backbutton"
+        android:contentDescription="@string/back_button"
+        android:background="?selectableItemBackground"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:elevation="8dp" />
+
+    <LinearLayout
+        android:id="@+id/topButtons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Translate Fragment"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_above="@id/bottomContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp">
 
-    <!-- Tombol kembali -->
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="20dp"
-        android:text="Back" />
+        <Button
+            style="@style/RoundedButton"
+            android:id="@+id/btnAdd"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="@string/tambah"
+            android:backgroundTint="@color/primary"
+            android:textColor="#FFFFFF" />
 
-</FrameLayout>
+        <Button
+            style="@style/RoundedButton"
+            android:id="@+id/btnDelete"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/hapus"
+            android:backgroundTint="@color/primary"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <!-- Border di Bagian Bawah -->
+    <View
+        android:id="@+id/bottomBorder"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/primary" />
+
+    <!-- Container di Bagian Bawah -->
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_above="@id/bottomBorder"
+        android:padding="16dp"
+        android:background="#F9F9F9"
+        android:elevation="4dp">
+
+        <!-- Kotak Tumpul dengan Teks -->
+        <TextView
+            android:id="@+id/textBox"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_background"
+            android:gravity="center"
+            android:text="@string/dummy_text"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
+
+        <!-- Tombol di Sebelahnya -->
+        <FrameLayout
+            android:id="@+id/buttonContainer"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/button_background"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/btnAction"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_voice"
+                android:contentDescription="@string/voice_button"
+                app:tint="#FFFFFF" />
+        </FrameLayout>
+    </LinearLayout>
+</RelativeLayout>

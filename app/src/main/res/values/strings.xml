@@ -40,4 +40,13 @@
     <string name="error_password_required">Password Tidak Boleh Kosong</string>
     <string name="error_name_required">nama tidak boleh kosong</string>
     <string name="image_cover_description">cover image</string>
+    <string name="back_button">back button</string>
+    <string name="camera_view">camera view</string>
+    <string name="dummy_text">(Sample Text)</string>
+    <string name="voice_button">voice button</string>
+    <string name="tambah">Tambah</string>
+    <string name="hapus">Hapus</string>
+    <string name="word_icon">Word Icon</string>
+    <string name="sentence_icon">Sentence Icon</string>
+    <string name="kamus_text">Kamus</string>
 </resources>

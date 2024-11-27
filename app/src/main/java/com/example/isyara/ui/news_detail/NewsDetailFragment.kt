@@ -43,12 +43,10 @@ class NewsDetailFragment : Fragment(R.layout.fragment_news_detail) {
             )
         }
 
-        // Menangani klik tombol back
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        // Menangani klik teks "Back to News List"
         binding.tvBackText.setOnClickListener {
             findNavController().popBackStack()
         }

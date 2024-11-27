@@ -21,13 +21,22 @@ class DictionaryFragment : Fragment() {
         _binding = FragmentDictionaryBinding.inflate(inflater, container, false)
 
         // Inisialisasi tombol back
-        binding.openWord.setOnClickListener {
+        binding.openWordButton.setOnClickListener {
             // Navigasi kembali ke HomeScreenFragment
             findNavController().navigate(R.id.action_dictionaryFragment_to_dictionaryWordFragment)
         }
-        binding.openSentence.setOnClickListener {
+        binding.openSentenceButton.setOnClickListener {
             findNavController().navigate(R.id.action_dictionaryFragment_to_dictionarySentenceFragment)
         }
+
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
+        binding.tvBackText.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         return binding.root
     }
 
