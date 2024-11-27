@@ -19,9 +19,7 @@ class TranslateFragment : Fragment() {
     ): View {
         _binding = FragmentTranslateBinding.inflate(inflater, container, false)
 
-        // Inisialisasi tombol back
-        binding.backButton.setOnClickListener {
-            // Navigasi kembali ke HomeScreenFragment
+        binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
         return binding.root

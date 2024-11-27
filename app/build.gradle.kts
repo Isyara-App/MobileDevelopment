@@ -74,4 +74,6 @@ dependencies {
 
     //splashscreen
     implementation (libs.core.splashscreen)
+
+    
 }
