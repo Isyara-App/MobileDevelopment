@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.0"
 cameraCore = "1.5.0"
+constraintlayoutVersion = "2.2.0"
 coreSplashscreenVersion = "1.0.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -32,6 +33,7 @@ datastorePreferences = "1.1.1"
 androidx-camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraCore" }
 androidx-camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "cameraCore" }
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraCore" }
+androidx-constraintlayout-v220 = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayoutVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 androidx-navigation-ui-ktx-v274 = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtxVersion" }

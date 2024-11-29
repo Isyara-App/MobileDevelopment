@@ -20,9 +20,7 @@ class DictionaryFragment : Fragment() {
     ): View {
         _binding = FragmentDictionaryBinding.inflate(inflater, container, false)
 
-        // Inisialisasi tombol back
         binding.openWordButton.setOnClickListener {
-            // Navigasi kembali ke HomeScreenFragment
             findNavController().navigate(R.id.action_dictionaryFragment_to_dictionaryWordFragment)
         }
         binding.openSentenceButton.setOnClickListener {

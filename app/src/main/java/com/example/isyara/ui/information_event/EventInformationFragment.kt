@@ -1,4 +1,4 @@
-package com.example.isyara.ui.information
+package com.example.isyara.ui.information_event
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,22 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.isyara.R
-import com.example.isyara.databinding.FragmentInformationBinding
+import com.example.isyara.databinding.FragmentEventInformationBinding
 
-class InformationFragment : Fragment() {
+class EventInformationFragment : Fragment() {
 
-    private var _binding: FragmentInformationBinding? = null
+    private var _binding: FragmentEventInformationBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentInformationBinding.inflate(inflater, container, false)
+        _binding = FragmentEventInformationBinding.inflate(inflater, container, false)
 
-        binding.tvEvent.setOnClickListener{
-            findNavController().navigate(R.id.action_informationFragment_to_eventInformationFragment)
+        binding.tvCommunity.setOnClickListener{
+            findNavController().navigateUp()
         }
 
         binding.btnBack.setOnClickListener {
