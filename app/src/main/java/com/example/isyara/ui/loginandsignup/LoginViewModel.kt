@@ -32,9 +32,15 @@ class LoginViewModel(
                 _loginResult.value = result
 
                 if (result is Result.Success) {
-                    result.data.token?.let { token ->
+                    val loginResponse = result.data
+                    val token = loginResponse.token
+                    val name = loginResponse.data?.name
+
+                    if (token != null && name != null) {
                         userPreferences.saveToken(token)
+                        userPreferences.saveName(name)
                     }
+
                 } else if (result is Result.Error) {
                     _errorMessage.value = result.error
                 }

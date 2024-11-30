@@ -36,6 +36,9 @@ class HomeScreenFragment : Fragment() {
 
         val userPreferences = UserPreferences(requireContext())
         val token = userPreferences.getToken()
+        val name = userPreferences.getName()
+
+        binding.userName.text = name
 
         if (token.isNullOrEmpty()) {
             findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
