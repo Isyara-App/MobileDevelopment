@@ -1,6 +1,8 @@
 package com.example.isyara.data.repository
 
 import com.example.isyara.data.Result
+import com.example.isyara.data.remote.response.CommunityResponse
+import com.example.isyara.data.remote.response.EventResponse
 import com.example.isyara.data.remote.response.NewsResponse
 import com.example.isyara.data.remote.retrofit.ApiService
 import com.example.isyara.util.parseErrorMessage
@@ -14,6 +16,48 @@ class InformationRepository private constructor(private val apiService: ApiServi
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.news("Bearer $token")
+
+                if (response.status == "success") {
+                    Result.Success(response)
+                } else {
+                    Result.Error(response.message ?: "Unknown error occurred")
+                }
+            } catch (e: IOException) {
+                Result.Error("Network error: ${e.message}")
+            } catch (e: HttpException) {
+                val errorMessage = parseErrorMessage(e)
+                Result.Error(errorMessage ?: "Error: ${e.message}")
+            } catch (e: Exception) {
+                Result.Error("An unexpected error occurred: ${e.message}")
+            }
+        }
+    }
+
+    suspend fun getEvents(token: String): Result<EventResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.events("Bearer $token")
+
+                if (response.status == "success") {
+                    Result.Success(response)
+                } else {
+                    Result.Error(response.message ?: "Unknown error occurred")
+                }
+            } catch (e: IOException) {
+                Result.Error("Network error: ${e.message}")
+            } catch (e: HttpException) {
+                val errorMessage = parseErrorMessage(e)
+                Result.Error(errorMessage ?: "Error: ${e.message}")
+            } catch (e: Exception) {
+                Result.Error("An unexpected error occurred: ${e.message}")
+            }
+        }
+    }
+
+    suspend fun getCommunity(token: String): Result<CommunityResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.community("Bearer $token")
 
                 if (response.status == "success") {
                     Result.Success(response)
