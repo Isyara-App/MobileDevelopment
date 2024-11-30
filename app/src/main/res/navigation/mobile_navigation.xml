@@ -98,7 +98,17 @@
         android:id="@+id/informationFragment"
         android:name="com.example.isyara.ui.information.InformationFragment"
         android:label="Information"
-        tools:layout="@layout/fragment_information" />
+        tools:layout="@layout/fragment_information" >
+        <action
+            android:id="@+id/action_informationFragment_to_eventInformationFragment"
+            app:destination="@id/eventInformationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventInformationFragment"
+        android:name="com.example.isyara.ui.information_event.EventInformationFragment"
+        android:label="Information"
+        tools:layout="@layout/fragment_event_information" />
 
     <fragment
         android:id="@+id/quizFragment"
