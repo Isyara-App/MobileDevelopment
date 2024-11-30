@@ -10,6 +10,7 @@ class UserPreferences(context: Context) {
 
     companion object {
         private const val TOKEN_KEY = "token"
+        private const val NAME = "name"
     }
 
     fun saveToken(token: String) {
@@ -18,13 +19,26 @@ class UserPreferences(context: Context) {
         editor.apply()
     }
 
+    fun saveName(name: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(NAME, name)
+        editor.apply()
+    }
+
+
     fun getToken(): String? {
         return sharedPreferences.getString(TOKEN_KEY, null)
     }
 
+    fun getName(): String? {
+        return sharedPreferences.getString(NAME, null)
+    }
+
+
     fun clearToken() {
         val editor = sharedPreferences.edit()
         editor.remove(TOKEN_KEY)
+        editor.remove(NAME)
         editor.apply()
     }
 }

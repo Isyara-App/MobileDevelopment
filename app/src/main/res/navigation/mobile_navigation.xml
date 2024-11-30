@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_onboardFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_onboardFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
     </fragment>
 
     <fragment
@@ -98,17 +101,24 @@
         android:id="@+id/informationFragment"
         android:name="com.example.isyara.ui.information.InformationFragment"
         android:label="Information"
-        tools:layout="@layout/fragment_information" >
+        tools:layout="@layout/fragment_information">
         <action
             android:id="@+id/action_informationFragment_to_eventInformationFragment"
             app:destination="@id/eventInformationFragment" />
+        <action
+            android:id="@+id/action_informationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/eventInformationFragment"
         android:name="com.example.isyara.ui.information_event.EventInformationFragment"
         android:label="Information"
-        tools:layout="@layout/fragment_event_information" />
+        tools:layout="@layout/fragment_event_information">
+        <action
+            android:id="@+id/action_eventInformationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/quizFragment"

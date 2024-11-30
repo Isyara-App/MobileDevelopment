@@ -1,16 +1,14 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/placeholder">
 
     <!-- Lapisan untuk Kamera -->
-    <TextureView
+    <androidx.camera.view.PreviewView
         android:id="@+id/cameraView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/camera_view" />
+        android:layout_height="match_parent" />
 
     <!-- Tombol Back di Atas -->
     <ImageView
@@ -85,7 +83,7 @@
             android:text="@string/dummy_text"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <!-- Tombol di Sebelahnya -->
         <FrameLayout

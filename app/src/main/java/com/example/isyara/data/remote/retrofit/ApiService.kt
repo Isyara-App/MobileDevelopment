@@ -1,7 +1,9 @@
 package com.example.isyara.data.remote.retrofit
 
+import com.example.isyara.data.remote.response.CommunityResponse
 import com.example.isyara.data.remote.response.DictionarySentenceResponse
 import com.example.isyara.data.remote.response.DictionaryWordResponse
+import com.example.isyara.data.remote.response.EventResponse
 import com.example.isyara.data.remote.response.LoginResponse
 import com.example.isyara.data.remote.response.NewsResponse
 import com.example.isyara.data.remote.response.RegisterResponse
@@ -42,4 +44,10 @@ interface ApiService {
 
     @GET("news")
     suspend fun news(@Header("Authorization") token: String): NewsResponse
+
+    @GET("events")
+    suspend fun events(@Header("Authorization") token: String): EventResponse
+
+    @GET("community")
+    suspend fun community(@Header("Authorization") token: String): CommunityResponse
 }

@@ -57,7 +57,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx.v274)
-    implementation (libs.androidx.constraintlayout.v220)
+    implementation(libs.androidx.constraintlayout.v220)
 
     //ifqy add depedency
     implementation(libs.retrofit)
@@ -73,7 +73,14 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     //splashscreen
-    implementation (libs.core.splashscreen)
+    implementation(libs.core.splashscreen)
 
+    //camera x
+    val cameraxVersion = "1.3.0"
     
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion")
+
+
 }

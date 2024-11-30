@@ -1,10 +1,14 @@
 package com.example.isyara.ui.homescreen
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -32,6 +36,9 @@ class HomeScreenFragment : Fragment() {
 
         val userPreferences = UserPreferences(requireContext())
         val token = userPreferences.getToken()
+        val name = userPreferences.getName()
+
+        binding.userName.text = name
 
         if (token.isNullOrEmpty()) {
             findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
@@ -43,7 +50,17 @@ class HomeScreenFragment : Fragment() {
         viewModel.fetchAllNews(token!!)
 
         binding.cardView1.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // Izin diberikan, navigasi ke TranslateFragment
+                findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
+            } else {
+                // Minta izin kamera
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
         }
         binding.cardView2.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreenFragment_to_dictionaryFragment)
@@ -57,6 +74,18 @@ class HomeScreenFragment : Fragment() {
 
         return binding.root
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                Toast.makeText(requireContext(), "Permission request granted", Toast.LENGTH_LONG)
+            } else {
+                Toast.makeText(requireContext(), "Permission request denied", Toast.LENGTH_LONG)
+            }
+        }
+
 
     private fun setupRecyclerView() {
         binding.recyclerViewInformation.layoutManager = LinearLayoutManager(requireContext())
