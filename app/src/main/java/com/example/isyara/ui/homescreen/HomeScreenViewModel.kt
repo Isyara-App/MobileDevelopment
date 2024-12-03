@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.isyara.data.Result
+import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.data.remote.response.DataItem
 import com.example.isyara.data.repository.InformationRepository
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModel(private val repository: InformationRepository) : ViewModel() {
+class HomeScreenViewModel(
+    private val repository: InformationRepository,
+    private val userPreferences: UserPreferences,
+) : ViewModel() {
 
     private val _news = MutableLiveData<List<DataItem>>()
     val news: LiveData<List<DataItem>> get() = _news
@@ -32,6 +36,7 @@ class HomeScreenViewModel(private val repository: InformationRepository) : ViewM
                 is Result.Error -> {
                     _isLoading.value = false
                     _errorMessage.value = result.error
+                    userPreferences.clearToken()
                 }
 
                 is Result.Loading -> {
