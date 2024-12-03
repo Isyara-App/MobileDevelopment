@@ -39,40 +39,52 @@ class HomeScreenFragment : Fragment() {
         val name = userPreferences.getName()
 
         binding.userName.text = name
+        if (token.isNullOrEmpty()) {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
+        } else {
+            setupRecyclerView()
+            setupObservers()
 
+            viewModel.fetchAllNews(token)
+
+            binding.cardView1.setOnClickListener {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.CAMERA
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    // Izin diberikan, navigasi ke TranslateFragment
+//                    val intent = Intent(requireContext(), TranslateActivity::class.java)
+//                    startActivity(intent)
+                    findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
+                } else {
+                    // Minta izin kamera
+                    requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+                }
+            }
+            binding.cardView2.setOnClickListener {
+                findNavController().navigate(R.id.action_homeScreenFragment_to_dictionaryFragment)
+            }
+            binding.cardView3.setOnClickListener {
+                findNavController().navigate(R.id.action_homeScreenFragment_to_informationFragment)
+            }
+            binding.cardView4.setOnClickListener {
+                findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
+            }
+        }
+
+
+
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val userPreferences = UserPreferences(requireContext())
+        val token = userPreferences.getToken()
         if (token.isNullOrEmpty()) {
             findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
         }
-
-        setupRecyclerView()
-        setupObservers()
-
-        viewModel.fetchAllNews(token!!)
-
-        binding.cardView1.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.CAMERA
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                // Izin diberikan, navigasi ke TranslateFragment
-                findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
-            } else {
-                // Minta izin kamera
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-        }
-        binding.cardView2.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_dictionaryFragment)
-        }
-        binding.cardView3.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_informationFragment)
-        }
-        binding.cardView4.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
-        }
-
-        return binding.root
     }
 
     private val requestPermissionLauncher =
