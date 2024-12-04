@@ -1,15 +1,12 @@
 package com.example.isyara.ui.profile
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.isyara.R
 import com.example.isyara.databinding.FragmentProfileBinding
-import com.example.isyara.databinding.FragmentQuizBinding
 
 class ProfileFragment : Fragment() {
 
@@ -22,11 +19,14 @@ class ProfileFragment : Fragment() {
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        // Inisialisasi tombol back
-        binding.backButton.setOnClickListener {
-            // Navigasi kembali ke HomeScreenFragment
-            findNavController().navigateUp()
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
         }
+
+        binding.tvBackText.setOnClickListener {
+            findNavController().popBackStack()
+        }
+
         return binding.root
     }
 

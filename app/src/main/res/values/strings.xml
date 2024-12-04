@@ -58,4 +58,6 @@
     <string name="help_icon">help icon</string>
     <string name="logout_text">Log Out</string>
     <string name="logout_icon">logout icon</string>
+    <string name="nama_text">Nama</string>
+    <string name="save_text">Simpan</string>
 </resources>
