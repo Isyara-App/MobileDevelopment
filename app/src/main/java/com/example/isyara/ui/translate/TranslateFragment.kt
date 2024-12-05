@@ -2,6 +2,7 @@ package com.example.isyara.ui.translate
 
 import android.os.Build
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,19 +21,20 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.isyara.databinding.FragmentTranslateBinding
 import com.example.isyara.util.ImageClassifierHelper
-import com.example.isyara.util.ObjectDetectorHelper
 import org.tensorflow.lite.task.gms.vision.classifier.Classifications
 import java.text.NumberFormat
+import java.util.Locale
 import java.util.concurrent.Executors
 
-class TranslateFragment : Fragment() {
+class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private var _binding: FragmentTranslateBinding? = null
     private val binding get() = _binding!!
 
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private lateinit var imageClassifierHelper: ImageClassifierHelper
-    private lateinit var objectDetectorHelper: ObjectDetectorHelper
+    private val resultList = mutableListOf<String>()
+    private lateinit var textToSpeech: TextToSpeech
 
 
     override fun onCreateView(
@@ -40,6 +42,7 @@ class TranslateFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTranslateBinding.inflate(inflater, container, false)
+        textToSpeech = TextToSpeech(requireContext(), this)
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -51,12 +54,42 @@ class TranslateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         hideSystemUI()
         startCamera()
+
+        binding.btnTextToSpeech.setOnClickListener {
+            val textToSpeak = binding.tvResult.text.toString()
+            if (textToSpeak.isNotEmpty()) {
+                speakOut(textToSpeak)
+            }
+        }
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val langResult = textToSpeech.setLanguage(Locale("id", "ID"))
+            if (langResult == TextToSpeech.LANG_MISSING_DATA || langResult == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "Language not supported or missing data")
+            }
+        } else {
+            Log.e("TTS", "Initialization failed")
+        }
+    }
+
+    private fun speakOut(text: String) {
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
     override fun onResume() {
         super.onResume()
         hideSystemUI()
         startCamera()
+    }
+
+    override fun onDestroy() {
+        if (::textToSpeech.isInitialized) {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+        super.onDestroy()
     }
 
     private fun startCamera() {
@@ -93,6 +126,28 @@ class TranslateFragment : Fragment() {
                                         }
 
                                     binding.tvResult.text = displayResult
+                                    binding.btnAdd.setOnClickListener {
+                                        // Menambahkan label ke list
+                                        val label = sortedCategories.firstOrNull()?.label ?: ""
+                                        resultList.add(label)
+
+                                        // Mengupdate textBox dengan list yang ada
+                                        binding.textBox.text = resultList.joinToString(" ")
+
+
+                                    }
+
+                                    binding.btnDelete.setOnClickListener {
+                                        resultList.clear()
+                                        binding.textBox.text = ""
+                                    }
+
+                                    binding.btnTextToSpeech.setOnClickListener {
+                                        val textToSpeak = binding.textBox.text.toString()
+                                        if (textToSpeak.isNotEmpty()) {
+                                            speakOut(textToSpeak)
+                                        }
+                                    }
                                 } else {
                                     binding.tvResult.text = ""
                                 }

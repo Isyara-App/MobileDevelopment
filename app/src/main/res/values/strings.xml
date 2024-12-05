@@ -42,7 +42,7 @@
     <string name="image_cover_description">cover image</string>
     <string name="back_button">back button</string>
     <string name="camera_view">camera view</string>
-    <string name="dummy_text">(Sample Text)</string>
+    <string name="dummy_text">Klik tambah untuk menambahkan hasil</string>
     <string name="voice_button">voice button</string>
     <string name="tambah">Tambah</string>
     <string name="hapus">Hapus</string>

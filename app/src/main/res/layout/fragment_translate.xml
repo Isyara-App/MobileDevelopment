@@ -112,7 +112,7 @@
             android:gravity="center">
 
             <ImageView
-                android:id="@+id/btnAction"
+                android:id="@+id/btnTextToSpeech"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
