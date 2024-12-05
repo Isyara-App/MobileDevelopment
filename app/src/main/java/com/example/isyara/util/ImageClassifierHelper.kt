@@ -90,13 +90,13 @@ class ImageClassifierHelper(
         }
 
         val imageProcessor = ImageProcessor.Builder()
-            .add(ResizeOp(150, 150, ResizeOp.ResizeMethod.BILINEAR))
+            .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.BILINEAR))
             .add(CastOp(DataType.FLOAT32))
             .add(NormalizeOp(0f, 1f))
             .build()
 
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(toBitmap(image)))
-        Log.d("TENSORIMAGE", tensorImage.toString())
+
 
         val imageProcessingOptions = ImageProcessingOptions.builder()
             .setOrientation(getOrientationFromRotation(image.imageInfo.rotationDegrees))

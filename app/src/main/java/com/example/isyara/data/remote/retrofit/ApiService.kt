@@ -5,6 +5,7 @@ import com.example.isyara.data.remote.response.DictionarySentenceResponse
 import com.example.isyara.data.remote.response.DictionaryWordResponse
 import com.example.isyara.data.remote.response.EventResponse
 import com.example.isyara.data.remote.response.LoginResponse
+import com.example.isyara.data.remote.response.LogoutResponse
 import com.example.isyara.data.remote.response.NewsResponse
 import com.example.isyara.data.remote.response.RegisterResponse
 import retrofit2.http.Field
@@ -29,6 +30,10 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") password: String
     ): LoginResponse
+
+    @FormUrlEncoded
+    @POST("api/logout")
+    suspend fun logout(@Header("Authorization") token: String): LogoutResponse
 
     @GET("dictionary/letters")
     suspend fun searchLetters(

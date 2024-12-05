@@ -30,27 +30,26 @@ class InformationFragment : Fragment() {
         val userPreferences = UserPreferences(requireContext())
         val token = userPreferences.getToken()
 
-        if (token == null) {
+        setupRecyclerView()
+        setupObservers()
+
+        userPreferences.getToken()?.let {
+            viewModel.fetchCommunity(it)
+        } ?: {
+            Toast.makeText(requireContext(), "Token is null", Toast.LENGTH_SHORT).show()
+            userPreferences.clearToken()
             findNavController().navigate(R.id.action_informationFragment_to_loginFragment)
-        } else {
-            viewModel.fetchCommunity(token)
+        }
 
-            setupRecyclerView()
-            setupObservers()
+        binding.tvEvent.setOnClickListener {
+            findNavController().navigate(R.id.action_informationFragment_to_eventInformationFragment)
+        }
 
-
-
-            binding.tvEvent.setOnClickListener {
-                findNavController().navigate(R.id.action_informationFragment_to_eventInformationFragment)
-            }
-
-            binding.btnBack.setOnClickListener {
-                findNavController().navigateUp()
-            }
-            binding.tvBackText.setOnClickListener {
-                findNavController().navigateUp()
-            }
-
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+        binding.tvBackText.setOnClickListener {
+            findNavController().navigateUp()
         }
 
 
@@ -76,8 +75,15 @@ class InformationFragment : Fragment() {
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                viewModel.clearError()
+                val userPreferences = UserPreferences(requireContext())
+                if (errorMessage.isNotEmpty()) {
+                    userPreferences.clearToken()
+                    findNavController().navigate(R.id.action_informationFragment_to_loginFragment)
+                } else {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                    viewModel.clearError()
+                }
+
             }
         }
     }
