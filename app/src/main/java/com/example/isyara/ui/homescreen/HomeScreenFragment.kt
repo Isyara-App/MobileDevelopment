@@ -71,6 +71,10 @@ class HomeScreenFragment : Fragment() {
             binding.cardView4.setOnClickListener {
                 findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
             }
+
+            binding.settingsButton.setOnClickListener {
+                findNavController().navigate(R.id.action_homeScreenFragment_to_settingsFragment)
+            }
         }
 
 
