@@ -34,9 +34,9 @@ class HomeScreenViewModel(
                 }
 
                 is Result.Error -> {
+                    userPreferences.clearToken()
                     _isLoading.value = false
                     _errorMessage.value = result.error
-                    userPreferences.clearToken()
                 }
 
                 is Result.Loading -> {

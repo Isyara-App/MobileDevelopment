@@ -66,10 +66,12 @@ class HomeScreenFragment : Fragment() {
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
 
-            binding.settingsButton.setOnClickListener {
-                findNavController().navigate(R.id.action_homeScreenFragment_to_settingsFragment)
-            }
         }
+
+        binding.settingsButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_settingsFragment)
+        }
+
         binding.cardView2.setOnClickListener {
             findNavController().navigate(R.id.action_homeScreenFragment_to_dictionaryFragment)
         }

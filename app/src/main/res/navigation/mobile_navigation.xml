@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/quizFragment">
+    app:startDestination="@id/onboardFragment">
 
     <!-- Define the fragment you want to navigate to -->
     <fragment
@@ -130,7 +130,7 @@
         android:id="@+id/quizFragment"
         android:name="com.example.isyara.ui.quiz.QuizFragment"
         android:label="Quiz"
-        tools:layout="@layout/fragment_quiz" >
+        tools:layout="@layout/fragment_quiz">
         <action
             android:id="@+id/action_quizFragment_to_inGameFragment"
             app:destination="@id/inGameFragment" />
@@ -146,7 +146,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.isyara.ui.settings.SettingsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_onboardFragment"
             app:destination="@id/onboardFragment" />

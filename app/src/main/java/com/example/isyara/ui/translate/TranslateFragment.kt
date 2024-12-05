@@ -64,8 +64,10 @@ class TranslateFragment : Fragment() {
             context = requireContext(),
             classifierListener = object : ImageClassifierHelper.ClassifierListener {
                 override fun onError(error: String) {
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(requireActivity(), error, Toast.LENGTH_SHORT).show()
+                    activity?.runOnUiThread {
+                        if (isAdded) {
+                            Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
 
@@ -75,23 +77,25 @@ class TranslateFragment : Fragment() {
                     imageHeight: Int,
                     imageWidth: Int,
                 ) {
-                    requireActivity().runOnUiThread {
-                        results?.let { it ->
-                            if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
-                                println(it)
+                    activity?.runOnUiThread {
+                        if (isAdded) {
+                            results?.let { it ->
+                                if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
+                                    println(it)
 
 
-                                val sortedCategories =
-                                    it[0].categories.sortedByDescending { it?.score }
-                                val displayResult =
-                                    sortedCategories.joinToString("\n") {
-                                        "${it.label} " + NumberFormat.getPercentInstance()
-                                            .format(it.score).trim()
-                                    }
+                                    val sortedCategories =
+                                        it[0].categories.sortedByDescending { it?.score }
+                                    val displayResult =
+                                        sortedCategories.joinToString("\n") {
+                                            "${it.label} " + NumberFormat.getPercentInstance()
+                                                .format(it.score).trim()
+                                        }
 
-                                binding.tvResult.text = displayResult
-                            } else {
-                                binding.tvResult.text = ""
+                                    binding.tvResult.text = displayResult
+                                } else {
+                                    binding.tvResult.text = ""
+                                }
                             }
                         }
                     }
@@ -133,91 +137,10 @@ class TranslateFragment : Fragment() {
                     "Gagal memunculkan kamera.",
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.e("TranslateActivity", "startCamera: ${exc.message}")
+                Log.e("TranslateFragment", "startCamera: ${exc.message}")
             }
         }, ContextCompat.getMainExecutor(requireContext()))
     }
-
-//    private fun startCamera() {
-//        objectDetectorHelper = ObjectDetectorHelper(
-//            context = requireContext(),
-//            detectorListener = object : ObjectDetectorHelper.DetectorListener {
-//                override fun onError(error: String) {
-//                    requireActivity().runOnUiThread {
-//                        Toast.makeText(requireActivity(), error, Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//
-//                override fun onResults(
-//                    results: MutableList<Detection>?,
-//                    inferenceTime: Long,
-//                    imageHeight: Int,
-//                    imageWidth: Int
-//                ) {
-//                    requireActivity().runOnUiThread {
-//                        results?.let {
-//                            if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
-//                                println(it)
-//                                binding.overlay.setResults(
-//                                    results, imageHeight, imageWidth
-//                                )
-//
-//                                val builder = StringBuilder()
-//                                for (result in results) {
-//                                    val displayResult =
-//                                        "${result.categories[0].label} " + NumberFormat.getPercentInstance()
-//                                            .format(result.categories[0].score).trim()
-//                                    builder.append("$displayResult \n")
-//                                }
-//
-//                                binding.tvResult.text = builder.toString()
-//
-//                            } else {
-//                                binding.overlay.clear()
-//                                binding.tvResult.text = ""
-//
-//                            }
-//                        }
-//
-//                        // Force a redraw
-//                        binding.overlay.invalidate()
-//                    }
-//                }
-//            }
-//        )
-//
-//        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-//
-//        cameraProviderFuture.addListener({
-//            val resolutionSelector = ResolutionSelector.Builder()
-//                .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
-//                .build()
-//            val imageAnalyzer = ImageAnalysis.Builder().setResolutionSelector(resolutionSelector)
-//                .setTargetRotation(binding.cameraView.display.rotation)
-//                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-//                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888).build()
-//            imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image ->
-//                objectDetectorHelper.detectObject(image)
-//            }
-//
-//            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-//            val preview = Preview.Builder().build().also {
-//                it.setSurfaceProvider(binding.cameraView.surfaceProvider)
-//            }
-//            try {
-//                cameraProvider.unbindAll()
-//                cameraProvider.bindToLifecycle(
-//                    requireActivity(), cameraSelector, preview, imageAnalyzer
-//                )
-//            } catch (exc: Exception) {
-//                Toast.makeText(
-//                    requireActivity(), "Gagal memunculkan kamera.", Toast.LENGTH_SHORT
-//                ).show()
-//                Log.e("TAG", "startCamera: ${exc.message}")
-//            }
-//        }, ContextCompat.getMainExecutor(requireContext()))
-//    }
-
 
     private fun hideSystemUI() {
         @Suppress("DEPRECATION") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
