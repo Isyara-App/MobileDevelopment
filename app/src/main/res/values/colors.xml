@@ -4,6 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#33767C</color>
     <color name="secondary">#97E3D6</color>
+    <color name="on_primary">#55B0B7</color>
     <color name="placeholder">#E0E0E0</color>
     <color name="bounding_box_color">#33767C</color>
 </resources>

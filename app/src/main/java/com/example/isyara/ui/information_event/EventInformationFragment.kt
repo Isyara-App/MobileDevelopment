@@ -44,7 +44,7 @@ class EventInformationFragment : Fragment() {
             }
 
             binding.btnBack.setOnClickListener {
-                findNavController().navigateUp()
+                findNavController().navigate(R.id.action_eventInformationFragment_to_homeScreenFragment)
             }
             binding.tvBackText.setOnClickListener {
                 findNavController().navigateUp()
