@@ -35,56 +35,51 @@ class HomeScreenFragment : Fragment() {
         _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
         val userPreferences = UserPreferences(requireContext())
-        val token = userPreferences.getToken()
+
         val name = userPreferences.getName()
 
         binding.userName.text = name
-        if (token.isNullOrEmpty()) {
+
+        setupObservers()
+        setupRecyclerView()
+
+        userPreferences.getToken()?.let {
+            viewModel.fetchAllNews(it)
+        } ?: {
+            Toast.makeText(requireContext(), "Token is null", Toast.LENGTH_SHORT).show()
+            userPreferences.clearToken()
             findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
-        } else {
-            setupRecyclerView()
-            setupObservers()
+        }
 
-            viewModel.fetchAllNews(token)
-
-            binding.cardView1.setOnClickListener {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.CAMERA
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    // Izin diberikan, navigasi ke TranslateFragment
+        binding.cardView1.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                // Izin diberikan, navigasi ke TranslateFragment
 //                    val intent = Intent(requireContext(), TranslateActivity::class.java)
 //                    startActivity(intent)
-                    findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
-                } else {
-                    // Minta izin kamera
-                    requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-                }
-            }
-            binding.cardView2.setOnClickListener {
-                findNavController().navigate(R.id.action_homeScreenFragment_to_dictionaryFragment)
-            }
-            binding.cardView3.setOnClickListener {
-                findNavController().navigate(R.id.action_homeScreenFragment_to_informationFragment)
-            }
-            binding.cardView4.setOnClickListener {
-                findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
+                findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
+            } else {
+                // Minta izin kamera
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
             }
         }
+        binding.cardView2.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_dictionaryFragment)
+        }
+        binding.cardView3.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_informationFragment)
+        }
+        binding.cardView4.setOnClickListener {
+            findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
+        }
+
 
 
 
         return binding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val userPreferences = UserPreferences(requireContext())
-        val token = userPreferences.getToken()
-        if (token.isNullOrEmpty()) {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
-        }
     }
 
     private val requestPermissionLauncher =
@@ -104,6 +99,20 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
+            errorMessage?.let {
+                val userPreferences = UserPreferences(requireContext())
+                if (errorMessage.isNotEmpty()) {
+                    userPreferences.clearToken()
+                    findNavController().navigate(R.id.action_homeScreenFragment_to_loginFragment)
+                } else {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                    viewModel.clearError()
+                }
+
+            }
+        })
+
         viewModel.news.observe(viewLifecycleOwner, Observer { informationList ->
             val adapter = HomeScreenAdapter(informationList) { item ->
                 val bundle = Bundle().apply {
@@ -124,12 +133,7 @@ class HomeScreenFragment : Fragment() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
 
-        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
-            errorMessage?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                viewModel.clearError()
-            }
-        })
+
     }
 
     override fun onDestroyView() {
