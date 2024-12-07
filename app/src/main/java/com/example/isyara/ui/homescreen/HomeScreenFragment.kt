@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -60,7 +62,7 @@ class HomeScreenFragment : Fragment() {
                 // Izin diberikan, navigasi ke TranslateFragment
 //                    val intent = Intent(requireContext(), TranslateActivity::class.java)
 //                    startActivity(intent)
-                findNavController().navigate(R.id.action_homeScreenFragment_to_translateFragment)
+                animateCardView(it,R.id.action_homeScreenFragment_to_translateFragment)
             } else {
                 // Minta izin kamera
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
@@ -69,23 +71,59 @@ class HomeScreenFragment : Fragment() {
         }
 
         binding.settingsButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_settingsFragment)
+            animateCardView(it,R.id.action_homeScreenFragment_to_settingsFragment)
         }
 
         binding.cardView2.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_dictionaryFragment)
+            animateCardView(it,R.id.action_homeScreenFragment_to_dictionaryFragment)
         }
         binding.cardView3.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_informationFragment)
+            animateCardView(it,R.id.action_homeScreenFragment_to_informationFragment)
         }
         binding.cardView4.setOnClickListener {
-            findNavController().navigate(R.id.action_homeScreenFragment_to_quizFragment)
+            animateCardView(it,R.id.action_homeScreenFragment_to_quizFragment)
         }
 
-
-
-
         return binding.root
+    }
+
+    private fun animateCardView(view: View, navigateTo: Int, permissionRequired: String? = null) {
+        val scaleUp = AnimationUtils.loadAnimation(requireContext(), R.anim.scale_up)
+        val scaleDown = AnimationUtils.loadAnimation(requireContext(), R.anim.scale_down)
+
+        view.startAnimation(scaleUp)
+        scaleUp.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                view.startAnimation(scaleDown)
+                scaleDown.setAnimationListener(object : Animation.AnimationListener {
+                    override fun onAnimationStart(animation: Animation?) {}
+
+                    override fun onAnimationEnd(animation: Animation?) {
+                        if (permissionRequired != null) {
+                            // Cek jika ada izin yang diperlukan
+                            if (ContextCompat.checkSelfPermission(
+                                    requireContext(),
+                                    permissionRequired
+                                ) == PackageManager.PERMISSION_GRANTED
+                            ) {
+                                findNavController().navigate(navigateTo)
+                            } else {
+                                requestPermissionLauncher.launch(permissionRequired)
+                            }
+                        } else {
+                            // Navigasi langsung jika tidak memerlukan izin
+                            findNavController().navigate(navigateTo)
+                        }
+                    }
+
+                    override fun onAnimationRepeat(animation: Animation?) {}
+                })
+            }
+
+            override fun onAnimationRepeat(animation: Animation?) {}
+        })
     }
 
     private val requestPermissionLauncher =
