@@ -5,73 +5,24 @@ import com.example.isyara.data.remote.response.CommunityResponse
 import com.example.isyara.data.remote.response.EventResponse
 import com.example.isyara.data.remote.response.NewsResponse
 import com.example.isyara.data.remote.retrofit.ApiService
-import com.example.isyara.util.parseErrorMessage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import retrofit2.HttpException
-import java.io.IOException
+import com.example.isyara.util.safeApiCall
 
 class InformationRepository private constructor(private val apiService: ApiService) {
     suspend fun getAllNews(token: String): Result<NewsResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.news("Bearer $token")
-
-                if (response.status == "success") {
-                    Result.Success(response)
-                } else {
-                    Result.Error(response.message ?: "Unknown error occurred")
-                }
-            } catch (e: IOException) {
-                Result.Error("Network error: ${e.message}")
-            } catch (e: HttpException) {
-                val errorMessage = parseErrorMessage(e)
-                Result.Error(errorMessage ?: "Error: ${e.message}")
-            } catch (e: Exception) {
-                Result.Error("An unexpected error occurred: ${e.message}")
-            }
+        return safeApiCall {
+            apiService.news("Bearer $token")
         }
     }
 
     suspend fun getEvents(token: String): Result<EventResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.events("Bearer $token")
-
-                if (response.status == "success") {
-                    Result.Success(response)
-                } else {
-                    Result.Error(response.message ?: "Unknown error occurred")
-                }
-            } catch (e: IOException) {
-                Result.Error("Network error: ${e.message}")
-            } catch (e: HttpException) {
-                val errorMessage = parseErrorMessage(e)
-                Result.Error(errorMessage ?: "Error: ${e.message}")
-            } catch (e: Exception) {
-                Result.Error("An unexpected error occurred: ${e.message}")
-            }
+        return safeApiCall {
+            apiService.events("Bearer $token")
         }
     }
 
     suspend fun getCommunity(token: String): Result<CommunityResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.community("Bearer $token")
-
-                if (response.status == "success") {
-                    Result.Success(response)
-                } else {
-                    Result.Error(response.message ?: "Unknown error occurred")
-                }
-            } catch (e: IOException) {
-                Result.Error("Network error: ${e.message}")
-            } catch (e: HttpException) {
-                val errorMessage = parseErrorMessage(e)
-                Result.Error(errorMessage ?: "Error: ${e.message}")
-            } catch (e: Exception) {
-                Result.Error("An unexpected error occurred: ${e.message}")
-            }
+        return safeApiCall {
+            apiService.community("Bearer $token")
         }
     }
 

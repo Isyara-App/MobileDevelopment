@@ -5,6 +5,7 @@ import com.example.isyara.data.remote.retrofit.ApiConfig
 import com.example.isyara.data.repository.AuthRepository
 import com.example.isyara.data.repository.DictionaryRepository
 import com.example.isyara.data.repository.InformationRepository
+import com.example.isyara.data.repository.QuizRepository
 
 object Injection {
 
@@ -21,5 +22,10 @@ object Injection {
     fun informationRepository(context: Context): InformationRepository {
         val apiService = ApiConfig.getApiService()
         return InformationRepository.getInstance(apiService)
+    }
+
+    fun quizRepository(context: Context): QuizRepository {
+        val apiService = ApiConfig.getApiService()
+        return QuizRepository.getInstance(apiService)
     }
 }
