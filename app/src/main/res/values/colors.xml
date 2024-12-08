@@ -7,4 +7,9 @@
     <color name="on_primary">#55B0B7</color>
     <color name="placeholder">#E0E0E0</color>
     <color name="bounding_box_color">#33767C</color>
+
+    <color name="question_text">#2AA893</color>
+    <color name="correct">#55B0B7</color>
+    <color name="incorrect">#D66D50</color>
+
 </resources>

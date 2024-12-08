@@ -60,4 +60,6 @@
     <string name="logout_icon">logout icon</string>
     <string name="nama_text">Nama</string>
     <string name="save_text">Simpan</string>
+    <string name="question_dummy">Question 0 of 0</string>
+    <string name="level_dummy">Level ?</string>
 </resources>
