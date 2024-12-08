@@ -4,10 +4,9 @@
     android:id="@+id/lvlButton"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
     android:orientation="horizontal"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
     android:gravity="center_vertical"
     android:background="@drawable/button_background"
     android:padding="12dp">
@@ -21,6 +20,6 @@
         android:textColor="@android:color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
