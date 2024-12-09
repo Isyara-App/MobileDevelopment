@@ -1,5 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="10dp"
@@ -144,6 +143,40 @@
         android:drawableStart="@drawable/ic_profile"
         android:drawableTint="@color/primary"
         app:layout_constraintTop_toBottomOf="@id/emailLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp" />
+
+    <TextView
+        android:id="@+id/passwordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/primary"
+        app:layout_constraintTop_toBottomOf="@id/emailInput"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="10dp" />
+
+    <EditText
+        android:id="@+id/passwordInut"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="Password"
+        android:textColor="@color/primary"
+        android:autofillHints="*******"
+        android:inputType="textPassword"
+        android:textSize="14sp"
+        android:background="@drawable/input_border"
+        android:padding="10dp"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/ic_password"
+        android:drawableTint="@color/primary"
+        app:layout_constraintTop_toBottomOf="@id/passwordLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="10dp"
