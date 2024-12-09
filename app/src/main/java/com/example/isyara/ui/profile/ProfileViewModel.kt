@@ -21,6 +21,9 @@ class ProfileViewModel(
     private val _profile = MutableLiveData<DataProfile>()
     val profile: LiveData<DataProfile> get() = _profile
 
+    private val _photo = MutableLiveData<String>()
+    val photo: LiveData<String> get() = _photo
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
@@ -44,6 +47,7 @@ class ProfileViewModel(
                     if (result.data.data.imageUrl != null && result.data.data.name != null) {
                         userPreferences.saveName(result.data.data.name)
                         userPreferences.saveImage(result.data.data.imageUrl)
+                        _photo.value = result.data.data.imageUrl!!
                     }
 
                 }
@@ -60,5 +64,29 @@ class ProfileViewModel(
             }
         }
     }
+
+    fun deletePhoto(token: String, id: Int) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            when (val result = repository.deleteImageProfile(token, id)) {
+                is Result.Success -> {
+                    _isLoading.value = false
+                    _photo.value = "ic_profile"
+                    Log.d("ProfileViewModel", "Update successful: ${result.data}")
+                }
+
+                is Result.Error -> {
+                    _isLoading.value = false
+                    Log.d("ProfileViewModel", "Error occurred: ${result.error}")
+                    _errorMessage.value = result.error
+                }
+
+                is Result.Loading -> {
+                    _isLoading.value = true
+                }
+            }
+        }
+    }
+
 
 }

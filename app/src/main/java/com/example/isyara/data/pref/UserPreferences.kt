@@ -55,6 +55,12 @@ class UserPreferences(context: Context) {
         return sharedPreferences.getString(IMAGE, null)
     }
 
+    fun deleteImage() {
+        val editor = sharedPreferences.edit()
+        editor.remove(IMAGE)
+        editor.apply()
+    }
+
 
     fun clearToken() {
         val editor = sharedPreferences.edit()

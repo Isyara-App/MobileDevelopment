@@ -113,12 +113,23 @@ class ProfileFragment : Fragment() {
                     "Attempting update: token=$token, id=$id, name=$name, imageFile=$imageFile"
                 )
                 viewModel.update(token, id.toInt(), imageFile, name)
-                findNavController().popBackStack()
+
             } else {
                 Log.e("ProfileFragment", "Missing token or ID")
                 Toast.makeText(context, "Unable to update profile", Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.deleteBtn.setOnClickListener {
+            val token = userPreferences.getToken()
+            val id = userPreferences.getId()
+            if (id != null && token != null) {
+                userPreferences.deleteImage()
+                viewModel.deletePhoto(token, id.toInt())
+            }
+        }
+
+
 
 
         return binding.root
@@ -141,6 +152,20 @@ class ProfileFragment : Fragment() {
             Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
         }
 
+        viewModel.photo.observe(viewLifecycleOwner) { image ->
+            if (image == "ic_profile") {
+                binding.imgProfile.setImageResource(R.drawable.ic_profile)
+            } else {
+                LoadImage.load(
+                    context = requireContext(),
+                    imageView = binding.imgProfile,
+                    imageUrl = image,
+                    placeholder = R.color.placeholder,
+                )
+            }
+
+        }
+
         // Observasi perubahan data profil
         viewModel.profile.observe(viewLifecycleOwner) { profile ->
             val userPreferences = UserPreferences(requireContext())
@@ -148,11 +173,11 @@ class ProfileFragment : Fragment() {
             LoadImage.load(
                 context = requireContext(),
                 imageView = binding.imgProfile,
-                imageUrl = profile.imageUrl
-                    ?: userPreferences.getImage()!!, // Perbarui URL gambar profil
+                imageUrl = profile.imageUrl ?: userPreferences.getImage()
+                ?: "ic_profile", // Perbarui URL gambar profil
                 placeholder = R.color.placeholder,
-                isCircle = true
-            )
+
+                )
         }
     }
 
