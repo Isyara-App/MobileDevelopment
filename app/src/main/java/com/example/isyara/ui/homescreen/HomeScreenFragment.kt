@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.isyara.R
 import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.databinding.FragmentHomeScreenBinding
+import com.example.isyara.util.LoadImage
 
 class HomeScreenFragment : Fragment() {
 
@@ -37,8 +38,18 @@ class HomeScreenFragment : Fragment() {
         _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
         val userPreferences = UserPreferences(requireContext())
-
         val name = userPreferences.getName()
+        val image = userPreferences.getImage()
+
+        if (image != null) {
+            LoadImage.load(
+                context = requireContext(),
+                imageView = binding.profileImage,
+                imageUrl = image!!,
+                placeholder = R.color.placeholder,
+                isCircle = true
+            )
+        }
 
         binding.userName.text = name
 
@@ -62,7 +73,7 @@ class HomeScreenFragment : Fragment() {
                 // Izin diberikan, navigasi ke TranslateFragment
 //                    val intent = Intent(requireContext(), TranslateActivity::class.java)
 //                    startActivity(intent)
-                animateCardView(it,R.id.action_homeScreenFragment_to_translateFragment)
+                animateCardView(it, R.id.action_homeScreenFragment_to_translateFragment)
             } else {
                 // Minta izin kamera
                 requestPermissionLauncher.launch(Manifest.permission.CAMERA)
@@ -71,17 +82,17 @@ class HomeScreenFragment : Fragment() {
         }
 
         binding.settingsButton.setOnClickListener {
-            animateCardView(it,R.id.action_homeScreenFragment_to_settingsFragment)
+            animateCardView(it, R.id.action_homeScreenFragment_to_settingsFragment)
         }
 
         binding.cardView2.setOnClickListener {
-            animateCardView(it,R.id.action_homeScreenFragment_to_dictionaryFragment)
+            animateCardView(it, R.id.action_homeScreenFragment_to_dictionaryFragment)
         }
         binding.cardView3.setOnClickListener {
-            animateCardView(it,R.id.action_homeScreenFragment_to_informationFragment)
+            animateCardView(it, R.id.action_homeScreenFragment_to_informationFragment)
         }
         binding.cardView4.setOnClickListener {
-            animateCardView(it,R.id.action_homeScreenFragment_to_quizFragment)
+            animateCardView(it, R.id.action_homeScreenFragment_to_quizFragment)
         }
 
         return binding.root

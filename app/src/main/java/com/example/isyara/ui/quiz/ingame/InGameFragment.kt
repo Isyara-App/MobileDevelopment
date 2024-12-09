@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.isyara.R
 import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.databinding.FragmentInGameBinding
+import com.example.isyara.util.LoadImage
 
 class InGameFragment : Fragment() {
 
@@ -62,6 +63,12 @@ class InGameFragment : Fragment() {
                 binding.tvLevel.text = it.title
                 binding.levelTitle.text = it.name
                 binding.levelDescription.text = it.description
+                LoadImage.load(
+                    context = requireContext(),
+                    imageView = binding.levelImage,
+                    imageUrl = it.imageUrl!!,
+                    placeholder = R.color.placeholder
+                )
             }
         }
 

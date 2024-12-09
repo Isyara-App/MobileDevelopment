@@ -287,7 +287,14 @@
         android:id="@+id/helpFragment"
         android:name="com.example.isyara.ui.help.HelpFragment"
         android:label="Help"
-        tools:layout="@layout/fragment_help" />
+        tools:layout="@layout/fragment_help">
+        <action
+            android:id="@+id/action_helpFragment_to_onboardFragment"
+            app:destination="@id/onboardFragment" />
+        <action
+            android:id="@+id/action_helpFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/dictionaryWordFragment"

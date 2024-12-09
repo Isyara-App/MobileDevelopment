@@ -10,9 +10,10 @@
     <!-- Button Kembali -->
     <ImageButton
         android:id="@+id/btnBack"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_back"
+        android:scaleType="fitXY"
         android:contentDescription="@string/back_button"
         android:background="?android:attr/selectableItemBackground"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,8 +61,7 @@
                 android:contentDescription="@string/profile_picture"
                 android:layout_marginEnd="16dp"
                 android:scaleType="centerCrop"
-                android:layout_gravity="center_vertical"
-                app:tint="@color/white" />
+                android:layout_gravity="center_vertical" />
 
             <!-- Tombol di Kanan (vertikal) -->
             <LinearLayout
@@ -128,7 +128,7 @@
         android:layout_marginStart="10dp" />
 
     <EditText
-        android:id="@+id/emailInput"
+        android:id="@+id/nameInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -148,39 +148,20 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp" />
 
-    <TextView
-        android:id="@+id/passwordLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@color/primary"
-        app:layout_constraintTop_toBottomOf="@id/emailInput"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="10dp" />
-
-    <EditText
-        android:id="@+id/passwordInut"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="Password"
-        android:textColor="@color/primary"
-        android:autofillHints="*******"
-        android:inputType="textPassword"
-        android:textSize="14sp"
-        android:background="@drawable/input_border"
-        android:padding="10dp"
-        android:drawablePadding="8dp"
-        android:drawableStart="@drawable/ic_password"
-        android:drawableTint="@color/primary"
-        app:layout_constraintTop_toBottomOf="@id/passwordLabel"
-        app:layout_constraintStart_toStartOf="parent"
+    <ProgressBar
+        android:id="@+id/loadingIndicator"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="14dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/white"
+        android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
     <LinearLayout
         android:id="@+id/openWordButton"
@@ -204,6 +185,11 @@
             android:layout_height="wrap_content"
             android:text="@string/save_text"
             android:textSize="16sp"
+            android:visibility="visible"
             android:textColor="@android:color/white" />
+
+
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

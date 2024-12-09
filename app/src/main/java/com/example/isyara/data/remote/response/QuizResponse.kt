@@ -22,6 +22,9 @@ data class DataQuiz(
     @field:SerializedName("name")
     val name: String? = null,
 
+    @field:SerializedName("image_url")
+    val imageUrl: String? = null,
+
     @field:SerializedName("description")
     val description: String? = null,
 

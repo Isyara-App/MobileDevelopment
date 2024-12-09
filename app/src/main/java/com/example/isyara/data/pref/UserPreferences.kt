@@ -11,6 +11,8 @@ class UserPreferences(context: Context) {
     companion object {
         private const val TOKEN_KEY = "token"
         private const val NAME = "name"
+        private const val ID = "0"
+        private const val IMAGE = "image"
     }
 
     fun saveToken(token: String) {
@@ -25,6 +27,17 @@ class UserPreferences(context: Context) {
         editor.apply()
     }
 
+    fun saveId(id: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(ID, id)
+        editor.apply()
+    }
+
+    fun saveImage(image: String) {
+        val editor = sharedPreferences.edit()
+        editor.putString(IMAGE, image)
+        editor.apply()
+    }
 
     fun getToken(): String? {
         return sharedPreferences.getString(TOKEN_KEY, null)
@@ -34,11 +47,21 @@ class UserPreferences(context: Context) {
         return sharedPreferences.getString(NAME, null)
     }
 
+    fun getId(): String? {
+        return sharedPreferences.getString(ID, null)
+    }
+
+    fun getImage(): String? {
+        return sharedPreferences.getString(IMAGE, null)
+    }
+
 
     fun clearToken() {
         val editor = sharedPreferences.edit()
         editor.remove(TOKEN_KEY)
         editor.remove(NAME)
+        editor.remove(ID)
+        editor.remove(IMAGE)
         editor.apply()
     }
 }

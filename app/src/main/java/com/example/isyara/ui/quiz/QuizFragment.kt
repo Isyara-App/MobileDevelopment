@@ -75,6 +75,7 @@ class QuizFragment : Fragment() {
             val adapter = QuizAdapter(levelList) { item ->
                 val bundle = Bundle().apply {
                     putString("itemId", item.id.toString())
+                    
                 }
 
                 findNavController().navigate(R.id.action_quizFragment_to_inGameFragment, bundle)

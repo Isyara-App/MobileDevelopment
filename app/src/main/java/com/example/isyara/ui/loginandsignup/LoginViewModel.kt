@@ -1,5 +1,6 @@
 package com.example.isyara.ui.loginandsignup
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -35,10 +36,16 @@ class LoginViewModel(
                     val loginResponse = result.data
                     val token = loginResponse.token
                     val name = loginResponse.data?.name
+                    val id = loginResponse.data?.id.toString()
+                    val image = loginResponse.data?.image
 
-                    if (token != null && name != null) {
+
+                    if (token != null && name != null && id != null && image != null) {
                         userPreferences.saveToken(token)
                         userPreferences.saveName(name)
+                        userPreferences.saveId(id)
+                        userPreferences.saveImage(image)
+                        Log.d("LoginViewModel", "Token saved: $token, id : $id")
                     }
 
                 } else if (result is Result.Error) {
