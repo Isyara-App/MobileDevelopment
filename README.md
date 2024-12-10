@@ -4,10 +4,10 @@
 Isyara application focuses on sign language translation along with learning for people who are new to sign language accompanied by a word dictionary and letter dictionary and quiz to improve knowledge.
 
 ## Preview
+<img alt="preview isyara app" src="https://github.com/user-attachments/assets/839cd98e-1f9f-4f61-9290-14efadd4a665">
 
 
-
-## Architecture
+## Architecture Code With MVVM
 ```
 C:.
 |   AndroidManifest.xml
