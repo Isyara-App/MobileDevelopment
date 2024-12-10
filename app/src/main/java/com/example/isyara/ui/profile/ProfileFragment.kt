@@ -1,7 +1,6 @@
 package com.example.isyara.ui.profile
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -59,18 +58,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.editProfileButton.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                // Memeriksa apakah izin sudah diberikan
-                if (requireContext().checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) == android.content.pm.PackageManager.PERMISSION_GRANTED) {
-                    startGallery()  // Lanjutkan jika izin sudah diberikan
-                } else {
-                    // Jika izin belum diberikan, minta izin
-                    requestPermissionLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-            } else {
-                // Jika versi Android lebih rendah dari Marshmallow (API 23), langsung buka galeri
-                startGallery()
-            }
+            startGallery()
         }
 
         binding.tvBackText.setOnClickListener {
