@@ -62,7 +62,7 @@ class DictionaryWordFragment : Fragment() {
     private fun setupToolbar() {
         val activity = requireActivity() as AppCompatActivity
         activity.setSupportActionBar(binding.includeToolbar.toolbar)
-        activity.supportActionBar?.title = getString(R.string.kata)
+        activity.supportActionBar?.title = getString(R.string.huruf)
         activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         activity.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
 
