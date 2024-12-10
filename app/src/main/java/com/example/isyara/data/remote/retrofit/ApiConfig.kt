@@ -20,7 +20,7 @@ class ApiConfig {
             val client = clientBuilder.build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://isyara-dev-backend-1012997587774.asia-southeast2.run.app")
+                .baseUrl("https://isyaraappbackend-1012997587774.asia-southeast2.run.app")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

@@ -29,7 +29,7 @@ class SettingsFragment : Fragment() {
 
         val userPreferences = UserPreferences(requireContext())
 
-        // setupObservers()
+        setupObservers()
 
 
         binding.profileButton.setOnClickListener {
@@ -41,6 +41,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
+            viewModel.logout(userPreferences.getToken()!!)
             Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
             userPreferences.clearToken()
             findNavController().navigate(R.id.action_settingsFragment_to_onboardFragment)
@@ -57,24 +58,24 @@ class SettingsFragment : Fragment() {
         return binding.root
     }
 
-//    private fun setupObservers() {
-//        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
-//            errorMessage?.let {
-//                val userPreferences = UserPreferences(requireContext())
-//                if (errorMessage.isNotEmpty()) {
-//                    userPreferences.clearToken()
-//                    findNavController().navigate(R.id.action_settingsFragment_to_onboardFragment)
-//                } else {
-//                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-//
-//                }
-//            }
-//        }
-//
-//        viewModel.logoutResult.observe(viewLifecycleOwner) { result ->
-//            Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+    private fun setupObservers() {
+        viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage?.let {
+                val userPreferences = UserPreferences(requireContext())
+                if (errorMessage.isNotEmpty()) {
+                    userPreferences.clearToken()
+                    findNavController().navigate(R.id.action_settingsFragment_to_onboardFragment)
+                } else {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        }
+
+        viewModel.logoutResult.observe(viewLifecycleOwner) { result ->
+            Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
     override fun onDestroyView() {
