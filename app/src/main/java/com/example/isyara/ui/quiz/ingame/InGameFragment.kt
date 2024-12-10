@@ -43,7 +43,10 @@ class InGameFragment : Fragment() {
 
 
         binding.startButton.setOnClickListener {
-            findNavController().navigate(R.id.action_inGameFragment_to_questionFragment)
+            val bundle = Bundle()
+            bundle.putInt("itemId", itemId!!.toInt())
+            findNavController().navigate(R.id.action_inGameFragment_to_questionFragment, bundle)
+
         }
 
         binding.btnBack.setOnClickListener {

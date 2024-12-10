@@ -227,6 +227,12 @@
         <action
             android:id="@+id/action_questionFragment_to_failedResultFragment"
             app:destination="@id/failedResultFragment" />
+        <action
+            android:id="@+id/action_questionFragment_to_onboardFragment"
+            app:destination="@id/onboardFragment" />
+        <action
+            android:id="@+id/action_questionFragment_self"
+            app:destination="@id/questionFragment" />
     </fragment>
 
     <fragment

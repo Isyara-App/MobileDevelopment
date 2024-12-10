@@ -35,10 +35,11 @@ class QuizRepository private constructor(private val apiService: ApiService) {
     suspend fun checkAnswerById(
         token: String,
         levelId: Int,
-        questionId: Int
+        questionId: Int,
+        selectedOption: ApiService.SelectedOptionRequest
     ): Result<CheckAnswerResponse> {
         return safeApiCall {
-            apiService.checkAnswerById("Bearer $token", levelId, questionId)
+            apiService.checkAnswerById("Bearer $token", levelId, questionId, selectedOption)
         }
     }
 

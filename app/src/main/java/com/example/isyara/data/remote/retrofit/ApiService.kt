@@ -16,8 +16,10 @@ import com.example.isyara.data.remote.response.QuestionResponse
 import com.example.isyara.data.remote.response.QuizByIdResponse
 import com.example.isyara.data.remote.response.QuizResponse
 import com.example.isyara.data.remote.response.RegisterResponse
+import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -86,12 +88,18 @@ interface ApiService {
         @Path("questionId") questionId: Int
     ): QuestionResponse
 
-    @GET("/quiz/levels/{levelId}/questions/{questionId}/answer")
+    @POST("/quiz/levels/{levelId}/questions/{questionId}/answer")
     suspend fun checkAnswerById(
         @Header("Authorization") token: String,
         @Path("levelId") levelId: Int,
-        @Path("questionId") questionId: Int
+        @Path("questionId") questionId: Int,
+        @Body requestBody: SelectedOptionRequest
     ): CheckAnswerResponse
+
+    // Tambahkan data class untuk request body
+    data class SelectedOptionRequest(
+        @SerializedName("selected_option") val selectedOption: String
+    )
 
     @GET("/quiz/levels/{levelId}/completion")
     suspend fun checkCompletionById(
