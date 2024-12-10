@@ -1,6 +1,10 @@
 package com.example.isyara.ui.dictionary_sentence
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +30,7 @@ class DictionarySentenceFragment : Fragment() {
     private lateinit var adapter: DictionarySentenceAdapter
 
     private lateinit var token: String
+    private val debounceTime = 500L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +54,31 @@ class DictionarySentenceFragment : Fragment() {
         // Fetch all data initially
         dictionarySentenceViewModel.searchSentence(token, "")
 
-        // Perform search when user inputs a query
+        // Tambahkan TextWatcher untuk melakukan pencarian saat user mengetik
+        binding.tfSearch.editText?.addTextChangedListener(object : TextWatcher {
+            private val handler = Handler(Looper.getMainLooper())
+            private var runnable: Runnable? = null
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                // Hapus callback sebelumnya untuk mencegah pencarian berulang
+                runnable?.let { handler.removeCallbacks(it) }
+
+                // Buat runnable baru dengan debounce
+                runnable = Runnable {
+                    val query = s.toString()
+                    dictionarySentenceViewModel.searchSentence(token, query)
+                }
+
+                // Jalankan pencarian dengan delay
+                handler.postDelayed(runnable!!, debounceTime)
+            }
+        })
+
+        // Optional: tetap pertahankan pencarian saat tombol Enter ditekan
         binding.tfSearch.editText?.setOnEditorActionListener { _, _, _ ->
             val query = binding.tfSearch.editText?.text.toString()
             dictionarySentenceViewModel.searchSentence(token, query)

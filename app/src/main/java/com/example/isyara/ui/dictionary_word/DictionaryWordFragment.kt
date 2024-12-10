@@ -2,6 +2,10 @@ package com.example.isyara.ui.dictionary_word
 
 import DictionaryWordAdapter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +28,7 @@ class DictionaryWordFragment : Fragment() {
 
     private var _binding: FragmentDictionarySentenceBinding? = null
     private val binding get() = _binding!!
+    private val debounceTime = 500L
 
     private lateinit var adapter: DictionaryWordAdapter
 
@@ -50,6 +55,31 @@ class DictionaryWordFragment : Fragment() {
 
         // Fetch all data initially
         dictionaryWordViewModel.searchSentence(token, "")
+
+        // Tambahkan TextWatcher untuk melakukan pencarian saat user mengetik
+        binding.tfSearch.editText?.addTextChangedListener(object : TextWatcher {
+            private val handler = Handler(Looper.getMainLooper())
+            private var runnable: Runnable? = null
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                // Hapus callback sebelumnya untuk mencegah pencarian berulang
+                runnable?.let { handler.removeCallbacks(it) }
+
+                // Buat runnable baru dengan debounce
+                runnable = Runnable {
+                    val query = s.toString()
+                    dictionaryWordViewModel.searchSentence(token, query)
+                }
+
+                // Jalankan pencarian dengan delay
+                handler.postDelayed(runnable!!, debounceTime)
+            }
+        })
+
 
         // Perform search when user inputs a query
         binding.tfSearch.editText?.setOnEditorActionListener { _, _, _ ->
