@@ -64,10 +64,10 @@
                 android:layout_gravity="center_vertical" />
 
             <!-- Tombol di Kanan (vertikal) -->
+            <!-- Tombol di Kanan (vertikal) -->
             <LinearLayout
-                android:layout_width="140dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical"
                 android:gravity="end">
@@ -75,7 +75,7 @@
                 <!-- Tombol Edit Profile -->
                 <LinearLayout
                     android:id="@+id/editProfileButton"
-                    android:layout_width="match_parent"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
@@ -95,7 +95,7 @@
                 <!-- Tombol Logout -->
                 <LinearLayout
                     android:id="@+id/deleteBtn"
-                    android:layout_width="match_parent"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:background="@drawable/button_background"
