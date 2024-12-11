@@ -33,7 +33,7 @@
             android:paddingStart="42dp"
             android:background="@drawable/input_border"
             android:lines="1"
-            android:hint="@string/mencari_huruf"
+            android:hint="@string/mencari_kata"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:textColorHint="@color/primary"
