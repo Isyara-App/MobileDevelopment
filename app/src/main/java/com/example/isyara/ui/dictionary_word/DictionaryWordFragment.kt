@@ -17,7 +17,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.isyara.R
 import com.example.isyara.data.pref.UserPreferences
-import com.example.isyara.databinding.FragmentDictionarySentenceBinding
+import com.example.isyara.databinding.FragmentDictionaryWordBinding
 
 
 class DictionaryWordFragment : Fragment() {
@@ -26,7 +26,7 @@ class DictionaryWordFragment : Fragment() {
         DictionaryWordViewModelFactory.getInstance(requireContext())
     }
 
-    private var _binding: FragmentDictionarySentenceBinding? = null
+    private var _binding: FragmentDictionaryWordBinding? = null
     private val binding get() = _binding!!
     private val debounceTime = 500L
 
@@ -38,7 +38,7 @@ class DictionaryWordFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDictionarySentenceBinding.inflate(inflater, container, false)
+        _binding = FragmentDictionaryWordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -103,19 +103,19 @@ class DictionaryWordFragment : Fragment() {
 
     private fun setupRecyclerView() {
         adapter = DictionaryWordAdapter(emptyList())
-        binding.rvSentence.layoutManager = GridLayoutManager(context, 2)
-        binding.rvSentence.adapter = adapter
+        binding.rvWord.layoutManager = GridLayoutManager(context, 2)
+        binding.rvWord.adapter = adapter
     }
 
     private fun setupObserver() {
         dictionaryWordViewModel.sentences.observe(viewLifecycleOwner) { sentences ->
             if (sentences.isNotEmpty()) {
                 adapter = DictionaryWordAdapter(sentences)
-                binding.rvSentence.adapter = adapter
-                binding.rvSentence.isVisible = true
+                binding.rvWord.adapter = adapter
+                binding.rvWord.isVisible = true
                 binding.imgEmpty.isVisible = false
             } else {
-                binding.rvSentence.isVisible = false
+                binding.rvWord.isVisible = false
                 binding.imgEmpty.isVisible = true
             }
         }
@@ -126,7 +126,7 @@ class DictionaryWordFragment : Fragment() {
 
         dictionaryWordViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             binding.imgEmpty.isVisible = true
-            binding.rvSentence.isVisible = false
+            binding.rvWord.isVisible = false
         }
     }
 
