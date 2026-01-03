@@ -5,12 +5,13 @@ plugins {
 
 android {
     namespace = "com.example.isyara"
-    compileSdk = 34
+    compileSdk = 36
+    ndkVersion = "28.2.13676358"
 
     defaultConfig {
         applicationId = "com.example.isyara"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 4
         versionName = "1.0.3"
 
@@ -22,7 +23,8 @@ android {
     buildTypes {
         release {
             isDebuggable = false
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
