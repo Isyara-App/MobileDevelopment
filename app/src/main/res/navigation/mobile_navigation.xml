@@ -290,5 +290,38 @@
         android:id="@+id/speakFragment"
         android:name="com.example.isyara.ui.speak.SpeakFragment"
         android:label="Belajar Berbicara"
-        tools:layout="@layout/fragment_speak" />
+        tools:layout="@layout/fragment_speak">
+        <action
+            android:id="@+id/action_speakFragment_to_speakAddFragment"
+            app:destination="@id/speakAddFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_speakFragment_to_speakPracticeFragment"
+            app:destination="@id/speakPracticeFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/speakAddFragment"
+        android:name="com.example.isyara.ui.speak.add.SpeakAddFragment"
+        android:label="Tambah Latihan Bicara"
+        tools:layout="@layout/fragment_speak_add" />
+
+    <fragment
+        android:id="@+id/speakPracticeFragment"
+        android:name="com.example.isyara.ui.speak.practice.SpeakPracticeFragment"
+        android:label="Praktek Bicara"
+        tools:layout="@layout/fragment_speak_practice">
+        <argument
+            android:name="itemId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+
 </navigation>

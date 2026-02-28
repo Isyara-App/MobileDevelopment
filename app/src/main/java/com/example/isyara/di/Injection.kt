@@ -6,7 +6,9 @@ import com.example.isyara.data.repository.AuthRepository
 import com.example.isyara.data.repository.DictionaryRepository
 import com.example.isyara.data.repository.MessageRepository
 import com.example.isyara.data.repository.QuizRepository
+import com.example.isyara.data.repository.SpeakRepository
 import com.example.isyara.data.repository.UserRepository
+import com.example.isyara.data.local.room.SpeakDatabase
 
 object Injection {
 
@@ -33,5 +35,10 @@ object Injection {
     fun messageRepository(context: Context): MessageRepository {
         val apiService = ApiConfig.getApiService()
         return MessageRepository.getInstance(apiService)
+    }
+
+    fun speakRepository(context: Context): SpeakRepository {
+        val database = SpeakDatabase.getDatabase(context)
+        return SpeakRepository.getInstance(database.practiceItemDao())
     }
 }

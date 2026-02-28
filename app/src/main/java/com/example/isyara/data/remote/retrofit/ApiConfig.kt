@@ -20,7 +20,7 @@ class ApiConfig {
             val client = clientBuilder.build()
 
             val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8000/api/")
+                .baseUrl("https://4878-115-178-52-10.ngrok-free.app/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
