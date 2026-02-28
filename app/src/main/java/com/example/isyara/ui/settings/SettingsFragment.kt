@@ -36,10 +36,6 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
         }
 
-        binding.helpButton.setOnClickListener {
-            findNavController().navigate(R.id.action_settingsFragment_to_helpFragment)
-        }
-
         binding.logoutButton.setOnClickListener {
             viewModel.logout(userPreferences.getToken()!!)
             Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()

@@ -74,11 +74,9 @@ class ProfileFragment : Fragment() {
 
             val imageFile = currentImageUri?.let { uri ->
                 try {
-                    // Use content resolver to get actual file path
                     val contentResolver = requireContext().contentResolver
                     val inputStream = contentResolver.openInputStream(uri)
 
-                    // Create a temporary file
                     val tempFile = File(requireContext().cacheDir, "profile_image.jpg")
                     tempFile.createNewFile()
                     tempFile.outputStream().use { fileOut ->
@@ -92,33 +90,18 @@ class ProfileFragment : Fragment() {
             }
 
             val token = userPreferences.getToken()
-            val id = userPreferences.getId()
-            Log.d("ProfileFragment", "id $id , token $token")
 
-            if (id != null && token != null) {
+            if (token != null) {
                 Log.d(
                     "ProfileFragment",
-                    "Attempting update: token=$token, id=$id, name=$name, imageFile=$imageFile"
+                    "Attempting update: token=$token, name=$name, imageFile=$imageFile"
                 )
-                viewModel.update(token, id.toInt(), imageFile, name)
-
+                viewModel.update(token, imageFile, name)
             } else {
-                Log.e("ProfileFragment", "Missing token or ID")
+                Log.e("ProfileFragment", "Missing token")
                 Toast.makeText(context, "Unable to update profile", Toast.LENGTH_SHORT).show()
             }
         }
-
-        binding.deleteBtn.setOnClickListener {
-            val token = userPreferences.getToken()
-            val id = userPreferences.getId()
-            if (id != null && token != null) {
-                userPreferences.deleteImage()
-                viewModel.deletePhoto(token, id.toInt())
-            }
-        }
-
-
-
 
         return binding.root
     }
@@ -136,54 +119,33 @@ class ProfileFragment : Fragment() {
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             Log.d("ProfileFragment", "Error message: $error")
-            // Tampilkan pesan error jika ada
             Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
         }
 
         viewModel.photo.observe(viewLifecycleOwner) { image ->
-            if (image == "ic_profile") {
-                binding.imgProfile.setImageResource(R.drawable.ic_profile)
-            } else {
-                LoadImage.load(
-                    context = requireContext(),
-                    imageView = binding.imgProfile,
-                    imageUrl = image,
-                    placeholder = R.color.placeholder,
-                )
-            }
-
+            LoadImage.load(
+                context = requireContext(),
+                imageView = binding.imgProfile,
+                imageUrl = image,
+                placeholder = R.color.placeholder,
+            )
         }
 
-        // Observasi perubahan data profil
         viewModel.profile.observe(viewLifecycleOwner) { profile ->
             val userPreferences = UserPreferences(requireContext())
-            // Perbarui UI dengan profil baru
             LoadImage.load(
                 context = requireContext(),
                 imageView = binding.imgProfile,
                 imageUrl = profile.imageUrl ?: userPreferences.getImage()
-                ?: "ic_profile", // Perbarui URL gambar profil
+                    ?: "ic_profile",
                 placeholder = R.color.placeholder,
-
-                )
+            )
         }
     }
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     }
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                // Izin diberikan, buka galeri
-                startGallery()
-            } else {
-                // Izin ditolak
-                Log.d("Permission", "Permission denied")
-            }
-        }
-
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()

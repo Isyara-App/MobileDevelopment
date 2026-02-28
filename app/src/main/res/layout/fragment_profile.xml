@@ -64,7 +64,6 @@
                 android:layout_gravity="center_vertical" />
 
             <!-- Tombol di Kanan (vertikal) -->
-            <!-- Tombol di Kanan (vertikal) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +76,6 @@
                     android:id="@+id/editProfileButton"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:background="@drawable/button_background"
                     android:backgroundTint="@color/on_primary"
@@ -90,25 +88,6 @@
                         android:text="Ganti Foto"
                         android:textSize="14sp"
                         android:textColor="@android:color/white" />
-                </LinearLayout>
-
-                <!-- Tombol Logout -->
-                <LinearLayout
-                    android:id="@+id/deleteBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:background="@drawable/button_background"
-                    android:backgroundTint="@color/white"
-                    android:padding="8dp">
-
-                    <TextView
-                        android:id="@+id/logoutText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hapus Foto"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -2,15 +2,10 @@ package com.example.isyara.data.remote.retrofit
 
 import com.example.isyara.data.remote.response.CheckAnswerResponse
 import com.example.isyara.data.remote.response.CheckCompletionResponse
-import com.example.isyara.data.remote.response.CommunityResponse
-import com.example.isyara.data.remote.response.ContactResponse
-import com.example.isyara.data.remote.response.DeleteImageProfileResponse
 import com.example.isyara.data.remote.response.DictionarySentenceResponse
 import com.example.isyara.data.remote.response.DictionaryWordResponse
-import com.example.isyara.data.remote.response.EventResponse
 import com.example.isyara.data.remote.response.LoginResponse
 import com.example.isyara.data.remote.response.LogoutResponse
-import com.example.isyara.data.remote.response.NewsResponse
 import com.example.isyara.data.remote.response.ProfileResponse
 import com.example.isyara.data.remote.response.QuestionResponse
 import com.example.isyara.data.remote.response.QuizByIdResponse
@@ -20,7 +15,6 @@ import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -63,15 +57,6 @@ interface ApiService {
         @Query("search") query: String
     ): DictionarySentenceResponse
 
-    @GET("news")
-    suspend fun news(@Header("Authorization") token: String): NewsResponse
-
-    @GET("events")
-    suspend fun events(@Header("Authorization") token: String): EventResponse
-
-    @GET("community")
-    suspend fun community(@Header("Authorization") token: String): CommunityResponse
-
     @GET("/quiz/levels")
     suspend fun allLevels(@Header("Authorization") token: String): QuizResponse
 
@@ -107,27 +92,11 @@ interface ApiService {
         @Path("levelId") levelId: Int
     ): CheckCompletionResponse
 
-    @FormUrlEncoded
-    @POST("/contact")
-    suspend fun contact(
-        @Header("Authorization") token: String,
-        @Field("name") name: String,
-        @Field("email") email: String,
-        @Field("message") message: String
-    ): ContactResponse
-
     @Multipart
-    @PUT("/profile/{id}")
+    @PUT("/profile")
     suspend fun updateProfile(
         @Header("Authorization") token: String,
-        @Path("id") id: Int,
         @Part image: MultipartBody.Part? = null,
         @Part("name") name: RequestBody
     ): ProfileResponse
-
-    @DELETE("/profile/{id}/picture")
-    suspend fun deleteImageProfile(
-        @Header("Authorization") token: String,
-        @Path("id") id: Int
-    ): DeleteImageProfileResponse
 }

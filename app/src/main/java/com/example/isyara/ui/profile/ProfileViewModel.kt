@@ -32,14 +32,13 @@ class ProfileViewModel(
 
     fun update(
         token: String,
-        id: Int,
         imageFile: File? = null,
         name: String,
     ) {
         _isLoading.value = true
         viewModelScope.launch {
-            Log.d("ProfileViewModel", "update called with token: $token, id: $id, name: $name")
-            when (val result = repository.updateProfile(token, id, imageFile, name)) {
+            Log.d("ProfileViewModel", "update called with token: $token, name: $name")
+            when (val result = repository.updateProfile(token, imageFile, name)) {
                 is Result.Success -> {
                     _isLoading.value = false
                     _profile.value = result.data.data!!
@@ -64,29 +63,4 @@ class ProfileViewModel(
             }
         }
     }
-
-    fun deletePhoto(token: String, id: Int) {
-        _isLoading.value = true
-        viewModelScope.launch {
-            when (val result = repository.deleteImageProfile(token, id)) {
-                is Result.Success -> {
-                    _isLoading.value = false
-                    _photo.value = "ic_profile"
-                    Log.d("ProfileViewModel", "Update successful: ${result.data}")
-                }
-
-                is Result.Error -> {
-                    _isLoading.value = false
-                    Log.d("ProfileViewModel", "Error occurred: ${result.error}")
-                    _errorMessage.value = result.error
-                }
-
-                is Result.Loading -> {
-                    _isLoading.value = true
-                }
-            }
-        }
-    }
-
-
 }

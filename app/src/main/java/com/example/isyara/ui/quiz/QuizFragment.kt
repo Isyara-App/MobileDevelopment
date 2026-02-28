@@ -62,7 +62,7 @@ class QuizFragment : Fragment() {
                 val userPreferences = UserPreferences(requireContext())
                 if (errorMessage.isNotEmpty()) {
                     userPreferences.clearToken()
-                    findNavController().navigate(R.id.action_informationFragment_to_loginFragment)
+                    findNavController().navigate(R.id.action_quizFragment_to_onboardFragment)
                 } else {
                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                     viewModel.clearError()
