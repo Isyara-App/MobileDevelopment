@@ -62,4 +62,13 @@
     <string name="save_text">Simpan</string>
     <string name="question_dummy">Question 0 of 0</string>
     <string name="level_dummy">Level ?</string>
+    <string name="speak_feature">Belajar\nBerbicara</string>
+    <string name="speak_image">Speak Image</string>
+    <string name="speak_title">Belajar Berbicara</string>
+    <string name="speak_description">Latihan berbicara dengan bahasa isyarat</string>
+    <string name="message_section_title">Pesan</string>
+    <string name="message_hint">Tulis pesan untuk pengembang aplikasi...</string>
+    <string name="send_button">Kirim</string>
+    <string name="no_messages">Belum ada pesan</string>
+    <string name="message_error">Gagal memuat pesan</string>
 </resources>

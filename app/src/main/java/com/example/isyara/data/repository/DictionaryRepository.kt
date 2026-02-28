@@ -9,15 +9,23 @@ import com.example.isyara.util.safeApiCall
 
 class DictionaryRepository private constructor(private val apiService: ApiService) {
 
-    suspend fun searchWord(token: String, query: String): Result<DictionaryWordResponse> {
+    suspend fun searchWord(
+        token: String,
+        query: String,
+        isBisindo: String? = null
+    ): Result<DictionaryWordResponse> {
         return safeApiCall {
-            apiService.searchLetters("Bearer $token", query)
+            apiService.searchLetters("Bearer $token", query, isBisindo)
         }
     }
 
-    suspend fun searchSentence(token: String, query: String): Result<DictionarySentenceResponse> {
+    suspend fun searchSentence(
+        token: String,
+        query: String,
+        isBisindo: String? = null
+    ): Result<DictionarySentenceResponse> {
         return safeApiCall {
-            apiService.searchSentence("Bearer $token", query)
+            apiService.searchSentence("Bearer $token", query, isBisindo)
         }
     }
 

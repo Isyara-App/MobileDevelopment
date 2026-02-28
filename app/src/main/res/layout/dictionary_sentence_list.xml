@@ -39,6 +39,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+            <!-- Toggle Learning Status -->
+            <ImageButton
+                android:id="@+id/btnToggleLearning"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="4dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="Toggle learning status"
+                android:src="@android:drawable/btn_star_big_off"
+                android:scaleType="fitCenter"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

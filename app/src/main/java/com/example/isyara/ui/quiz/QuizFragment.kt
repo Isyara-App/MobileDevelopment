@@ -34,7 +34,7 @@ class QuizFragment : Fragment() {
 
         userPreferences.getToken()?.let {
             viewModel.fetchLevels(it)
-        } ?: {
+        } ?: run {
             Toast.makeText(requireContext(), "Token is null", Toast.LENGTH_SHORT).show()
             userPreferences.clearToken()
             findNavController().navigate(R.id.action_quizFragment_to_onboardFragment)
@@ -59,15 +59,15 @@ class QuizFragment : Fragment() {
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             errorMessage?.let {
-                val userPreferences = UserPreferences(requireContext())
-                if (errorMessage.isNotEmpty()) {
+                if (it.contains("Unauthenticated", ignoreCase = true) ||
+                    it.contains("401", ignoreCase = true)) {
+                    val userPreferences = UserPreferences(requireContext())
                     userPreferences.clearToken()
                     findNavController().navigate(R.id.action_quizFragment_to_onboardFragment)
-                } else {
+                } else if (it.isNotEmpty()) {
                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                     viewModel.clearError()
                 }
-
             }
         }
 

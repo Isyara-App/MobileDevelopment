@@ -8,8 +8,12 @@ import com.example.isyara.util.LoadImage
 
 
 class DictionaryWordAdapter(
-    private val words: List<DataItemWord>
+    private val words: List<DataItemWord>,
+    private val onToggleLearning: ((DataItemWord, Boolean) -> Unit)? = null
 ) : RecyclerView.Adapter<DictionaryWordAdapter.SentenceViewHolder>() {
+
+    // Track toggled states locally
+    private val toggledStates = mutableMapOf<Int, Boolean>()
 
     inner class SentenceViewHolder(private val binding: DictionarySentenceListBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -21,6 +25,25 @@ class DictionaryWordAdapter(
                 imageUrl = sentence.imageUrl ?: "",
                 placeholder = R.color.placeholder,
             )
+
+            val itemId = sentence.id ?: 0
+            val isKnowing = toggledStates[itemId] ?: false
+            updateToggleIcon(isKnowing)
+
+            binding.btnToggleLearning.setOnClickListener {
+                val newState = !(toggledStates[itemId] ?: false)
+                toggledStates[itemId] = newState
+                updateToggleIcon(newState)
+                onToggleLearning?.invoke(sentence, newState)
+            }
+        }
+
+        private fun updateToggleIcon(isKnowing: Boolean) {
+            if (isKnowing) {
+                binding.btnToggleLearning.setImageResource(android.R.drawable.btn_star_big_on)
+            } else {
+                binding.btnToggleLearning.setImageResource(android.R.drawable.btn_star_big_off)
+            }
         }
     }
 

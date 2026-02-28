@@ -57,20 +57,20 @@ interface ApiService {
 
     // === Profile ===
 
-    @GET("/profile")
+    @GET("profile")
     suspend fun getProfile(
         @Header("Authorization") token: String
     ): ProfileResponse
 
     @Multipart
-    @PUT("/profile")
+    @PUT("profile")
     suspend fun updateProfile(
         @Header("Authorization") token: String,
         @Part image: MultipartBody.Part? = null,
         @Part("name") name: RequestBody
     ): ProfileResponse
 
-    @DELETE("/profile")
+    @DELETE("profile")
     suspend fun deleteAccount(
         @Header("Authorization") token: String
     ): DeleteAccountResponse
@@ -80,23 +80,25 @@ interface ApiService {
     @GET("dictionary/letters")
     suspend fun searchLetters(
         @Header("Authorization") token: String,
-        @Query("search") query: String
+        @Query("search") query: String,
+        @Query("is_bisindo") isBisindo: String? = null
     ): DictionaryWordResponse
 
     @GET("dictionary/words")
     suspend fun searchSentence(
         @Header("Authorization") token: String,
-        @Query("search") query: String
+        @Query("search") query: String,
+        @Query("is_bisindo") isBisindo: String? = null
     ): DictionarySentenceResponse
 
-    @POST("/dictionary/letters/{id}/learning-status")
+    @POST("dictionary/letters/{id}/learning-status")
     suspend fun toggleLetterLearningStatus(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Body requestBody: LearningStatusRequest
     ): LearningStatusResponse
 
-    @POST("/dictionary/words/{id}/learning-status")
+    @POST("dictionary/words/{id}/learning-status")
     suspend fun toggleWordLearningStatus(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
@@ -109,23 +111,23 @@ interface ApiService {
 
     // === Quiz ===
 
-    @GET("/quiz/levels")
+    @GET("quiz/levels")
     suspend fun allLevels(@Header("Authorization") token: String): QuizResponse
 
-    @GET("/quiz/levels/{levelId}")
+    @GET("quiz/levels/{levelId}")
     suspend fun levelById(
         @Header("Authorization") token: String,
         @Path("levelId") levelId: Int
     ): QuizByIdResponse
 
-    @GET("/quiz/levels/{levelId}/questions/{questionId}")
+    @GET("quiz/levels/{levelId}/questions/{questionId}")
     suspend fun questionById(
         @Header("Authorization") token: String,
         @Path("levelId") levelId: Int,
         @Path("questionId") questionId: Int
     ): QuestionResponse
 
-    @POST("/quiz/levels/{levelId}/questions/{questionId}/answer")
+    @POST("quiz/levels/{levelId}/questions/{questionId}/answer")
     suspend fun checkAnswerById(
         @Header("Authorization") token: String,
         @Path("levelId") levelId: Int,
@@ -137,7 +139,7 @@ interface ApiService {
         @SerializedName("selected_option") val selectedOption: String
     )
 
-    @GET("/quiz/levels/{levelId}/completion")
+    @GET("quiz/levels/{levelId}/completion")
     suspend fun checkCompletionById(
         @Header("Authorization") token: String,
         @Path("levelId") levelId: Int
@@ -145,12 +147,12 @@ interface ApiService {
 
     // === Messages ===
 
-    @GET("/messages")
+    @GET("messages")
     suspend fun getMessages(
         @Header("Authorization") token: String
     ): MessageListResponse
 
-    @POST("/messages")
+    @POST("messages")
     suspend fun sendMessage(
         @Header("Authorization") token: String,
         @Body requestBody: SendMessageRequest

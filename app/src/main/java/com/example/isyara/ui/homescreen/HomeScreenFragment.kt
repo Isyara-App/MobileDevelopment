@@ -12,7 +12,9 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.isyara.R
 import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.databinding.FragmentHomeScreenBinding
@@ -23,6 +25,13 @@ class HomeScreenFragment : Fragment() {
     private var _binding: FragmentHomeScreenBinding? = null
     private val binding get() = _binding!!
 
+    private val messageViewModel: MessageViewModel by viewModels {
+        MessageViewModelFactory.getInstance(requireContext())
+    }
+
+    private lateinit var messageAdapter: MessageAdapter
+    private lateinit var userPreferences: UserPreferences
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,7 +39,7 @@ class HomeScreenFragment : Fragment() {
     ): View {
         _binding = FragmentHomeScreenBinding.inflate(inflater, container, false)
 
-        val userPreferences = UserPreferences(requireContext())
+        userPreferences = UserPreferences(requireContext())
         val name = userPreferences.getName()
         val image = userPreferences.getImage()
 
@@ -45,6 +54,9 @@ class HomeScreenFragment : Fragment() {
         }
 
         binding.userName.text = name
+
+        setupMessageSection()
+        setupObservers()
 
         binding.cardView1.setOnClickListener {
             if (ContextCompat.checkSelfPermission(
@@ -69,8 +81,60 @@ class HomeScreenFragment : Fragment() {
         binding.cardView3.setOnClickListener {
             animateCardView(it, R.id.action_homeScreenFragment_to_quizFragment)
         }
+        binding.cardView4.setOnClickListener {
+            animateCardView(it, R.id.action_homeScreenFragment_to_speakFragment)
+        }
 
         return binding.root
+    }
+
+    private fun setupMessageSection() {
+        messageAdapter = MessageAdapter()
+        binding.recyclerViewMessages.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = messageAdapter
+            isNestedScrollingEnabled = false
+        }
+
+        val token = userPreferences.getToken()
+        if (token != null) {
+            messageViewModel.fetchMessages(token)
+        }
+
+        binding.btnSendMessage.setOnClickListener {
+            val messageText = binding.etMessageInput.text.toString().trim()
+            if (messageText.isNotEmpty()) {
+                val token = userPreferences.getToken()
+                if (token != null) {
+                    messageViewModel.sendMessage(token, messageText)
+                    binding.etMessageInput.text?.clear()
+                }
+            }
+        }
+    }
+
+    private fun setupObservers() {
+        messageViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.messageProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        messageViewModel.messages.observe(viewLifecycleOwner) { messages ->
+            if (messages.isNullOrEmpty()) {
+                binding.tvNoMessages.visibility = View.VISIBLE
+                binding.recyclerViewMessages.visibility = View.GONE
+            } else {
+                binding.tvNoMessages.visibility = View.GONE
+                binding.recyclerViewMessages.visibility = View.VISIBLE
+                messageAdapter.submitList(messages)
+            }
+        }
+
+        messageViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
+            if (!errorMessage.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                messageViewModel.clearError()
+            }
+        }
     }
 
     private fun animateCardView(view: View, navigateTo: Int, permissionRequired: String? = null) {

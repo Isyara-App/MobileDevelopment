@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -33,6 +34,7 @@ class DictionaryWordFragment : Fragment() {
     private lateinit var adapter: DictionaryWordAdapter
 
     private lateinit var token: String
+    private var currentFilter: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,13 +50,14 @@ class DictionaryWordFragment : Fragment() {
         setupToolbar()
         setupRecyclerView()
         setupObserver()
+        setupFilterChips()
 
         // Get token
         val userPreferences = UserPreferences(requireContext())
         token = userPreferences.getToken() ?: ""
 
         // Fetch all data initially
-        dictionaryWordViewModel.searchSentence(token, "")
+        dictionaryWordViewModel.searchSentence(token, "", currentFilter)
 
         // Tambahkan TextWatcher untuk melakukan pencarian saat user mengetik
         binding.tfSearch.editText?.addTextChangedListener(object : TextWatcher {
@@ -72,7 +75,7 @@ class DictionaryWordFragment : Fragment() {
                 // Buat runnable baru dengan debounce
                 runnable = Runnable {
                     val query = s.toString()
-                    dictionaryWordViewModel.searchSentence(token, query)
+                    dictionaryWordViewModel.searchSentence(token, query, currentFilter)
                 }
 
                 // Jalankan pencarian dengan delay
@@ -84,8 +87,20 @@ class DictionaryWordFragment : Fragment() {
         // Perform search when user inputs a query
         binding.tfSearch.editText?.setOnEditorActionListener { _, _, _ ->
             val query = binding.tfSearch.editText?.text.toString()
-            dictionaryWordViewModel.searchSentence(token, query)
+            dictionaryWordViewModel.searchSentence(token, query, currentFilter)
             true
+        }
+    }
+
+    private fun setupFilterChips() {
+        binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
+            currentFilter = when {
+                checkedIds.contains(R.id.chipBisindo) -> "1"
+                checkedIds.contains(R.id.chipSibi) -> "0"
+                else -> null // "Semua"
+            }
+            val query = binding.tfSearch.editText?.text.toString()
+            dictionaryWordViewModel.searchSentence(token, query, currentFilter)
         }
     }
 
@@ -102,7 +117,11 @@ class DictionaryWordFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = DictionaryWordAdapter(emptyList())
+        adapter = DictionaryWordAdapter(emptyList()) { item, isKnowing ->
+            item.id?.let { id ->
+                dictionaryWordViewModel.toggleLearningStatus(token, id, isKnowing)
+            }
+        }
         binding.rvWord.layoutManager = GridLayoutManager(context, 2)
         binding.rvWord.adapter = adapter
     }
@@ -110,7 +129,11 @@ class DictionaryWordFragment : Fragment() {
     private fun setupObserver() {
         dictionaryWordViewModel.sentences.observe(viewLifecycleOwner) { sentences ->
             if (sentences.isNotEmpty()) {
-                adapter = DictionaryWordAdapter(sentences)
+                adapter = DictionaryWordAdapter(sentences) { item, isKnowing ->
+                    item.id?.let { id ->
+                        dictionaryWordViewModel.toggleLearningStatus(token, id, isKnowing)
+                    }
+                }
                 binding.rvWord.adapter = adapter
                 binding.rvWord.isVisible = true
                 binding.imgEmpty.isVisible = false
@@ -127,6 +150,12 @@ class DictionaryWordFragment : Fragment() {
         dictionaryWordViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             binding.imgEmpty.isVisible = true
             binding.rvWord.isVisible = false
+        }
+
+        dictionaryWordViewModel.toggleResult.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                Toast.makeText(context, "Status belajar diperbarui", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

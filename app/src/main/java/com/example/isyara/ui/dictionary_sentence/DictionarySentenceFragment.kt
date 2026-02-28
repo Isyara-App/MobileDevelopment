@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ class DictionarySentenceFragment : Fragment() {
 
     private lateinit var token: String
     private val debounceTime = 500L
+    private var currentFilter: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,13 +48,14 @@ class DictionarySentenceFragment : Fragment() {
         setupToolbar()
         setupRecyclerView()
         setupObserver()
+        setupFilterChips()
 
         // Get token
         val userPreferences = UserPreferences(requireContext())
         token = userPreferences.getToken() ?: ""
 
         // Fetch all data initially
-        dictionarySentenceViewModel.searchSentence(token, "")
+        dictionarySentenceViewModel.searchSentence(token, "", currentFilter)
 
         // Tambahkan TextWatcher untuk melakukan pencarian saat user mengetik
         binding.tfSearch.editText?.addTextChangedListener(object : TextWatcher {
@@ -70,7 +73,7 @@ class DictionarySentenceFragment : Fragment() {
                 // Buat runnable baru dengan debounce
                 runnable = Runnable {
                     val query = s.toString()
-                    dictionarySentenceViewModel.searchSentence(token, query)
+                    dictionarySentenceViewModel.searchSentence(token, query, currentFilter)
                 }
 
                 // Jalankan pencarian dengan delay
@@ -81,8 +84,20 @@ class DictionarySentenceFragment : Fragment() {
         // Optional: tetap pertahankan pencarian saat tombol Enter ditekan
         binding.tfSearch.editText?.setOnEditorActionListener { _, _, _ ->
             val query = binding.tfSearch.editText?.text.toString()
-            dictionarySentenceViewModel.searchSentence(token, query)
+            dictionarySentenceViewModel.searchSentence(token, query, currentFilter)
             true
+        }
+    }
+
+    private fun setupFilterChips() {
+        binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
+            currentFilter = when {
+                checkedIds.contains(R.id.chipBisindo) -> "1"
+                checkedIds.contains(R.id.chipSibi) -> "0"
+                else -> null // "Semua"
+            }
+            val query = binding.tfSearch.editText?.text.toString()
+            dictionarySentenceViewModel.searchSentence(token, query, currentFilter)
         }
     }
 
@@ -99,7 +114,11 @@ class DictionarySentenceFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = DictionarySentenceAdapter(emptyList())
+        adapter = DictionarySentenceAdapter(emptyList()) { item, isKnowing ->
+            item.id?.let { id ->
+                dictionarySentenceViewModel.toggleLearningStatus(token, id, isKnowing)
+            }
+        }
         binding.rvSentence.layoutManager = GridLayoutManager(context, 2)
         binding.rvSentence.adapter = adapter
     }
@@ -107,7 +126,11 @@ class DictionarySentenceFragment : Fragment() {
     private fun setupObserver() {
         dictionarySentenceViewModel.sentences.observe(viewLifecycleOwner) { sentences ->
             if (sentences.isNotEmpty()) {
-                adapter = DictionarySentenceAdapter(sentences)
+                adapter = DictionarySentenceAdapter(sentences) { item, isKnowing ->
+                    item.id?.let { id ->
+                        dictionarySentenceViewModel.toggleLearningStatus(token, id, isKnowing)
+                    }
+                }
                 binding.rvSentence.adapter = adapter
                 binding.rvSentence.isVisible = true
                 binding.imgEmpty.isVisible = false
@@ -124,6 +147,12 @@ class DictionarySentenceFragment : Fragment() {
         dictionarySentenceViewModel.errorMessage.observe(viewLifecycleOwner) { errorMessage ->
             binding.imgEmpty.isVisible = true
             binding.rvSentence.isVisible = false
+        }
+
+        dictionarySentenceViewModel.toggleResult.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                Toast.makeText(context, "Status belajar diperbarui", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

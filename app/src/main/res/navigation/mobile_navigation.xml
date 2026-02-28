@@ -115,6 +115,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_homeScreenFragment_to_speakFragment"
+            app:destination="@id/speakFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -265,4 +272,10 @@
             android:id="@+id/action_dictionarySentenceFragment_to_dictionaryFragment"
             app:destination="@id/dictionaryFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/speakFragment"
+        android:name="com.example.isyara.ui.speak.SpeakFragment"
+        android:label="Belajar Berbicara"
+        tools:layout="@layout/fragment_speak" />
 </navigation>

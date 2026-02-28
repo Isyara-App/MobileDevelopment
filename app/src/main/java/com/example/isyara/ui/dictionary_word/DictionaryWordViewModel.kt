@@ -20,10 +20,13 @@ class DictionaryWordViewModel(private val repository: DictionaryRepository) : Vi
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
 
-    fun searchSentence(token: String, query: String) {
+    private val _toggleResult = MutableLiveData<Boolean>()
+    val toggleResult: LiveData<Boolean> get() = _toggleResult
+
+    fun searchSentence(token: String, query: String, isBisindo: String? = null) {
         _isLoading.value = true
         viewModelScope.launch {
-            when (val result = repository.searchWord(token, query)) {
+            when (val result = repository.searchWord(token, query, isBisindo)) {
                 is Result.Success -> {
                     _isLoading.value = false
                     _sentences.value = result.data.data?.filterNotNull() ?: emptyList()
@@ -37,6 +40,22 @@ class DictionaryWordViewModel(private val repository: DictionaryRepository) : Vi
                 is Result.Loading -> {
                     _isLoading.value = true
                 }
+            }
+        }
+    }
+
+    fun toggleLearningStatus(token: String, id: Int, isKnowing: Boolean) {
+        viewModelScope.launch {
+            when (val result = repository.toggleLetterLearningStatus(token, id, isKnowing)) {
+                is Result.Success -> {
+                    _toggleResult.value = true
+                }
+
+                is Result.Error -> {
+                    _errorMessage.value = result.error
+                }
+
+                is Result.Loading -> {}
             }
         }
     }
