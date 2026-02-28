@@ -18,6 +18,7 @@ class LoadImage {
             placeholder: Int,
             isCircle: Boolean = false
         ) {
+            if (imageUrl.isEmpty()) return
             val placeholderDrawable = ColorDrawable(ContextCompat.getColor(context, placeholder))
             val picassoBuilder = Picasso.get()
                 .load(imageUrl)

@@ -43,7 +43,9 @@ class LoginViewModel(
                         userPreferences.saveToken(token)
                         userPreferences.saveName(name)
                         userPreferences.saveId(id)
-                        userPreferences.saveImage(image ?: "")
+                        if (!image.isNullOrEmpty()) {
+                            userPreferences.saveImage(image)
+                        }
                         Log.d("LoginViewModel", "Token saved: $token, id : $id")
                     }
 

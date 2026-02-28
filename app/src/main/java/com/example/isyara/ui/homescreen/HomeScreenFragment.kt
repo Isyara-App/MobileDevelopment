@@ -34,7 +34,7 @@ class HomeScreenFragment : Fragment() {
         val name = userPreferences.getName()
         val image = userPreferences.getImage()
 
-        if (image != null) {
+        if (!image.isNullOrEmpty()) {
             LoadImage.load(
                 context = requireContext(),
                 imageView = binding.profileImage,
