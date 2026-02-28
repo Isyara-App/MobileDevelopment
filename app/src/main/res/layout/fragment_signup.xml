@@ -159,6 +159,32 @@
                 android:padding="10dp"
                 android:drawableStart="@drawable/ic_password" />
 
+            <!-- Confirm Password Input -->
+            <TextView
+                android:id="@+id/confirmPasswordLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Konfirmasi Password"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"
+                android:layout_marginTop="16dp" />
+
+            <EditText
+                android:id="@+id/confirmPasswordInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="******"
+                android:hint="Masukkan ulang password"
+                android:inputType="textPassword"
+                android:layout_marginTop="5dp"
+                android:textSize="14sp"
+                android:drawablePadding="8dp"
+                android:background="@drawable/input_border"
+                android:drawableTint="@color/primary"
+                android:padding="10dp"
+                android:drawableStart="@drawable/ic_password" />
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.isyara.data.remote.retrofit.ApiConfig
 import com.example.isyara.data.repository.AuthRepository
 import com.example.isyara.data.repository.DictionaryRepository
+import com.example.isyara.data.repository.MessageRepository
 import com.example.isyara.data.repository.QuizRepository
 import com.example.isyara.data.repository.UserRepository
 
@@ -27,5 +28,10 @@ object Injection {
     fun userRepository(context: Context): UserRepository {
         val apiService = ApiConfig.getApiService()
         return UserRepository.getInstance(apiService)
+    }
+
+    fun messageRepository(context: Context): MessageRepository {
+        val apiService = ApiConfig.getApiService()
+        return MessageRepository.getInstance(apiService)
     }
 }

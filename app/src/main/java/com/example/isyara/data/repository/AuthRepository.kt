@@ -11,13 +11,18 @@ class AuthRepository private constructor(private val apiService: ApiService) {
 
     suspend fun login(email: String, password: String): Result<LoginResponse> {
         return safeApiCall {
-            apiService.login(email, password)
+            apiService.login(email, password, "user")
         }
     }
 
-    suspend fun register(name: String, email: String, password: String): Result<RegisterResponse> {
+    suspend fun register(
+        name: String,
+        email: String,
+        password: String,
+        passwordConfirmation: String
+    ): Result<RegisterResponse> {
         return safeApiCall {
-            apiService.register(name, email, password)
+            apiService.register(name, email, password, passwordConfirmation)
         }
     }
 

@@ -34,17 +34,16 @@ class LoginViewModel(
 
                 if (result is Result.Success) {
                     val loginResponse = result.data
-                    val token = loginResponse.token
-                    val name = loginResponse.data?.name
-                    val id = loginResponse.data?.id.toString()
-                    val image = loginResponse.data?.image
+                    val token = loginResponse.accessToken
+                    val name = loginResponse.user?.name
+                    val id = loginResponse.user?.id.toString()
+                    val image = loginResponse.user?.imageUrl
 
-
-                    if (token != null && name != null && id != null && image != null) {
+                    if (token != null && name != null) {
                         userPreferences.saveToken(token)
                         userPreferences.saveName(name)
                         userPreferences.saveId(id)
-                        userPreferences.saveImage(image)
+                        userPreferences.saveImage(image ?: "")
                         Log.d("LoginViewModel", "Token saved: $token, id : $id")
                     }
 

@@ -1,6 +1,7 @@
 package com.example.isyara.data.repository
 
 import com.example.isyara.data.Result
+import com.example.isyara.data.remote.response.DeleteAccountResponse
 import com.example.isyara.data.remote.response.ProfileResponse
 import com.example.isyara.data.remote.retrofit.ApiService
 import com.example.isyara.util.safeApiCall
@@ -11,6 +12,12 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class UserRepository private constructor(private val apiService: ApiService) {
+
+    suspend fun getProfile(token: String): Result<ProfileResponse> {
+        return safeApiCall {
+            apiService.getProfile("Bearer $token")
+        }
+    }
 
     suspend fun updateProfile(
         token: String,
@@ -27,6 +34,12 @@ class UserRepository private constructor(private val apiService: ApiService) {
         }
         return safeApiCall {
             apiService.updateProfile("Bearer $token", imagePart, nameRequestBody)
+        }
+    }
+
+    suspend fun deleteAccount(token: String): Result<DeleteAccountResponse> {
+        return safeApiCall {
+            apiService.deleteAccount("Bearer $token")
         }
     }
 

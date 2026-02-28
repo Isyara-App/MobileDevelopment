@@ -3,6 +3,7 @@ package com.example.isyara.data.repository
 import com.example.isyara.data.Result
 import com.example.isyara.data.remote.response.DictionarySentenceResponse
 import com.example.isyara.data.remote.response.DictionaryWordResponse
+import com.example.isyara.data.remote.response.LearningStatusResponse
 import com.example.isyara.data.remote.retrofit.ApiService
 import com.example.isyara.util.safeApiCall
 
@@ -20,6 +21,33 @@ class DictionaryRepository private constructor(private val apiService: ApiServic
         }
     }
 
+    suspend fun toggleLetterLearningStatus(
+        token: String,
+        id: Int,
+        isKnowing: Boolean
+    ): Result<LearningStatusResponse> {
+        return safeApiCall {
+            apiService.toggleLetterLearningStatus(
+                "Bearer $token",
+                id,
+                ApiService.LearningStatusRequest(isKnowing)
+            )
+        }
+    }
+
+    suspend fun toggleWordLearningStatus(
+        token: String,
+        id: Int,
+        isKnowing: Boolean
+    ): Result<LearningStatusResponse> {
+        return safeApiCall {
+            apiService.toggleWordLearningStatus(
+                "Bearer $token",
+                id,
+                ApiService.LearningStatusRequest(isKnowing)
+            )
+        }
+    }
 
     companion object {
         @Volatile

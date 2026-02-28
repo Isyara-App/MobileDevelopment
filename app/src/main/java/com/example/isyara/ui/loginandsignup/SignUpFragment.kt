@@ -31,14 +31,12 @@ class SignUpFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        // Observe isLoading for showing/hiding loading indicator
         signupViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.signupButton.isEnabled = !isLoading
             binding.loadingIndicator.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.signupButton.text = if (isLoading) "" else getString(R.string.signup_text)
         }
 
-        // Observe signUpResult for handling success or error
         signupViewModel.signUpResult.observe(viewLifecycleOwner) { result ->
             if (result is Result.Success) {
                 Toast.makeText(requireContext(), "Sign Up Successful!", Toast.LENGTH_SHORT).show()
@@ -48,7 +46,6 @@ class SignUpFragment : Fragment() {
             }
         }
 
-        // Observe errorMessage for displaying error messages
         signupViewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             if (!message.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -61,9 +58,10 @@ class SignUpFragment : Fragment() {
             val name = binding.nameInput.text.toString()
             val email = binding.emailInput.text.toString()
             val password = binding.passwordInput.text.toString()
+            val confirmPassword = binding.confirmPasswordInput.text.toString()
 
-            if (validateInput(name, email, password)) {
-                signupViewModel.register(name, email, password)
+            if (validateInput(name, email, password, confirmPassword)) {
+                signupViewModel.register(name, email, password, confirmPassword)
             }
         }
 
@@ -72,7 +70,12 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun validateInput(name: String, email: String, password: String): Boolean {
+    private fun validateInput(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): Boolean {
         return when {
             name.isBlank() -> {
                 binding.nameInput.error = getString(R.string.error_name_required)
@@ -86,6 +89,21 @@ class SignUpFragment : Fragment() {
 
             password.isBlank() -> {
                 binding.passwordInput.error = getString(R.string.error_password_required)
+                false
+            }
+
+            password.length < 8 -> {
+                binding.passwordInput.error = "Password minimal 8 karakter"
+                false
+            }
+
+            confirmPassword.isBlank() -> {
+                binding.confirmPasswordInput.error = "Konfirmasi password harus diisi"
+                false
+            }
+
+            password != confirmPassword -> {
+                binding.confirmPasswordInput.error = "Password tidak cocok"
                 false
             }
 

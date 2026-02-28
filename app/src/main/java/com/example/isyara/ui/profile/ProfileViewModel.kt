@@ -17,7 +17,6 @@ class ProfileViewModel(
     private val userPreferences: UserPreferences
 ) : ViewModel() {
 
-
     private val _profile = MutableLiveData<DataProfile>()
     val profile: LiveData<DataProfile> get() = _profile
 
@@ -29,6 +28,37 @@ class ProfileViewModel(
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> get() = _errorMessage
+
+    private val _deleteAccountResult = MutableLiveData<Boolean>()
+    val deleteAccountResult: LiveData<Boolean> get() = _deleteAccountResult
+
+    fun fetchProfile(token: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            when (val result = repository.getProfile(token)) {
+                is Result.Success -> {
+                    _isLoading.value = false
+                    result.data.data?.let { profileData ->
+                        _profile.value = profileData
+                        profileData.name?.let { userPreferences.saveName(it) }
+                        profileData.imageUrl?.let {
+                            userPreferences.saveImage(it)
+                            _photo.value = it
+                        }
+                    }
+                }
+
+                is Result.Error -> {
+                    _isLoading.value = false
+                    _errorMessage.value = result.error
+                }
+
+                is Result.Loading -> {
+                    _isLoading.value = true
+                }
+            }
+        }
+    }
 
     fun update(
         token: String,
@@ -54,6 +84,28 @@ class ProfileViewModel(
                 is Result.Error -> {
                     _isLoading.value = false
                     Log.d("ProfileViewModel", "Error occurred: ${result.error}")
+                    _errorMessage.value = result.error
+                }
+
+                is Result.Loading -> {
+                    _isLoading.value = true
+                }
+            }
+        }
+    }
+
+    fun deleteAccount(token: String) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            when (val result = repository.deleteAccount(token)) {
+                is Result.Success -> {
+                    _isLoading.value = false
+                    userPreferences.clearToken()
+                    _deleteAccountResult.value = true
+                }
+
+                is Result.Error -> {
+                    _isLoading.value = false
                     _errorMessage.value = result.error
                 }
 

@@ -22,11 +22,11 @@ class SignUpViewModel(
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage: LiveData<String> = _errorMessage
 
-    fun register(name: String, email: String, password: String) {
+    fun register(name: String, email: String, password: String, passwordConfirmation: String) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = authRepository.register(name, email, password)
+                val result = authRepository.register(name, email, password, passwordConfirmation)
                 _signUpResult.value = result
 
                 if (result is Result.Error) {

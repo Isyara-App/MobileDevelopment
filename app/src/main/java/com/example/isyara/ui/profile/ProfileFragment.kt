@@ -16,6 +16,7 @@ import com.example.isyara.R
 import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.databinding.FragmentProfileBinding
 import com.example.isyara.util.LoadImage
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
 
 class ProfileFragment : Fragment() {
@@ -40,6 +41,7 @@ class ProfileFragment : Fragment() {
 
         observeViewModel()
 
+        // Load from local preferences first
         if (name != null) {
             binding.nameInput.setText(name)
         }
@@ -48,9 +50,14 @@ class ProfileFragment : Fragment() {
             LoadImage.load(
                 context = requireContext(),
                 imageView = binding.imgProfile,
-                imageUrl = image!!,
+                imageUrl = image,
                 placeholder = R.color.placeholder,
             )
+        }
+
+        // Fetch from server to get latest data
+        userPreferences.getToken()?.let {
+            viewModel.fetchProfile(it)
         }
 
         binding.btnBack.setOnClickListener {
@@ -103,12 +110,33 @@ class ProfileFragment : Fragment() {
             }
         }
 
+        binding.deleteAccountButton.setOnClickListener {
+            showDeleteAccountConfirmation(userPreferences)
+        }
+
         return binding.root
+    }
+
+    private fun showDeleteAccountConfirmation(userPreferences: UserPreferences) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Hapus Akun")
+            .setMessage("Apakah Anda yakin ingin menghapus akun? Tindakan ini tidak dapat dibatalkan.")
+            .setNegativeButton("Batal") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Hapus") { _, _ ->
+                val token = userPreferences.getToken()
+                if (token != null) {
+                    viewModel.deleteAccount(token)
+                } else {
+                    Toast.makeText(context, "Token tidak ditemukan", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .show()
     }
 
     private fun observeViewModel() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-
             if (isLoading) {
                 binding.loadingIndicator.visibility = View.VISIBLE
                 binding.openWordButton.visibility = View.GONE
@@ -133,6 +161,7 @@ class ProfileFragment : Fragment() {
 
         viewModel.profile.observe(viewLifecycleOwner) { profile ->
             val userPreferences = UserPreferences(requireContext())
+            binding.nameInput.setText(profile.name ?: userPreferences.getName() ?: "")
             LoadImage.load(
                 context = requireContext(),
                 imageView = binding.imgProfile,
@@ -140,6 +169,13 @@ class ProfileFragment : Fragment() {
                     ?: "ic_profile",
                 placeholder = R.color.placeholder,
             )
+        }
+
+        viewModel.deleteAccountResult.observe(viewLifecycleOwner) { isDeleted ->
+            if (isDeleted) {
+                Toast.makeText(context, "Akun berhasil dihapus", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_profileFragment_to_onboardFragment)
+            }
         }
     }
 
