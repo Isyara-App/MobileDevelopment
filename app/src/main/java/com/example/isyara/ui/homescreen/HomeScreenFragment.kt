@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.isyara.R
 import com.example.isyara.data.pref.UserPreferences
 import com.example.isyara.databinding.FragmentHomeScreenBinding
@@ -29,8 +28,8 @@ class HomeScreenFragment : Fragment() {
         MessageViewModelFactory.getInstance(requireContext())
     }
 
-    private lateinit var messageAdapter: MessageAdapter
     private lateinit var userPreferences: UserPreferences
+    private var hasSentMessage = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -89,43 +88,31 @@ class HomeScreenFragment : Fragment() {
     }
 
     private fun setupMessageSection() {
-        messageAdapter = MessageAdapter()
-        binding.recyclerViewMessages.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = messageAdapter
-            isNestedScrollingEnabled = false
-        }
-
-        val token = userPreferences.getToken()
-        if (token != null) {
-            messageViewModel.fetchMessages(token)
-        }
+        // Hide message list, only show send input
+        binding.recyclerViewMessages.visibility = View.GONE
+        binding.tvNoMessages.visibility = View.GONE
+        binding.messageProgressBar.visibility = View.GONE
 
         binding.btnSendMessage.setOnClickListener {
             val messageText = binding.etMessageInput.text.toString().trim()
             if (messageText.isNotEmpty()) {
                 val token = userPreferences.getToken()
                 if (token != null) {
+                    hasSentMessage = true
                     messageViewModel.sendMessage(token, messageText)
                     binding.etMessageInput.text?.clear()
                 }
+            } else {
+                Toast.makeText(requireContext(), "Pesan tidak boleh kosong", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun setupObservers() {
-        messageViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            binding.messageProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-        }
-
-        messageViewModel.messages.observe(viewLifecycleOwner) { messages ->
-            if (messages.isNullOrEmpty()) {
-                binding.tvNoMessages.visibility = View.VISIBLE
-                binding.recyclerViewMessages.visibility = View.GONE
-            } else {
-                binding.tvNoMessages.visibility = View.GONE
-                binding.recyclerViewMessages.visibility = View.VISIBLE
-                messageAdapter.submitList(messages)
+        messageViewModel.sendResult.observe(viewLifecycleOwner) { success ->
+            if (success && hasSentMessage) {
+                Toast.makeText(requireContext(), "Pesan berhasil dikirim!", Toast.LENGTH_SHORT).show()
+                hasSentMessage = false
             }
         }
 

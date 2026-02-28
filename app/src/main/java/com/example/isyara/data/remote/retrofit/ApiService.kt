@@ -14,6 +14,8 @@ import com.example.isyara.data.remote.response.QuestionResponse
 import com.example.isyara.data.remote.response.QuizByIdResponse
 import com.example.isyara.data.remote.response.QuizResponse
 import com.example.isyara.data.remote.response.RegisterResponse
+import com.example.isyara.data.remote.response.ScoreDetailResponse
+import com.example.isyara.data.remote.response.ScoreListResponse
 import com.example.isyara.data.remote.response.SendMessageResponse
 import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
@@ -144,6 +146,17 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("levelId") levelId: Int
     ): CheckCompletionResponse
+
+    @GET("quiz/scores")
+    suspend fun getScores(
+        @Header("Authorization") token: String
+    ): ScoreListResponse
+
+    @GET("quiz/levels/{levelId}/score")
+    suspend fun getScoreByLevel(
+        @Header("Authorization") token: String,
+        @Path("levelId") levelId: Int
+    ): ScoreDetailResponse
 
     // === Messages ===
 

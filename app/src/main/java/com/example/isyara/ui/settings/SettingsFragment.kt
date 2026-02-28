@@ -31,9 +31,12 @@ class SettingsFragment : Fragment() {
 
         setupObservers()
 
-
         binding.profileButton.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
+        }
+
+        binding.scoreButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_scoreFragment)
         }
 
         binding.logoutButton.setOnClickListener {
@@ -63,7 +66,6 @@ class SettingsFragment : Fragment() {
                     findNavController().navigate(R.id.action_settingsFragment_to_onboardFragment)
                 } else {
                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-
                 }
             }
         }
@@ -72,7 +74,6 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

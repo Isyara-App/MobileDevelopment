@@ -34,13 +34,13 @@ class QuestionViewModel(
 
     private var currentLevelId: Int? = null
     private var currentQuestionId: Int = 1
-    private var isQuizCompleted: Boolean = false
 
     private var selectedOption: String? = null
     var totalQuestions: Int = 0
 
     fun fetchQuestionById(token: String, levelId: Int, questionId: Int) {
         currentLevelId = levelId
+        currentQuestionId = questionId
         _isLoading.value = true
         viewModelScope.launch {
             when (val result = repository.getQuestionById(token, levelId, questionId)) {
@@ -51,10 +51,8 @@ class QuestionViewModel(
                     val parts = name.split(" of ")
 
                     if (parts.size == 2) {
-                        val total =
-                            parts[1].toIntOrNull() // Konversi bagian kedua (total question) menjadi angka
-                        totalQuestions =
-                            total ?: 0 // Set nilai totalQuestions, default ke 0 jika gagal
+                        val total = parts[1].toIntOrNull()
+                        totalQuestions = total ?: 0
                         Log.d("QuestionViewModel", "Total Questions: $totalQuestions")
                     }
                 }
@@ -86,20 +84,11 @@ class QuestionViewModel(
                     )) {
                         is Result.Success -> {
                             _isLoading.value = false
+                            // Always advance the question counter
+                            currentQuestionId++
+                            selectedOption = null
                             _checkAnswer.value = result.data
-
-
-                            Log.d("QuestionViewModel", "isCorrect : ${result.data.isCorrect}")
-                            // Jika jawaban benar, muat pertanyaan selanjutnya
-                            if (result.data.isCorrect == true) {
-                                currentQuestionId = getNextQuestionId()
-                                Log.d("QuestionViewModel", "quizstatus : $isQuizCompleted")
-                                // Muat pertanyaan selanjutnya jika belum selesai
-                                if (isQuizCompleted) {
-                                    // Panggil check completion untuk mengecek status quiz
-                                    checkQuizCompletion(token, levelId)
-                                }
-                            }
+                            Log.d("QuestionViewModel", "isCorrect : ${result.data.isCorrect}, score: ${result.data.score}")
                         }
 
                         is Result.Error -> {
@@ -123,10 +112,7 @@ class QuestionViewModel(
             when (val result = repository.checkCompletionById(token, levelId)) {
                 is Result.Success -> {
                     _checkCompletion.value = result.data
-                    Log.d("QuestionViewModel", result.data.message!!)
-                    isQuizCompleted =
-                        result.data.message == "Congrats! Kamu telah menyelesaikan quiz Level 1. Silahkan lanjutkan perjalanan mu!"
-                    Log.d("QuestionViewModel", "quizstatus2 : $isQuizCompleted")
+                    Log.d("QuestionViewModel", "Completion: ${result.data.message}")
                 }
 
                 is Result.Error -> {
@@ -139,11 +125,7 @@ class QuestionViewModel(
     }
 
     fun getNextQuestionId(): Int {
-        return currentQuestionId + 1
-    }
-
-    fun isQuizCompleted(): Boolean {
-        return currentQuestionId >= totalQuestions
+        return currentQuestionId
     }
 
     fun selectOption(option: String) {

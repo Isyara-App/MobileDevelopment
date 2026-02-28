@@ -92,36 +92,39 @@ class QuestionFragment : Fragment() {
 
         viewModel.checkAnswer.observe(viewLifecycleOwner) { checkAnswerResponse ->
             val isCorrect = checkAnswerResponse.isCorrect
-            Log.d("QuestionFragment", "isCorrect: $isCorrect")
-            if (isCorrect == true) {
-                Toast.makeText(context, "Jawaban Benar!", Toast.LENGTH_SHORT).show()
+            val score = checkAnswerResponse.score
+            Log.d("QuestionFragment", "isCorrect: $isCorrect, score: $score")
 
-                val nextQuestionId = viewModel.getNextQuestionId()
-                Log.d("QuestionFragment", "Next Question ID: $nextQuestionId")
-                if (nextQuestionId <= viewModel.totalQuestions) {
-                    userPreferences.getToken()?.let { token ->
-                        levelId?.let { level ->
-                            viewModel.fetchQuestionById(token, level, nextQuestionId)
-                        }
-                    }
-                } else {
-                    if (viewModel.isQuizCompleted()) {
-                        userPreferences.getToken()?.let { token ->
-                            levelId?.let { level ->
-                                viewModel.checkQuizCompletion(token, level)
-                            }
-                        }
+            if (isCorrect == true) {
+                Toast.makeText(context, "Jawaban Benar! Score: ${score?.toInt() ?: 0}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Jawaban Salah!", Toast.LENGTH_SHORT).show()
+            }
+
+            // Always advance to the next question (whether correct or wrong)
+            val nextQuestionId = viewModel.getNextQuestionId()
+            Log.d("QuestionFragment", "Next Question ID: $nextQuestionId")
+            if (nextQuestionId <= viewModel.totalQuestions) {
+                userPreferences.getToken()?.let { token ->
+                    levelId?.let { level ->
+                        viewModel.fetchQuestionById(token, level, nextQuestionId)
                     }
                 }
             } else {
-                Toast.makeText(context, "Jawaban Salah!", Toast.LENGTH_SHORT).show()
+                // All questions answered, check completion
+                userPreferences.getToken()?.let { token ->
+                    levelId?.let { level ->
+                        viewModel.checkQuizCompletion(token, level)
+                    }
+                }
             }
         }
 
         viewModel.checkCompletion.observe(viewLifecycleOwner) { completionResponse ->
-            if (completionResponse.message == "Congrats! Kamu telah menyelesaikan quiz Level 1. Silahkan lanjutkan perjalanan mu!") {
+            val message = completionResponse.message ?: ""
+            if (message.startsWith("Congrats", ignoreCase = true)) {
                 findNavController().navigate(R.id.action_questionFragment_to_passResultFragment)
-            } else if (completionResponse.message == "Failed. Oh tidak, kamu gagal menjawab semua pertanyaan dengan benar.") {
+            } else {
                 findNavController().navigate(R.id.action_questionFragment_to_failedResultFragment)
             }
         }

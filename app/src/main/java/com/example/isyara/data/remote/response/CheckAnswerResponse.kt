@@ -11,5 +11,8 @@ data class CheckAnswerResponse(
 	val status: String? = null,
 
 	@field:SerializedName("isCorrect")
-	val isCorrect: Boolean? = null
+	val isCorrect: Boolean? = null,
+
+	@field:SerializedName("score")
+	val score: Double? = null
 )

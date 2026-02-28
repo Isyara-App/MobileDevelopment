@@ -6,6 +6,8 @@ import com.example.isyara.data.remote.response.CheckCompletionResponse
 import com.example.isyara.data.remote.response.QuestionResponse
 import com.example.isyara.data.remote.response.QuizByIdResponse
 import com.example.isyara.data.remote.response.QuizResponse
+import com.example.isyara.data.remote.response.ScoreDetailResponse
+import com.example.isyara.data.remote.response.ScoreListResponse
 import com.example.isyara.data.remote.retrofit.ApiService
 import com.example.isyara.util.safeApiCall
 
@@ -46,6 +48,18 @@ class QuizRepository private constructor(private val apiService: ApiService) {
     suspend fun checkCompletionById(token: String, levelId: Int): Result<CheckCompletionResponse> {
         return safeApiCall {
             apiService.checkCompletionById("Bearer $token", levelId)
+        }
+    }
+
+    suspend fun getScores(token: String): Result<ScoreListResponse> {
+        return safeApiCall {
+            apiService.getScores("Bearer $token")
+        }
+    }
+
+    suspend fun getScoreByLevel(token: String, levelId: Int): Result<ScoreDetailResponse> {
+        return safeApiCall {
+            apiService.getScoreByLevel("Bearer $token", levelId)
         }
     }
 
