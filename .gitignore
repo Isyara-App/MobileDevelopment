@@ -16,3 +16,5 @@ local.properties
 /.idea
 api.json
 api.php
+/key.properties
+key.properties
