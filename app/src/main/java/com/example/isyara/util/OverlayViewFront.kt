@@ -19,6 +19,8 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
     private var textPaint = Paint()
 
     private var scaleFactor: Float = 1f
+    private var imageWidth: Int = 1
+    private var imageHeight: Int = 1
 
     private var bounds = Rect()
 
@@ -52,17 +54,24 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
+        val scaledWidth = imageWidth * scaleFactor
+        val scaledHeight = imageHeight * scaleFactor
+        val offsetX = (width - scaledWidth) / 2f
+        val offsetY = (height - scaledHeight) / 2f
+
         for (result in results) {
             val boundingBox = result.boundingBox()
 
-            val top = boundingBox.top * scaleFactor
-            val bottom = boundingBox.bottom * scaleFactor
-            var left = boundingBox.left * scaleFactor
-            var right = boundingBox.right * scaleFactor
+            val top = boundingBox.top * scaleFactor + offsetY
+            val bottom = boundingBox.bottom * scaleFactor + offsetY
+            var left = boundingBox.left * scaleFactor + offsetX
+            var right = boundingBox.right * scaleFactor + offsetX
 
             // Flip horizontal for front camera
-            left = canvas.width.toFloat() - (left * 0.75f)
-            right = canvas.width.toFloat() - right
+            val tempLeft = left
+            left = canvas.width.toFloat() - right
+            right = canvas.width.toFloat() - tempLeft
+            
             Log.d("OverlayViewFront", "left: $left, width: ${canvas.width}, right: $right")
 
             // Draw bounding box around detected objects
@@ -101,7 +110,10 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
         imageWidth: Int,
     ) {
         results = detectionResults ?: LinkedList<Detection>()
-        // PreviewView is in FILL_START mode
+        this.imageHeight = imageHeight
+        this.imageWidth = imageWidth
+        
+        // PreviewView defaults to FILL_CENTER. We must scale and subsequently offset.
         scaleFactor = max(width * 1f / imageWidth, height * 1f / imageHeight)
         invalidate()
     }

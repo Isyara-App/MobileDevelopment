@@ -2,13 +2,13 @@ package com.example.isyara.util
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.os.SystemClock
 import android.util.Log
 import com.example.isyara.R
 import com.google.mediapipe.framework.image.BitmapImageBuilder
 import com.google.mediapipe.tasks.core.BaseOptions
 import com.google.mediapipe.tasks.core.Delegate
-import com.google.mediapipe.tasks.vision.core.ImageProcessingOptions
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetector
 import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetectorResult
@@ -65,20 +65,27 @@ class ObjectDetectorHelper(
 
         var inferenceTime = SystemClock.uptimeMillis()
 
-        // Create a MediaPipe MPImage from the bitmap
-        val mpImage = BitmapImageBuilder(image).build()
-        val imageProcessingOptions = ImageProcessingOptions.builder()
-            .setRotationDegrees(imageRotation)
-            .build()
-        
-        val results = objectDetector?.detect(mpImage, imageProcessingOptions)
+        // Physically rotate the bitmap so MediaPipe sees an upright image.
+        // This guarantees bounding box coordinates match the visual display exactly.
+        val rotatedBitmap = if (imageRotation != 0) {
+            val matrix = Matrix().apply { postRotate(imageRotation.toFloat()) }
+            Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
+        } else {
+            image
+        }
+
+        val mpImage = BitmapImageBuilder(rotatedBitmap).build()
+
+        // No rotation hint needed — the bitmap is already upright.
+        val results = objectDetector?.detect(mpImage)
 
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
+
         objectDetectorListener?.onResults(
             results,
             inferenceTime,
-            mpImage.height,
-            mpImage.width
+            rotatedBitmap.height,
+            rotatedBitmap.width
         )
     }
 

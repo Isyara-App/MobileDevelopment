@@ -18,6 +18,8 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
     private var textPaint = Paint()
 
     private var scaleFactor: Float = 1f
+    private var imageWidth: Int = 1
+    private var imageHeight: Int = 1
 
     private var bounds = Rect()
 
@@ -51,13 +53,18 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
+        val scaledWidth = imageWidth * scaleFactor
+        val scaledHeight = imageHeight * scaleFactor
+        val offsetX = (width - scaledWidth) / 2f
+        val offsetY = (height - scaledHeight) / 2f
+
         for (result in results) {
             val boundingBox = result.boundingBox()
 
-            val top = boundingBox.top * scaleFactor
-            val bottom = boundingBox.bottom * scaleFactor
-            val left = boundingBox.left * scaleFactor
-            val right = boundingBox.right * scaleFactor
+            val top = boundingBox.top * scaleFactor + offsetY
+            val bottom = boundingBox.bottom * scaleFactor + offsetY
+            val left = boundingBox.left * scaleFactor + offsetX
+            val right = boundingBox.right * scaleFactor + offsetX
 
             // Draw bounding box around detected objects
             val drawableRect = RectF(left, top, right, bottom)
@@ -93,9 +100,10 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         imageWidth: Int,
     ) {
         results = detectionResults ?: LinkedList<Detection>()
+        this.imageHeight = imageHeight
+        this.imageWidth = imageWidth
 
-        // PreviewView is in FILL_START mode. So we need to scale up the bounding box to match with
-        // the size that the captured images will be displayed.
+        // PreviewView defaults to FILL_CENTER. We must scale and subsequently offset.
         scaleFactor = max(width * 1f / imageWidth, height * 1f / imageHeight)
         invalidate()
     }
