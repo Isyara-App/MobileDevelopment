@@ -23,20 +23,26 @@ class ObjectDetectorHelper(
     var numThreads: Int = 2
     private val TAG = "ObjectDetectionHelper"
     private var objectDetector: ObjectDetector? = null
+    private val lock = Any()
 
     init {
         setupObjectDetector()
     }
 
     fun clearObjectDetector() {
-        objectDetector?.close()
-        objectDetector = null
+        synchronized(lock) {
+            objectDetector?.close()
+            objectDetector = null
+        }
     }
 
     fun updateModel(newModelName: String) {
-        this.modelName = newModelName
-        clearObjectDetector()
-        setupObjectDetector()
+        synchronized(lock) {
+            this.modelName = newModelName
+            objectDetector?.close()
+            objectDetector = null
+            setupObjectDetector()
+        }
     }
 
     fun setupObjectDetector() {
@@ -59,34 +65,33 @@ class ObjectDetectorHelper(
     }
 
     fun detect(image: Bitmap, imageRotation: Int) {
-        if (objectDetector == null) {
-            setupObjectDetector()
+        synchronized(lock) {
+            val detector = objectDetector ?: return
+
+            var inferenceTime = SystemClock.uptimeMillis()
+
+            // Physically rotate the bitmap so MediaPipe sees an upright image.
+            val rotatedBitmap = if (imageRotation != 0) {
+                val matrix = Matrix().apply { postRotate(imageRotation.toFloat()) }
+                Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
+            } else {
+                image
+            }
+
+            val mpImage = BitmapImageBuilder(rotatedBitmap).build()
+
+            // No rotation hint needed — the bitmap is already upright.
+            val results = detector.detect(mpImage)
+
+            inferenceTime = SystemClock.uptimeMillis() - inferenceTime
+
+            objectDetectorListener?.onResults(
+                results,
+                inferenceTime,
+                rotatedBitmap.height,
+                rotatedBitmap.width
+            )
         }
-
-        var inferenceTime = SystemClock.uptimeMillis()
-
-        // Physically rotate the bitmap so MediaPipe sees an upright image.
-        // This guarantees bounding box coordinates match the visual display exactly.
-        val rotatedBitmap = if (imageRotation != 0) {
-            val matrix = Matrix().apply { postRotate(imageRotation.toFloat()) }
-            Bitmap.createBitmap(image, 0, 0, image.width, image.height, matrix, true)
-        } else {
-            image
-        }
-
-        val mpImage = BitmapImageBuilder(rotatedBitmap).build()
-
-        // No rotation hint needed — the bitmap is already upright.
-        val results = objectDetector?.detect(mpImage)
-
-        inferenceTime = SystemClock.uptimeMillis() - inferenceTime
-
-        objectDetectorListener?.onResults(
-            results,
-            inferenceTime,
-            rotatedBitmap.height,
-            rotatedBitmap.width
-        )
     }
 
     interface DetectorListener {
