@@ -23,7 +23,7 @@ import com.example.isyara.databinding.FragmentTranslateBinding
 import com.example.isyara.R
 import android.graphics.Bitmap
 import com.example.isyara.util.ObjectDetectorHelper
-import org.tensorflow.lite.task.gms.vision.detector.Detection
+import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetectorResult
 import java.text.NumberFormat
 import java.util.Locale
 import java.util.concurrent.Executors
@@ -123,29 +123,29 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
                 }
 
                 override fun onResults(
-                    results: MutableList<Detection>?,
+                    results: ObjectDetectorResult?,
                     inferenceTime: Long,
                     imageHeight: Int,
                     imageWidth: Int,
                 ) {
                     activity?.runOnUiThread {
                         if (isAdded) {
-                            binding.overlay.setResults(results, imageHeight, imageWidth)
+                            binding.overlay.setResults(results?.detections(), imageHeight, imageWidth)
                             
-                            results?.let { it ->
-                                if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
+                            results?.detections()?.let { it ->
+                                if (it.isNotEmpty() && it[0].categories().isNotEmpty()) {
                                     val sortedCategories =
-                                        it[0].categories.sortedByDescending { it?.score }
+                                        it[0].categories().sortedByDescending { it?.score() }
                                     val displayResult =
-                                        sortedCategories.joinToString("\n") {
-                                            "${it.label} " + NumberFormat.getPercentInstance()
-                                                .format(it.score).trim()
+                                        sortedCategories.joinToString("\n") { cat ->
+                                            "${cat.categoryName()} " + NumberFormat.getPercentInstance()
+                                                .format(cat.score()).trim()
                                         }
 
                                     binding.tvResult.text = displayResult
                                     binding.btnAdd.setOnClickListener {
                                         // Menambahkan label ke list
-                                        val label = sortedCategories.firstOrNull()?.label ?: ""
+                                        val label = sortedCategories.firstOrNull()?.categoryName() ?: ""
                                         resultList.add(label)
 
                                         // Mengupdate textBox dengan list yang ada

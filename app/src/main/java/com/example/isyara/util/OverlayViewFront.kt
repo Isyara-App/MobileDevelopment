@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.isyara.R
-import org.tensorflow.lite.task.gms.vision.detector.Detection
+import com.google.mediapipe.tasks.components.containers.Detection
 import java.util.*
 import kotlin.math.max
 
@@ -53,7 +53,7 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
         super.draw(canvas)
 
         for (result in results) {
-            val boundingBox = result.boundingBox
+            val boundingBox = result.boundingBox()
 
             val top = boundingBox.top * scaleFactor
             val bottom = boundingBox.bottom * scaleFactor
@@ -69,10 +69,10 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
             val drawableRect = RectF(left, top, right, bottom)
             canvas.drawRect(drawableRect, boxPaint)
 
-            if (result.categories.isNotEmpty()) {
-                val category = result.categories[0]
+            if (result.categories().isNotEmpty()) {
+                val category = result.categories()[0]
                 // Draw text for detected object
-                val drawableText = "${category.label} ${String.format("%.0f%%", category.score * 100)}"
+                val drawableText = "${category.categoryName()} ${String.format("%.0f%%", category.score() * 100)}"
 
                 // Hitung posisi teks
                 textPaint.getTextBounds(drawableText, 0, drawableText.length, bounds)
@@ -96,7 +96,7 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
     }
 
     fun setResults(
-        detectionResults: MutableList<Detection>?,
+        detectionResults: List<Detection>?,
         imageHeight: Int,
         imageWidth: Int,
     ) {

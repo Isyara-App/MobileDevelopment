@@ -37,7 +37,12 @@ android {
     }
     buildFeatures {
         viewBinding = true
-        mlModelBinding = true
+    }
+    packaging {
+        jniLibs {
+            excludes.add("**/libdatastore_shared_counter.so")
+            excludes.add("**/libyuv-decoder.so")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -85,19 +90,14 @@ dependencies {
     implementation(libs.core.splashscreen)
 
     //camera x
-    val cameraxVersion = "1.3.0"
+    val cameraxVersion = "1.5.0"
 
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
     implementation("androidx.camera:camera-view:$cameraxVersion")
 
-    //tflite
-    implementation("org.tensorflow:tensorflow-lite-metadata:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-task-vision-play-services:0.4.4")
-    implementation("com.google.android.gms:play-services-tflite-support:16.1.0")
-    implementation("com.google.android.gms:play-services-tflite-gpu:16.2.0")
-    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.4")
-    implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")
+    // MediaPipe for Machine Learning (Replaces deprecated TFLite Task Vision)
+    implementation(libs.mediapipe.tasks.vision)
 
     // Room Database
     implementation(libs.room.runtime)

@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.isyara.R
-import org.tensorflow.lite.task.gms.vision.detector.Detection
+import com.google.mediapipe.tasks.components.containers.Detection
 import java.util.*
 import kotlin.math.max
 
@@ -52,7 +52,7 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         super.draw(canvas)
 
         for (result in results) {
-            val boundingBox = result.boundingBox
+            val boundingBox = result.boundingBox()
 
             val top = boundingBox.top * scaleFactor
             val bottom = boundingBox.bottom * scaleFactor
@@ -63,10 +63,10 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
             val drawableRect = RectF(left, top, right, bottom)
             canvas.drawRect(drawableRect, boxPaint)
 
-            if (result.categories.isNotEmpty()) {
-                val category = result.categories[0]
+            if (result.categories().isNotEmpty()) {
+                val category = result.categories()[0]
                 // Create text to display alongside detected objects
-                val drawableText = "${category.label} ${String.format("%.0f%%", category.score * 100)}"
+                val drawableText = "${category.categoryName()} ${String.format("%.0f%%", category.score() * 100)}"
 
                 // Draw rect behind display text
                 textBackgroundPaint.getTextBounds(drawableText, 0, drawableText.length, bounds)
@@ -88,7 +88,7 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
     }
 
     fun setResults(
-        detectionResults: MutableList<Detection>?,
+        detectionResults: List<Detection>?,
         imageHeight: Int,
         imageWidth: Int,
     ) {
