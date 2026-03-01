@@ -20,8 +20,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.isyara.databinding.FragmentTranslateBinding
-import com.example.isyara.util.ImageClassifierHelper
-import org.tensorflow.lite.task.gms.vision.classifier.Classifications
+import com.example.isyara.R
+import android.graphics.Bitmap
+import com.example.isyara.util.ObjectDetectorHelper
+import org.tensorflow.lite.task.gms.vision.detector.Detection
 import java.text.NumberFormat
 import java.util.Locale
 import java.util.concurrent.Executors
@@ -32,10 +34,9 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
     private val binding get() = _binding!!
 
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-    private lateinit var imageClassifierHelper: ImageClassifierHelper
+    private lateinit var objectDetectorHelper: ObjectDetectorHelper
     private val resultList = mutableListOf<String>()
     private lateinit var textToSpeech: TextToSpeech
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,8 +53,26 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideSystemUI()
         startCamera()
+
+        binding.toggleGroupModel.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            if (isChecked && ::objectDetectorHelper.isInitialized) {
+                // Clear old results
+                binding.tvResult.text = "Ganti Model..."
+                resultList.clear()
+                binding.textBox.text = ""
+                binding.overlay.clear()
+
+                // Update model in helper
+                val newModel = when (checkedId) {
+                    R.id.btnAbjad -> "abjad_v3.tflite"
+                    R.id.btnAngka -> "angka_v3.tflite"
+                    R.id.btnKata -> "kata_v3.tflite"
+                    else -> "abjad_v3.tflite"
+                }
+                objectDetectorHelper.updateModel(newModel)
+            }
+        }
 
         binding.btnTextToSpeech.setOnClickListener {
             val textToSpeak = binding.tvResult.text.toString()
@@ -80,7 +99,6 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
 
     override fun onResume() {
         super.onResume()
-        hideSystemUI()
         startCamera()
     }
 
@@ -93,9 +111,9 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     private fun startCamera() {
-        imageClassifierHelper = ImageClassifierHelper(
+        objectDetectorHelper = ObjectDetectorHelper(
             context = requireContext(),
-            classifierListener = object : ImageClassifierHelper.ClassifierListener {
+            objectDetectorListener = object : ObjectDetectorHelper.DetectorListener {
                 override fun onError(error: String) {
                     activity?.runOnUiThread {
                         if (isAdded) {
@@ -105,18 +123,17 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
                 }
 
                 override fun onResults(
-                    results: List<Classifications>?,
+                    results: MutableList<Detection>?,
                     inferenceTime: Long,
                     imageHeight: Int,
                     imageWidth: Int,
                 ) {
                     activity?.runOnUiThread {
                         if (isAdded) {
+                            binding.overlay.setResults(results, imageHeight, imageWidth)
+                            
                             results?.let { it ->
                                 if (it.isNotEmpty() && it[0].categories.isNotEmpty()) {
-                                    println(it)
-
-
                                     val sortedCategories =
                                         it[0].categories.sortedByDescending { it?.score }
                                     val displayResult =
@@ -133,8 +150,6 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
 
                                         // Mengupdate textBox dengan list yang ada
                                         binding.textBox.text = resultList.joinToString(" ")
-
-
                                     }
 
                                     binding.btnDelete.setOnClickListener {
@@ -171,7 +186,13 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                 .build()
             imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image ->
-                imageClassifierHelper.classifyImage(image)
+                val bitmapBuffer = Bitmap.createBitmap(
+                    image.width,
+                    image.height,
+                    Bitmap.Config.ARGB_8888
+                )
+                image.use { bitmapBuffer.copyPixelsFromBuffer(image.planes[0].buffer) }
+                objectDetectorHelper.detect(bitmapBuffer, image.imageInfo.rotationDegrees)
             }
 
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
@@ -197,17 +218,7 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-    private fun hideSystemUI() {
-        @Suppress("DEPRECATION") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            requireActivity().window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            requireActivity().window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
 
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

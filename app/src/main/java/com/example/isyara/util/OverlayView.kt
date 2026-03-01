@@ -1,27 +1,35 @@
 package com.example.isyara.util
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
-import org.tensorflow.lite.task.gms.vision.classifier.Classifications
-import java.text.NumberFormat
+import androidx.core.content.ContextCompat
+import com.example.isyara.R
+import org.tensorflow.lite.task.gms.vision.detector.Detection
+import java.util.*
 import kotlin.math.max
 
-class OverlayView @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null
-) : View(context, attrs) {
+class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
-    private var textPaint = Paint()
+    private var results: List<Detection> = LinkedList<Detection>()
+    private var boxPaint = Paint()
     private var textBackgroundPaint = Paint()
+    private var textPaint = Paint()
 
-    private var results: List<Classifications>? = listOf()
     private var scaleFactor: Float = 1f
 
+    private var bounds = Rect()
+
     init {
+        initPaints()
+    }
+
+    fun clear() {
+        textPaint.reset()
+        textBackgroundPaint.reset()
+        boxPaint.reset()
+        invalidate()
         initPaints()
     }
 
@@ -29,56 +37,70 @@ class OverlayView @JvmOverloads constructor(
         textBackgroundPaint.color = Color.BLACK
         textBackgroundPaint.style = Paint.Style.FILL
         textBackgroundPaint.textSize = 50f
+        textBackgroundPaint.alpha = 180 // slight transparency
 
         textPaint.color = Color.WHITE
         textPaint.style = Paint.Style.FILL
         textPaint.textSize = 50f
+
+        boxPaint.color = ContextCompat.getColor(context!!, R.color.primary)
+        boxPaint.strokeWidth = 8F
+        boxPaint.style = Paint.Style.STROKE
     }
 
-    fun setResults(
-        classificationResults: List<Classifications>?,
-        imageHeight: Int,
-        imageWidth: Int
-    ) {
-        results = classificationResults ?: emptyList()
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
 
-        // Calculate the scale factor based on the image size and the view size.
-        scaleFactor = max(width * 1f / imageWidth, height * 1f / imageHeight)
-        invalidate() // Trigger a redraw
-    }
+        for (result in results) {
+            val boundingBox = result.boundingBox
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+            val top = boundingBox.top * scaleFactor
+            val bottom = boundingBox.bottom * scaleFactor
+            val left = boundingBox.left * scaleFactor
+            val right = boundingBox.right * scaleFactor
 
-        // Loop through each classification result and draw it
-        results?.forEachIndexed { index, classification ->
-            val categories = classification.categories.sortedByDescending { it.score }
-            val topCategory = categories.firstOrNull()
+            // Draw bounding box around detected objects
+            val drawableRect = RectF(left, top, right, bottom)
+            canvas.drawRect(drawableRect, boxPaint)
 
-            // Draw the category label and score
-            topCategory?.let {
-                val label = it.label
-                val score = NumberFormat.getPercentInstance().format(it.score)
+            if (result.categories.isNotEmpty()) {
+                val category = result.categories[0]
+                // Create text to display alongside detected objects
+                val drawableText = "${category.label} ${String.format("%.0f%%", category.score * 100)}"
 
-                // Set the background for the text
-                val textWidth = textPaint.measureText(label + " " + score)
-                val textHeight = textPaint.textSize
-
-                // Draw text background
+                // Draw rect behind display text
+                textBackgroundPaint.getTextBounds(drawableText, 0, drawableText.length, bounds)
+                val textWidth = bounds.width()
+                val textHeight = bounds.height()
+                
                 canvas.drawRect(
-                    50f, (index * (textHeight + 20)).toFloat(),
-                    50f + textWidth, (index * (textHeight + 20) + textHeight).toFloat(),
+                    left,
+                    top,
+                    left + textWidth + BOUNDING_RECT_TEXT_PADDING,
+                    top + textHeight + BOUNDING_RECT_TEXT_PADDING,
                     textBackgroundPaint
                 )
 
-                // Draw the label and score
-                canvas.drawText(
-                    "$label $score",
-                    50f,
-                    (index * (textHeight + 20) + textHeight).toFloat(),
-                    textPaint
-                )
+                // Draw text for detected object
+                canvas.drawText(drawableText, left, top + bounds.height(), textPaint)
             }
         }
+    }
+
+    fun setResults(
+        detectionResults: MutableList<Detection>?,
+        imageHeight: Int,
+        imageWidth: Int,
+    ) {
+        results = detectionResults ?: LinkedList<Detection>()
+
+        // PreviewView is in FILL_START mode. So we need to scale up the bounding box to match with
+        // the size that the captured images will be displayed.
+        scaleFactor = max(width * 1f / imageWidth, height * 1f / imageHeight)
+        invalidate()
+    }
+
+    companion object {
+        private const val BOUNDING_RECT_TEXT_PADDING = 16
     }
 }

@@ -2,37 +2,37 @@ package com.example.isyara.util
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Build
 import android.os.SystemClock
 import android.util.Log
-import androidx.camera.core.ImageProxy
+import androidx.lifecycle.MutableLiveData
 import com.example.isyara.R
 import com.google.android.gms.tflite.client.TfLiteInitializationOptions
 import com.google.android.gms.tflite.gpu.support.TfLiteGpu
-import org.tensorflow.lite.DataType
-import org.tensorflow.lite.gpu.CompatibilityList
-import org.tensorflow.lite.support.common.ops.CastOp
-import org.tensorflow.lite.support.common.ops.NormalizeOp
 import org.tensorflow.lite.support.image.ImageProcessor
 import org.tensorflow.lite.support.image.TensorImage
-import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.image.ops.Rot90Op
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.gms.vision.TfLiteVision
 import org.tensorflow.lite.task.gms.vision.detector.Detection
 import org.tensorflow.lite.task.gms.vision.detector.ObjectDetector
+import java.io.File
+import java.lang.IllegalStateException
 
 class ObjectDetectorHelper(
-    var threshold: Float = 0.7f,
-    var maxResults: Int = 4,
-    val modelName: String = "model.tflite",
+    var threshold: Float = 0.5f,
+    var maxResults: Int = 1,
+    var modelName: String = "abjad_v3.tflite",
     val context: Context,
-    val detectorListener: DetectorListener?
+    val objectDetectorListener: DetectorListener?
 ) {
+    var numThreads: Int = 2
+
+    private val TAG = "ObjectDetectionHelper"
     private var objectDetector: ObjectDetector? = null
+    private val lock = Any()
 
     init {
-        TfLiteGpu.isGpuDelegateAvailable(context).onSuccessTask { gpuAvailable ->
+        TfLiteGpu.isGpuDelegateAvailable(context).onSuccessTask { gpuAvailable: Boolean ->
             val optionsBuilder = TfLiteInitializationOptions.builder()
             if (gpuAvailable) {
                 optionsBuilder.setEnableGpuDelegateSupport(true)
@@ -41,43 +41,54 @@ class ObjectDetectorHelper(
         }.addOnSuccessListener {
             setupObjectDetector()
         }.addOnFailureListener {
-            detectorListener?.onError(context.getString(R.string.tflitevision_is_not_initialized_yet))
+            objectDetectorListener?.onError("TfLiteVision failed to initialize: " + it.message)
         }
     }
 
-    private fun setupObjectDetector() {
+    fun clearObjectDetector() {
+        synchronized(lock) {
+            objectDetector?.close()
+            objectDetector = null
+        }
+    }
+
+    fun updateModel(newModelName: String) {
+        this.modelName = newModelName
+        clearObjectDetector()
+        setupObjectDetector()
+    }
+
+    fun setupObjectDetector() {
+        if (!TfLiteVision.isInitialized()) {
+            Log.e(TAG, "setupObjectDetector: TfLiteVision is not initialized yet")
+            return
+        }
+
         val optionsBuilder = ObjectDetector.ObjectDetectorOptions.builder()
             .setScoreThreshold(threshold)
             .setMaxResults(maxResults)
-        val baseOptionsBuilder = BaseOptions.builder()
-        if (CompatibilityList().isDelegateSupportedOnThisDevice) {
-            baseOptionsBuilder.useGpu()
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            baseOptionsBuilder.useNnapi()
-        } else {
-            // Menggunakan CPU
-            baseOptionsBuilder.setNumThreads(4)
-        }
+
+        val baseOptionsBuilder = BaseOptions.builder().setNumThreads(numThreads)
         optionsBuilder.setBaseOptions(baseOptionsBuilder.build())
 
-        try {
-            objectDetector = ObjectDetector.createFromFileAndOptions(
-                context,
-                modelName,
-                optionsBuilder.build()
-            )
-        } catch (e: IllegalStateException) {
-            detectorListener?.onError(context.getString(R.string.image_classifier_failed))
-            Log.e(TAG, e.message.toString())
+        synchronized(lock) {
+            try {
+                // Load model from assets using createFromFileAndOptions
+                objectDetector = ObjectDetector.createFromFileAndOptions(
+                    context,
+                    modelName,
+                    optionsBuilder.build()
+                )
+            } catch (e: Exception) {
+                objectDetectorListener?.onError(context.getString(R.string.image_classifier_failed))
+                Log.e(TAG, "TFLite failed to load model with error: " + e.message)
+            }
         }
     }
 
-    fun detectObject(image: ImageProxy) {
-
+    fun detect(image: Bitmap, imageRotation: Int) {
         if (!TfLiteVision.isInitialized()) {
-            val errorMessage = context.getString(R.string.tflitevision_is_not_initialized_yet)
-            Log.e(TAG, errorMessage)
-            detectorListener?.onError(errorMessage)
+            Log.e(TAG, "detect: TfLiteVision is not initialized yet")
             return
         }
 
@@ -85,35 +96,23 @@ class ObjectDetectorHelper(
             setupObjectDetector()
         }
 
-        val imageProcessor = ImageProcessor.Builder()
-            .add(ResizeOp(150, 150, ResizeOp.ResizeMethod.BILINEAR))
-            .add(CastOp(DataType.FLOAT32))
-            .add(NormalizeOp(0f, 1f))
-            .add(Rot90Op(-image.imageInfo.rotationDegrees / 90))
-            .build()
-
-        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(toBitmap(image)))
-
         var inferenceTime = SystemClock.uptimeMillis()
-        val results = objectDetector?.detect(tensorImage)
+
+        val imageProcessor = ImageProcessor.Builder().add(Rot90Op(-imageRotation / 90)).build()
+        val tensorImage = imageProcessor.process(TensorImage.fromBitmap(image))
+
+        val results = synchronized(lock) {
+            // Check again inside lock to ensure it wasn't nulled out
+            objectDetector?.detect(tensorImage)
+        }
+        
         inferenceTime = SystemClock.uptimeMillis() - inferenceTime
-        detectorListener?.onResults(
+        objectDetectorListener?.onResults(
             results,
             inferenceTime,
             tensorImage.height,
             tensorImage.width
         )
-    }
-
-    private fun toBitmap(image: ImageProxy): Bitmap {
-        val bitmapBuffer = Bitmap.createBitmap(
-            image.width,
-            image.height,
-            Bitmap.Config.ARGB_8888
-        )
-        image.use { bitmapBuffer.copyPixelsFromBuffer(image.planes[0].buffer) }
-        image.close()
-        return bitmapBuffer
     }
 
     interface DetectorListener {
@@ -124,9 +123,5 @@ class ObjectDetectorHelper(
             imageHeight: Int,
             imageWidth: Int
         )
-    }
-
-    companion object {
-        private const val TAG = "ObjectDetectorHelper"
     }
 }

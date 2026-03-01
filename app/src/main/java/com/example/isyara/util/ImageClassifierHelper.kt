@@ -26,11 +26,18 @@ import org.tensorflow.lite.task.gms.vision.classifier.ImageClassifier
 class ImageClassifierHelper(
     var threshold: Float = 0.7f,
     var maxResults: Int = 1,
-    val modelName: String = "model.tflite",
+    var modelName: String = "abjad_v3.tflite",
     val context: Context,
     val classifierListener: ClassifierListener?
 ) {
     private var imageClassifier: ImageClassifier? = null
+
+    fun updateModel(newModelName: String) {
+        this.modelName = newModelName
+        imageClassifier?.close()
+        imageClassifier = null
+        setupImageClassifier()
+    }
 
     init {
         TfLiteGpu.isGpuDelegateAvailable(context).onSuccessTask { gpuAvailable ->
