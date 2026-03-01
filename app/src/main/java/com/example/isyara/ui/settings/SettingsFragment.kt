@@ -39,6 +39,10 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.action_settingsFragment_to_scoreFragment)
         }
 
+        binding.resourceButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_resourceFragment)
+        }
+
         binding.logoutButton.setOnClickListener {
             viewModel.logout(userPreferences.getToken()!!)
             Toast.makeText(requireContext(), "Logout Success", Toast.LENGTH_SHORT).show()

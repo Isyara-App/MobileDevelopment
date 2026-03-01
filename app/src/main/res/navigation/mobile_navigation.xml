@@ -242,7 +242,20 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_settingsFragment_to_resourceFragment"
+            app:destination="@id/resourceFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
+
+    <fragment
+        android:id="@+id/resourceFragment"
+        android:name="com.example.isyara.ui.resource.ResourceFragment"
+        android:label="Resource"
+        tools:layout="@layout/fragment_resource" />
 
     <fragment
         android:id="@+id/profileFragment"
