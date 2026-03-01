@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.isyara.R
 import com.example.isyara.databinding.FragmentFailedResultBinding
@@ -20,7 +21,13 @@ class FailedResultFragment : Fragment() {
         _binding = FragmentFailedResultBinding.inflate(inflater, container, false)
 
         binding.backButton.setOnClickListener {
-            findNavController().navigate(R.id.action_failedResultFragment_to_quizFragment)
+            findNavController().navigate(
+                R.id.action_failedResultFragment_to_quizFragment,
+                null,
+                NavOptions.Builder()
+                    .setPopUpTo(R.id.quizFragment, true)
+                    .build()
+            )
         }
 
         return binding.root
