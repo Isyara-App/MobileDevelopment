@@ -24,14 +24,14 @@ class QuestionAdapter(
         ) {
             binding.optionText.text = option
 
-            // Ubah warna latar belakang berdasarkan status pilihan
-            binding.root.setBackgroundColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    if (isSelected) R.color.placeholder
-                    else R.color.white
-                )
-            )
+            // Ubah resource latar belakang berdasarkan status pilihan agar sudut radius tetap ada
+            if (isSelected) {
+                binding.root.setBackgroundResource(R.drawable.selected_question_background)
+                binding.optionText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+            } else {
+                binding.root.setBackgroundResource(R.drawable.default_question_background)
+                binding.optionText.setTextColor(ContextCompat.getColor(binding.root.context, R.color.question_text))
+            }
 
             binding.root.setOnClickListener {
                 // Kirim option dan posisi aktual saat ini
