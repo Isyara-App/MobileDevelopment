@@ -14,7 +14,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.isyara"
+    namespace = "com.isyara.app"
     compileSdk = 36
     ndkVersion = "28.2.13676358"
 
@@ -28,7 +28,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.isyara"
+        applicationId = "com.isyara.app"
         minSdk = 24
         targetSdk = 36
         versionCode = 4

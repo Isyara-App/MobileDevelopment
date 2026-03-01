@@ -7,7 +7,7 @@
     <!-- Define the fragment you want to navigate to -->
     <fragment
         android:id="@+id/onboardFragment"
-        android:name="com.example.isyara.ui.onboard.OnboardFragment"
+        android:name="com.isyara.app.ui.onboard.OnboardFragment"
         android:label="Translate"
         tools:layout="@layout/fragment_onboard">
         <action
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.isyara.ui.loginandsignup.LoginFragment"
+        android:name="com.isyara.app.ui.loginandsignup.LoginFragment"
         android:label="Translate"
         tools:layout="@layout/fragment_login">
         <action
@@ -56,7 +56,7 @@
 
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.isyara.ui.loginandsignup.SignUpFragment"
+        android:name="com.isyara.app.ui.loginandsignup.SignUpFragment"
         android:label="Translate"
         tools:layout="@layout/fragment_signup">
         <action
@@ -77,7 +77,7 @@
 
     <fragment
         android:id="@+id/homeScreenFragment"
-        android:name="com.example.isyara.ui.homescreen.HomeScreenFragment"
+        android:name="com.isyara.app.ui.homescreen.HomeScreenFragment"
         android:label="Home Screen"
         tools:layout="@layout/fragment_home_screen">
         <action
@@ -126,13 +126,13 @@
 
     <fragment
         android:id="@+id/translateFragment"
-        android:name="com.example.isyara.ui.translate.TranslateFragment"
+        android:name="com.isyara.app.ui.translate.TranslateFragment"
         android:label="Translate"
         tools:layout="@layout/fragment_translate" />
 
     <fragment
         android:id="@+id/dictionaryFragment"
-        android:name="com.example.isyara.ui.dictionary.DictionaryFragment"
+        android:name="com.isyara.app.ui.dictionary.DictionaryFragment"
         android:label="Translate"
         tools:layout="@layout/fragment_dictionary">
         <action
@@ -153,7 +153,7 @@
 
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.example.isyara.ui.quiz.QuizFragment"
+        android:name="com.isyara.app.ui.quiz.QuizFragment"
         android:label="Quiz"
         tools:layout="@layout/fragment_quiz">
         <action
@@ -169,7 +169,7 @@
 
     <fragment
         android:id="@+id/inGameFragment"
-        android:name="com.example.isyara.ui.quiz.ingame.InGameFragment"
+        android:name="com.isyara.app.ui.quiz.ingame.InGameFragment"
         android:label="InGame"
         tools:layout="@layout/fragment_in_game">
         <action
@@ -179,7 +179,7 @@
 
     <fragment
         android:id="@+id/questionFragment"
-        android:name="com.example.isyara.ui.quiz.question.QuestionFragment"
+        android:name="com.isyara.app.ui.quiz.question.QuestionFragment"
         android:label="Question"
         tools:layout="@layout/fragment_question">
         <action
@@ -198,7 +198,7 @@
 
     <fragment
         android:id="@+id/passResultFragment"
-        android:name="com.example.isyara.ui.quiz.result.pass.PassResultFragment"
+        android:name="com.isyara.app.ui.quiz.result.pass.PassResultFragment"
         android:label="Pass Result"
         tools:layout="@layout/fragment_pass_result">
         <action
@@ -208,7 +208,7 @@
 
     <fragment
         android:id="@+id/failedResultFragment"
-        android:name="com.example.isyara.ui.quiz.result.failed.FailedResultFragment"
+        android:name="com.isyara.app.ui.quiz.result.failed.FailedResultFragment"
         android:label="Failed Result"
         tools:layout="@layout/fragment_failed_result">
         <action
@@ -218,7 +218,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.isyara.ui.settings.SettingsFragment"
+        android:name="com.isyara.app.ui.settings.SettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -253,13 +253,13 @@
 
     <fragment
         android:id="@+id/resourceFragment"
-        android:name="com.example.isyara.ui.resource.ResourceFragment"
+        android:name="com.isyara.app.ui.resource.ResourceFragment"
         android:label="Resource"
         tools:layout="@layout/fragment_resource" />
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.isyara.ui.profile.ProfileFragment"
+        android:name="com.isyara.app.ui.profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile">
         <action
@@ -275,13 +275,13 @@
 
     <fragment
         android:id="@+id/scoreFragment"
-        android:name="com.example.isyara.ui.score.ScoreFragment"
+        android:name="com.isyara.app.ui.score.ScoreFragment"
         android:label="Quiz Scores"
         tools:layout="@layout/fragment_score" />
 
     <fragment
         android:id="@+id/dictionaryWordFragment"
-        android:name="com.example.isyara.ui.dictionary_word.DictionaryWordFragment"
+        android:name="com.isyara.app.ui.dictionary_word.DictionaryWordFragment"
         android:label="DictionaryWord"
         tools:layout="@layout/fragment_dictionary_word">
         <action
@@ -291,7 +291,7 @@
 
     <fragment
         android:id="@+id/dictionarySentenceFragment"
-        android:name="com.example.isyara.ui.dictionary_sentence.DictionarySentenceFragment"
+        android:name="com.isyara.app.ui.dictionary_sentence.DictionarySentenceFragment"
         android:label="DictionarySentence"
         tools:layout="@layout/fragment_dictionary_sentence">
         <action
@@ -301,7 +301,7 @@
 
     <fragment
         android:id="@+id/speakFragment"
-        android:name="com.example.isyara.ui.speak.SpeakFragment"
+        android:name="com.isyara.app.ui.speak.SpeakFragment"
         android:label="Belajar Berbicara"
         tools:layout="@layout/fragment_speak">
         <action
@@ -322,13 +322,13 @@
 
     <fragment
         android:id="@+id/speakAddFragment"
-        android:name="com.example.isyara.ui.speak.add.SpeakAddFragment"
+        android:name="com.isyara.app.ui.speak.add.SpeakAddFragment"
         android:label="Tambah Latihan Bicara"
         tools:layout="@layout/fragment_speak_add" />
 
     <fragment
         android:id="@+id/speakPracticeFragment"
-        android:name="com.example.isyara.ui.speak.practice.SpeakPracticeFragment"
+        android:name="com.isyara.app.ui.speak.practice.SpeakPracticeFragment"
         android:label="Praktek Bicara"
         tools:layout="@layout/fragment_speak_practice">
         <argument
