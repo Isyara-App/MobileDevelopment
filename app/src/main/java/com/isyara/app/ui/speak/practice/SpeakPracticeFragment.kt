@@ -100,7 +100,12 @@ class SpeakPracticeFragment : Fragment() {
                     targetText = it.targetText
                     binding.tvTargetText.text = targetText
                     try {
-                        binding.ivPracticeImage.setImageURI(Uri.parse(it.imageUri))
+                        com.isyara.app.util.LoadImage.load(
+                            context = requireContext(),
+                            imageView = binding.ivPracticeImage,
+                            imageUrl = it.imageUri,
+                            placeholder = android.R.color.darker_gray
+                        )
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

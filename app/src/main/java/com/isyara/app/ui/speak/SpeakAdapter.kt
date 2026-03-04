@@ -18,7 +18,12 @@ class SpeakAdapter(
         fun bind(item: PracticeItem) {
             binding.tvItemTargetText.text = item.targetText
             try {
-                binding.ivItemImage.setImageURI(Uri.parse(item.imageUri))
+                com.isyara.app.util.LoadImage.load(
+                    context = binding.root.context,
+                    imageView = binding.ivItemImage,
+                    imageUrl = item.imageUri,
+                    placeholder = android.R.color.darker_gray
+                )
             } catch (e: Exception) {
                 binding.ivItemImage.setImageResource(android.R.drawable.ic_menu_gallery)
             }

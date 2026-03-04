@@ -5,8 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.isyara.app.data.local.entity.PracticeItem
-
-@Database(entities = [PracticeItem::class], version = 1, exportSchema = false)
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+@Database(entities = [PracticeItem::class], version = 2, exportSchema = false)
 abstract class SpeakDatabase : RoomDatabase() {
 
     abstract fun practiceItemDao(): PracticeItemDao

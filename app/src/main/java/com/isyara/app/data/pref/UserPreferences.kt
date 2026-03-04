@@ -70,4 +70,12 @@ class UserPreferences(context: Context) {
         editor.remove(IMAGE)
         editor.apply()
     }
+
+    fun isSpeakDefaultInjected(): Boolean {
+        return sharedPreferences.getBoolean("speak_default_injected_v2", false)
+    }
+
+    fun setSpeakDefaultInjected(injected: Boolean) {
+        sharedPreferences.edit().putBoolean("speak_default_injected_v2", injected).apply()
+    }
 }

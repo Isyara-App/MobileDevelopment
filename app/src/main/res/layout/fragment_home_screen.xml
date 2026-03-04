@@ -211,28 +211,28 @@
                     android:id="@+id/quizImage"
                     android:layout_width="190dp"
                     android:layout_height="130dp"
-                    android:layout_marginEnd="10dp"
-                    android:contentDescription="@string/dictionary_image"
+                    android:layout_marginStart="10dp"
+                    android:contentDescription="@string/quiz_feature"
                     android:scaleType="centerCrop"
                     android:src="@drawable/quiz_img"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
                     android:id="@+id/quizText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/quiz_feature"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:gravity="center_horizontal"
+                    android:gravity="end"
                     android:textColor="@android:color/white"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/quizImage"
+                    app:layout_constraintStart_toEndOf="@id/quizImage"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.5"
-                    android:layout_marginStart="16dp" />
+                    android:layout_marginEnd="16dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -259,31 +259,30 @@
                     android:layout_width="150dp"
                     android:layout_height="120dp"
                     android:contentDescription="@string/speak_image"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="16dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_voice"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:tint="@color/secondary" />
 
                 <TextView
                     android:id="@+id/speakText"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
                     android:text="@string/speak_feature"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    android:gravity="end"
+                    android:gravity="start"
                     android:textColor="@android:color/white"
-                    app:layout_constraintStart_toEndOf="@id/speakImage"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/speakImage"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintVertical_bias="0.5"
-                    android:layout_marginStart="16dp" />
+                    android:layout_marginEnd="16dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
