@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
     companion object {
-        const val BASE_URL = "http://10.10.10.108:8000/"
+        const val BASE_URL = "https://slbbcbinawidya.my.id/"
 
         fun getApiService(): ApiService {
             val clientBuilder = OkHttpClient.Builder()
