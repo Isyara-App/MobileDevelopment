@@ -109,6 +109,12 @@ jobs:
           SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME}}"
           echo "sdk.dir=${SDK_ROOT}" > local.properties
 
+      - name: Check code (Lint)
+        shell: bash
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon lint
+
       - name: Build release APK and AAB
         shell: bash
         run: |

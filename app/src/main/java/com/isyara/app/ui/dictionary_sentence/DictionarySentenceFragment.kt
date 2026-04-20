@@ -48,11 +48,11 @@ class DictionarySentenceFragment : Fragment() {
         setupToolbar()
         setupRecyclerView()
         setupObserver()
-        setupFilterChips()
-
         // Get token
         val userPreferences = UserPreferences(requireContext())
         token = userPreferences.getToken() ?: ""
+
+        setupFilterChips()
 
         // Fetch all data initially
         dictionarySentenceViewModel.searchSentence(token, "", currentFilter)
@@ -96,6 +96,8 @@ class DictionarySentenceFragment : Fragment() {
                 checkedIds.contains(R.id.chipSibi) -> "0"
                 else -> null // "Semua"
             }
+            if (!::token.isInitialized) return@setOnCheckedStateChangeListener
+            
             val query = binding.tfSearch.editText?.text.toString()
             dictionarySentenceViewModel.searchSentence(token, query, currentFilter)
         }
