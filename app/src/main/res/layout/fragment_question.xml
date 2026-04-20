@@ -55,7 +55,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/ic_launcher_background"
             android:contentDescription="level image"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -104,7 +104,7 @@
         android:id="@+id/checkAnswer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Check Answer"
+        android:text="Cek Jawaban"
         android:textSize="16sp"
         android:textColor="@color/black"
         android:layout_marginTop="30dp"
