@@ -1,6 +1,6 @@
 package com.isyara.app.data.remote.retrofit
 
-import androidx.multidex.BuildConfig
+import com.isyara.app.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
