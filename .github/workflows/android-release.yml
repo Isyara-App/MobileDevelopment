@@ -128,13 +128,6 @@ jobs:
             cp app/build/outputs/mapping/release/mapping.txt "release-assets/isyara-${TAG}-mapping.txt"
           fi
 
-      - name: Upload workflow artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-release-${{ steps.meta.outputs.tag }}
-          path: release-assets/*
-          if-no-files-found: error
-
       - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
