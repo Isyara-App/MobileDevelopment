@@ -14,51 +14,50 @@ object FuzzyMatchUtils {
      * Returns a percentage from 0.0 to 1.0 (where 1.0 is exact match).
      */
     fun calculateSimilarity(target: String, spoken: String): Double {
-        var a = target.trim().lowercase(Locale.ROOT)
-        var b = spoken.trim().lowercase(Locale.ROOT)
-
-        // 1. Remove punctuation
-        a = a.replace(Regex("[^a-z0-9 ]"), "")
-        b = b.replace(Regex("[^a-z0-9 ]"), "")
+        val a = sanitize(target)
+        val b = sanitize(spoken)
 
         if (a == b) return 1.0
         if (a.isEmpty() || b.isEmpty()) return 0.0
 
-        // 2. Apply phonetic normalization for deaf speech patterns
+        // 1. Apply phonetic normalization for deaf speech patterns
         val normA = normalizePhonetics(a)
         val normB = normalizePhonetics(b)
 
         if (normA == normB) return 1.0
 
-        // 3. Check if normalized spoken text contains the target (or vice versa)
-        // This handles cases where STT adds extra words
-        if (normA.contains(normB) || normB.contains(normA)) {
-            return 0.9
-        }
+        // 2. Safer containment check to avoid tiny partials like "a" counting as a full match.
+        val containScore = containmentScore(normA, normB)
 
-        // 4. Word-level containment: check if all words from target appear in spoken text
+        // 3. Word-level matching with leniency for missing vowels / dropped first consonants.
         val targetWords = normA.split(" ").filter { it.isNotBlank() }
         val spokenWords = normB.split(" ").filter { it.isNotBlank() }
-        if (targetWords.isNotEmpty()) {
-            val matchedWords = targetWords.count { tw ->
-                spokenWords.any { sw -> wordSimilarity(tw, sw) >= 0.6 }
+        var wordScore = 0.0
+        if (targetWords.isNotEmpty() && spokenWords.isNotEmpty()) {
+            val bestWordScores = targetWords.map { tw ->
+                spokenWords.maxOf { sw -> wordSimilarity(tw, sw) }
             }
+            val matchedWords = bestWordScores.count { it >= 0.65 }
             val wordMatchRatio = matchedWords.toDouble() / targetWords.size
-            if (wordMatchRatio >= 0.8) return 0.85
+            wordScore = when {
+                wordMatchRatio >= 0.8 -> max(bestWordScores.average(), 0.85)
+                wordMatchRatio >= 0.5 -> bestWordScores.average() * 0.9
+                else -> bestWordScores.average() * 0.75
+            }
         }
 
+        // 4. Compare consonant skeletons to survive whisper-like recognition
+        // where vowels are frequently missing from the transcript.
+        val skeletonScore = consonantSkeletonScore(normA, normB)
+        val subsequenceScore = orderedSubsequenceScore(normA, normB)
+
         // 5. Levenshtein distance on normalized text
-        val maxLen = max(normA.length, normB.length)
-        val distance = levenshteinDistance(normA, normB)
-        val levenScore = 1.0 - (distance.toDouble() / maxLen.toDouble())
+        val levenScore = levenshteinScore(normA, normB)
 
         // 6. Also try Levenshtein on original text (in case normalization hurts)
-        val maxLenOrig = max(a.length, b.length)
-        val distanceOrig = levenshteinDistance(a, b)
-        val origScore = 1.0 - (distanceOrig.toDouble() / maxLenOrig.toDouble())
+        val origScore = levenshteinScore(a, b)
 
-        // Return whichever is higher
-        return maxOf(levenScore, origScore)
+        return maxOf(containScore, wordScore, skeletonScore, subsequenceScore, levenScore, origScore)
     }
 
     /**
@@ -67,9 +66,105 @@ object FuzzyMatchUtils {
     private fun wordSimilarity(w1: String, w2: String): Double {
         if (w1 == w2) return 1.0
         if (w1.isEmpty() || w2.isEmpty()) return 0.0
-        val maxLen = max(w1.length, w2.length)
-        val dist = levenshteinDistance(w1, w2)
-        return 1.0 - (dist.toDouble() / maxLen.toDouble())
+
+        var bestScore = levenshteinScore(w1, w2)
+
+        val droppedA = dropLeadingConsonant(w1)
+        val droppedB = dropLeadingConsonant(w2)
+        if (droppedA == w2 || droppedB == w1 || droppedA == droppedB) {
+            bestScore = max(bestScore, 0.86)
+        }
+
+        val skeleton1 = consonantSkeleton(w1)
+        val skeleton2 = consonantSkeleton(w2)
+        if (skeleton1.isNotEmpty() && skeleton2.isNotEmpty()) {
+            bestScore = max(bestScore, consonantSkeletonScore(skeleton1, skeleton2))
+        }
+
+        val containScore = containmentScore(w1, w2)
+        if (containScore > 0.0) {
+            bestScore = max(bestScore, containScore)
+        }
+
+        val subsequenceScore = orderedSubsequenceScore(w1, w2)
+        if (subsequenceScore > 0.0) {
+            bestScore = max(bestScore, subsequenceScore)
+        }
+
+        return bestScore
+    }
+
+    private fun sanitize(input: String): String {
+        return input.trim()
+            .lowercase(Locale.ROOT)
+            .replace(Regex("[^a-z0-9 ]"), "")
+            .replace(Regex("\\s+"), " ")
+            .trim()
+    }
+
+    private fun containmentScore(a: String, b: String): Double {
+        val shorter = if (a.length <= b.length) a else b
+        val longer = if (a.length <= b.length) b else a
+        if (shorter.length < 3 || !longer.contains(shorter)) return 0.0
+
+        val coverage = shorter.length.toDouble() / longer.length.toDouble()
+        return when {
+            coverage >= 0.9 -> 0.96
+            coverage >= 0.75 -> 0.9
+            coverage >= 0.6 -> 0.82
+            else -> 0.0
+        }
+    }
+
+    private fun orderedSubsequenceScore(a: String, b: String): Double {
+        val shorter = if (a.length <= b.length) a else b
+        val longer = if (a.length <= b.length) b else a
+        if (shorter.length < 3 || !isSubsequence(shorter, longer)) return 0.0
+
+        val coverage = shorter.length.toDouble() / longer.length.toDouble()
+        return when {
+            coverage >= 0.85 -> 0.88
+            coverage >= 0.7 -> 0.78
+            else -> 0.65
+        }
+    }
+
+    private fun consonantSkeletonScore(a: String, b: String): Double {
+        val skeletonA = consonantSkeleton(a)
+        val skeletonB = consonantSkeleton(b)
+        if (skeletonA.isEmpty() || skeletonB.isEmpty()) return 0.0
+        if (skeletonA == skeletonB) {
+            return if (minOf(skeletonA.length, skeletonB.length) >= 2) 0.9 else 0.72
+        }
+
+        var bestScore = levenshteinScore(skeletonA, skeletonB)
+        val containScore = containmentScore(skeletonA, skeletonB)
+        if (containScore > 0.0) {
+            bestScore = max(bestScore, containScore)
+        }
+        return bestScore
+    }
+
+    private fun consonantSkeleton(input: String): String {
+        return input.filterNot { it == ' ' || isVowel(it) }
+    }
+
+    private fun dropLeadingConsonant(word: String): String {
+        return if (word.length > 2 && !isVowel(word.first())) {
+            word.drop(1)
+        } else {
+            word
+        }
+    }
+
+    private fun isSubsequence(shorter: String, longer: String): Boolean {
+        var index = 0
+        for (char in longer) {
+            if (index < shorter.length && char == shorter[index]) {
+                index++
+            }
+        }
+        return index == shorter.length
     }
 
     private fun normalizePhonetics(input: String): String {
@@ -77,9 +172,7 @@ object FuzzyMatchUtils {
 
         // === STEP 1: Generic deaf speech pattern normalization ===
 
-        // Dropped first consonant: common in deaf speech (e.g. "uku" -> "buku")
-        // We handle this by normalizing BOTH target and spoken text the same way
-        // So comparing "buku" vs "uku" -> both become the same after normalization
+        // Dropped first consonant is handled later in the word-level heuristics.
 
         // Consonant confusion groups (deaf users often swap these)
         // b/p/m, d/t/n, g/k/ng, s/c/z/sy, f/v, j/ch/ny
@@ -109,21 +202,7 @@ object FuzzyMatchUtils {
         str = str.replace(Regex("e{2,}"), "e")
         str = str.replace(Regex("o{2,}"), "o")
 
-        // === STEP 4: Initial consonant drop (very common in deaf speech) ===
-        // We handle this differently: strip leading single consonant if the word
-        // doesn't start with a vowel, then the Levenshtein will be more forgiving
-        // This is applied at word level
-        val words = str.split(" ").map { word ->
-            if (word.length >= 2 && !isVowel(word[0]) && isVowel(word[1])) {
-                // Keep as-is, it has a proper consonant-vowel start
-                word
-            } else {
-                word
-            }
-        }
-        str = words.joinToString(" ")
-
-        // === STEP 5: Trailing consonant confusion ===
+        // === STEP 4: Trailing consonant confusion ===
         // "makan" vs "makang" vs "maka"
         // Remove trailing 'h', 'k', 'n', 'ng' variations are already normalized
 
@@ -138,6 +217,13 @@ object FuzzyMatchUtils {
 
     private fun isVowel(c: Char): Boolean {
         return c in "aiueo"
+    }
+
+    private fun levenshteinScore(a: String, b: String): Double {
+        val maxLen = max(a.length, b.length)
+        if (maxLen == 0) return 1.0
+        val dist = levenshteinDistance(a, b)
+        return 1.0 - (dist.toDouble() / maxLen.toDouble())
     }
 
     private fun levenshteinDistance(a: String, b: String): Int {

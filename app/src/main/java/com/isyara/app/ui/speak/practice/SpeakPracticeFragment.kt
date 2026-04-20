@@ -3,7 +3,6 @@ package com.isyara.app.ui.speak.practice
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -25,6 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
+import kotlin.math.max
 
 class SpeakPracticeFragment : Fragment() {
 
@@ -37,6 +37,10 @@ class SpeakPracticeFragment : Fragment() {
     private var speechRecognizer: SpeechRecognizer? = null
     private var isListening = false
     private var attemptCount = 0
+    private val recognitionLocale = Locale("id", "ID")
+    private var partialMatches = emptyList<String>()
+    private var maxRmsDb = Float.NEGATIVE_INFINITY
+    private var detectedSpeechInSession = false
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -125,15 +129,19 @@ class SpeakPracticeFragment : Fragment() {
         speechRecognizer?.setRecognitionListener(object : RecognitionListener {
             override fun onReadyForSpeech(params: Bundle?) {
                 if (_binding == null) return
+                resetRecognitionSession()
                 binding.tvStatus.text = "🎙️ Mendengarkan... Bicara sekarang!"
                 binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary))
             }
 
-            override fun onBeginningOfSpeech() {}
+            override fun onBeginningOfSpeech() {
+                detectedSpeechInSession = true
+            }
 
             override fun onRmsChanged(rmsdB: Float) {
                 // Visual feedback: pulse the mic button based on voice volume
                 if (_binding == null) return
+                maxRmsDb = max(maxRmsDb, rmsdB)
                 val scale = 1.0f + (rmsdB.coerceIn(0f, 10f) / 50f)
                 binding.fabMic.scaleX = scale
                 binding.fabMic.scaleY = scale
@@ -159,8 +167,16 @@ class SpeakPracticeFragment : Fragment() {
                 when (error) {
                     SpeechRecognizer.ERROR_NO_MATCH,
                     SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> {
-                        // These are common, friendly message
-                        binding.tvStatus.text = "Belum terdengar suaramu. Coba tekan 🎤 lagi dan bicara lebih dekat ya 😊"
+                        if (partialMatches.isNotEmpty()) {
+                            processResults(partialMatches, usedPartialFallback = true)
+                            return
+                        }
+
+                        binding.tvStatus.text = if (heardSomethingInSession()) {
+                            "Suaramu masuk, tapi masih terlalu pelan untuk dikenali. Coba lebih dekat ke mic ya 😊"
+                        } else {
+                            "Belum terdengar suaramu. Coba tekan 🎤 lagi dan bicara lebih dekat ya 😊"
+                        }
                         binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#FF9800"))
                     }
                     SpeechRecognizer.ERROR_NETWORK,
@@ -184,11 +200,20 @@ class SpeakPracticeFragment : Fragment() {
                 if (_binding == null) return
                 setMicInactive()
 
-                val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if (!matches.isNullOrEmpty()) {
-                    processResults(matches)
+                val finalMatches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION).orEmpty()
+                val mergedMatches = (finalMatches + partialMatches)
+                    .map { it.trim() }
+                    .filter { it.isNotBlank() }
+                    .distinct()
+
+                if (mergedMatches.isNotEmpty()) {
+                    processResults(mergedMatches, usedPartialFallback = finalMatches.isEmpty())
                 } else {
-                    binding.tvStatus.text = "Belum terdengar. Coba bicara lebih keras ya 🔊"
+                    binding.tvStatus.text = if (heardSomethingInSession()) {
+                        "Suaramu masih sangat pelan, jadi belum terbaca jelas. Coba lebih dekat ke mic ya 🔊"
+                    } else {
+                        "Belum terdengar. Coba bicara lebih keras ya 🔊"
+                    }
                     binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#FF9800"))
                 }
             }
@@ -198,6 +223,11 @@ class SpeakPracticeFragment : Fragment() {
                 if (_binding == null) return
                 val partial = partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 if (!partial.isNullOrEmpty()) {
+                    partialMatches = (partialMatches + partial)
+                        .map { it.trim() }
+                        .filter { it.isNotBlank() }
+                        .distinct()
+                        .take(10)
                     binding.tvResultText.visibility = View.VISIBLE
                     binding.tvResultText.text = "💬 ${partial[0]}..."
                     binding.tvResultText.setTextColor(android.graphics.Color.parseColor("#888888"))
@@ -214,12 +244,17 @@ class SpeakPracticeFragment : Fragment() {
             if (speechRecognizer == null) return
         }
 
+        resetRecognitionSession()
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, "id-ID")
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "id-ID")
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, recognitionLocale.toLanguageTag())
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, recognitionLocale.toLanguageTag())
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10) // More results = better chance
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true) // Live feedback
+            // Some engines ignore these extras, but when supported they help soft/whisper speech.
+            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 2500L)
+            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 2000L)
+            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 1500L)
         }
 
         try {
@@ -260,7 +295,17 @@ class SpeakPracticeFragment : Fragment() {
         )
     }
 
-    private fun processResults(matches: List<String>) {
+    private fun resetRecognitionSession() {
+        partialMatches = emptyList()
+        maxRmsDb = Float.NEGATIVE_INFINITY
+        detectedSpeechInSession = false
+    }
+
+    private fun heardSomethingInSession(): Boolean {
+        return detectedSpeechInSession || partialMatches.isNotEmpty() || maxRmsDb >= 1.5f
+    }
+
+    private fun processResults(matches: List<String>, usedPartialFallback: Boolean = false) {
         attemptCount++
         var highestScore = 0.0
         var bestMatch = ""
@@ -275,13 +320,21 @@ class SpeakPracticeFragment : Fragment() {
         }
 
         binding.tvResultText.visibility = View.VISIBLE
-        binding.tvResultText.text = "Kamu bilang: \"$bestMatch\""
+        binding.tvResultText.text = if (usedPartialFallback) {
+            "Tangkapan sementara: \"$bestMatch\""
+        } else {
+            "Kamu bilang: \"$bestMatch\""
+        }
 
         // Threshold: 40% match (very forgiving for deaf users)
         when {
             highestScore >= 0.4 -> {
                 binding.tvResultText.setTextColor(android.graphics.Color.parseColor("#4CAF50"))
-                binding.tvStatus.text = "🌟 BENAR! HEBAT SEKALI! 🌟"
+                binding.tvStatus.text = if (usedPartialFallback) {
+                    "🌟 BENAR! Aku tetap bisa menangkap suaramu yang pelan 🌟"
+                } else {
+                    "🌟 BENAR! HEBAT SEKALI! 🌟"
+                }
                 binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#4CAF50"))
                 binding.tvStatus.textSize = 18f
             }
