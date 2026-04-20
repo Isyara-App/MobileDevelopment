@@ -36,12 +36,12 @@ class LoadImage {
                 .load(finalUrl)
                 .placeholder(placeholderDrawable)
                 .error(placeholderDrawable)
-                .fit()
 
             if (keepFullImageVisible) {
-                picassoBuilder.centerInside().onlyScaleDown()
+                // fit() + onlyScaleDown() bentrok — gunakan fit().centerInside() saja
+                picassoBuilder.fit().centerInside()
             } else {
-                picassoBuilder.centerCrop()
+                picassoBuilder.fit().centerCrop()
             }
 
             if (isCircle) {
