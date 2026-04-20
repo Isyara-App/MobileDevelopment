@@ -47,7 +47,6 @@ object FuzzyMatchUtils {
         }
 
         // 4. Compare consonant skeletons to survive whisper-like recognition
-        // where vowels are frequently missing from the transcript.
         val skeletonScore = consonantSkeletonScore(normA, normB)
         val subsequenceScore = orderedSubsequenceScore(normA, normB)
 
@@ -57,7 +56,10 @@ object FuzzyMatchUtils {
         // 6. Also try Levenshtein on original text (in case normalization hurts)
         val origScore = levenshteinScore(a, b)
 
-        return maxOf(containScore, wordScore, skeletonScore, subsequenceScore, levenScore, origScore)
+        // 7. Bigram overlap — helps short words where Levenshtein is too strict
+        val bigramScore = bigramSimilarity(normA, normB)
+
+        return maxOf(containScore, wordScore, skeletonScore, subsequenceScore, levenScore, origScore, bigramScore)
     }
 
     /**
@@ -105,7 +107,8 @@ object FuzzyMatchUtils {
     private fun containmentScore(a: String, b: String): Double {
         val shorter = if (a.length <= b.length) a else b
         val longer = if (a.length <= b.length) b else a
-        if (shorter.length < 3 || !longer.contains(shorter)) return 0.0
+        // Lowered from 3 to 2 to handle very short Indonesian words (e.g. "ibu", "api")
+        if (shorter.length < 2 || !longer.contains(shorter)) return 0.0
 
         val coverage = shorter.length.toDouble() / longer.length.toDouble()
         return when {
@@ -119,7 +122,7 @@ object FuzzyMatchUtils {
     private fun orderedSubsequenceScore(a: String, b: String): Double {
         val shorter = if (a.length <= b.length) a else b
         val longer = if (a.length <= b.length) b else a
-        if (shorter.length < 3 || !isSubsequence(shorter, longer)) return 0.0
+        if (shorter.length < 2 || !isSubsequence(shorter, longer)) return 0.0
 
         val coverage = shorter.length.toDouble() / longer.length.toDouble()
         return when {
@@ -171,20 +174,16 @@ object FuzzyMatchUtils {
         var str = input
 
         // === STEP 1: Generic deaf speech pattern normalization ===
-
-        // Dropped first consonant is handled later in the word-level heuristics.
-
-        // Consonant confusion groups (deaf users often swap these)
-        // b/p/m, d/t/n, g/k/ng, s/c/z/sy, f/v, j/ch/ny
         str = str.replace('v', 'f')
         str = str.replace('q', 'k')
         str = str.replace("x", "ks")
 
-        // Voiced/unvoiced pairs — normalize to one
-        // This is critical: "buku" and "puku" should be treated the same
+        // Voiced/unvoiced pairs — normalize to canonical form
         str = str.replace('p', 'b')  // p -> b
-        str = str.replace('d', 't')  // d -> t (keeping t as canonical)
+        str = str.replace('d', 't')  // d -> t
         str = str.replace('g', 'k')  // g -> k
+        str = str.replace('z', 'j')  // z -> j (common swap)
+        str = str.replace('m', 'n')  // m/n are often confused in deaf speech
 
         // === STEP 2: Consonant cluster simplification ===
         str = str.replace("ny", "n")
@@ -195,28 +194,42 @@ object FuzzyMatchUtils {
         str = str.replace("th", "t")
 
         // === STEP 3: Vowel normalization ===
-        // Elongated vowels (user says "buuuku" -> "buku")
         str = str.replace(Regex("a{2,}"), "a")
         str = str.replace(Regex("i{2,}"), "i")
         str = str.replace(Regex("u{2,}"), "u")
         str = str.replace(Regex("e{2,}"), "e")
         str = str.replace(Regex("o{2,}"), "o")
 
-        // === STEP 4: Trailing consonant confusion ===
-        // "makan" vs "makang" vs "maka"
-        // Remove trailing 'h', 'k', 'n', 'ng' variations are already normalized
+        // === STEP 4: Strip trailing nasal/stop that deaf speakers often add or drop ===
+        // e.g. "makann" -> "makan", "bukuu" already handled above
+        str = str.replace(Regex("([bcdfhjklnrstw])\\1+"), "$1") // collapse repeated consonants
 
-        // Normalize trailing 'h' (common in Indonesian: rumah, sudah)
-        // Don't remove it as it changes meaning, but it's already handled by Levenshtein
-
-        // Remove extra spaces
         str = str.replace(Regex("\\s+"), " ").trim()
-
         return str
     }
 
     private fun isVowel(c: Char): Boolean {
         return c in "aiueo"
+    }
+
+    /**
+     * Bigram (character 2-gram) overlap score.
+     * Particularly useful for short words where edit distance is too harsh.
+     */
+    private fun bigramSimilarity(a: String, b: String): Double {
+        if (a.length < 2 || b.length < 2) return 0.0
+        fun bigrams(s: String) = (0 until s.length - 1).map { s.substring(it, it + 2) }
+        val bigramsA = bigrams(a)
+        val bigramsB = bigrams(b).toMutableList()
+        var matches = 0
+        for (bg in bigramsA) {
+            val idx = bigramsB.indexOf(bg)
+            if (idx >= 0) {
+                matches++
+                bigramsB.removeAt(idx)
+            }
+        }
+        return (2.0 * matches) / (bigramsA.size + bigrams(b).size).toDouble()
     }
 
     private fun levenshteinScore(a: String, b: String): Double {
