@@ -122,8 +122,19 @@ class DictionaryWordFragment : Fragment() {
                 dictionaryWordViewModel.toggleLearningStatus(token, id, isKnowing)
             }
         }
-        binding.rvWord.layoutManager = GridLayoutManager(context, 2)
+        binding.rvWord.layoutManager = GridLayoutManager(context, getSpanCount())
         binding.rvWord.adapter = adapter
+        binding.rvWord.setHasFixedSize(true)
+    }
+
+    private fun getSpanCount(): Int {
+        val screenWidthDp = resources.configuration.screenWidthDp
+        return when {
+            screenWidthDp >= 840 -> 4
+            screenWidthDp >= 600 -> 3
+            screenWidthDp < 360 -> 1
+            else -> 2
+        }
     }
 
     private fun setupObserver() {

@@ -16,9 +16,14 @@ class LoadImage {
             imageView: ImageView?,
             imageUrl: String,
             placeholder: Int,
-            isCircle: Boolean = false
+            isCircle: Boolean = false,
+            keepFullImageVisible: Boolean = false
         ) {
-            if (imageUrl.isEmpty()) return
+            val placeholderDrawable = ColorDrawable(ContextCompat.getColor(context, placeholder))
+            if (imageUrl.isEmpty()) {
+                imageView?.setImageDrawable(placeholderDrawable)
+                return
+            }
             
             var finalUrl = imageUrl
             if (finalUrl.startsWith("/storage/")) {
@@ -27,13 +32,17 @@ class LoadImage {
                 finalUrl = com.isyara.app.data.remote.retrofit.ApiConfig.BASE_URL + finalUrl
             }
 
-            val placeholderDrawable = ColorDrawable(ContextCompat.getColor(context, placeholder))
             val picassoBuilder = Picasso.get()
                 .load(finalUrl)
                 .placeholder(placeholderDrawable)
                 .error(placeholderDrawable)
                 .fit()
-                .centerCrop()
+
+            if (keepFullImageVisible) {
+                picassoBuilder.centerInside().onlyScaleDown()
+            } else {
+                picassoBuilder.centerCrop()
+            }
 
             if (isCircle) {
                 picassoBuilder.transform(CropCircleTransformation())

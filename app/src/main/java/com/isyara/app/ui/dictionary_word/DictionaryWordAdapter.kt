@@ -3,30 +3,31 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.isyara.app.R
 import com.isyara.app.data.remote.response.DataItemWord
-import com.isyara.app.databinding.DictionarySentenceListBinding
+import com.isyara.app.databinding.DictionaryWordListBinding
 import com.isyara.app.util.LoadImage
 
 
 class DictionaryWordAdapter(
     private val words: List<DataItemWord>,
     private val onToggleLearning: ((DataItemWord, Boolean) -> Unit)? = null
-) : RecyclerView.Adapter<DictionaryWordAdapter.SentenceViewHolder>() {
+) : RecyclerView.Adapter<DictionaryWordAdapter.WordViewHolder>() {
 
     // Track toggled states locally
     private val toggledStates = mutableMapOf<Int, Boolean>()
 
-    inner class SentenceViewHolder(private val binding: DictionarySentenceListBinding) :
+    inner class WordViewHolder(private val binding: DictionaryWordListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(sentence: DataItemWord) {
-            binding.tvTitle.text = sentence.huruf
+        fun bind(word: DataItemWord) {
+            binding.tvTitle.text = word.huruf
             LoadImage.load(
                 context = binding.root.context,
                 imageView = binding.ivPicture,
-                imageUrl = sentence.imageUrl ?: "",
+                imageUrl = word.imageUrl ?: "",
                 placeholder = R.color.placeholder,
+                keepFullImageVisible = true
             )
 
-            val itemId = sentence.id ?: 0
+            val itemId = word.id ?: 0
             val isKnowing = toggledStates[itemId] ?: false
             updateToggleIcon(isKnowing)
 
@@ -34,7 +35,7 @@ class DictionaryWordAdapter(
                 val newState = !(toggledStates[itemId] ?: false)
                 toggledStates[itemId] = newState
                 updateToggleIcon(newState)
-                onToggleLearning?.invoke(sentence, newState)
+                onToggleLearning?.invoke(word, newState)
             }
         }
 
@@ -47,14 +48,14 @@ class DictionaryWordAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SentenceViewHolder {
-        val binding = DictionarySentenceListBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
+        val binding = DictionaryWordListBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return SentenceViewHolder(binding)
+        return WordViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SentenceViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
         holder.bind(words[position])
     }
 

@@ -26,6 +26,7 @@ class DictionarySentenceAdapter(
                 imageView = binding.ivPicture,
                 imageUrl = sentence.imageUrl ?: "",
                 placeholder = R.color.placeholder,
+                keepFullImageVisible = true
             )
 
             val itemId = sentence.id ?: 0

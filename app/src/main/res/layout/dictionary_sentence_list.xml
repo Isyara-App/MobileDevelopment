@@ -3,70 +3,75 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp">
 
-    <!-- MaterialCardView -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card"
-        android:layout_width="131dp"
-        android:layout_height="170dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="2dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="6dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="3:4"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:backgroundTint="@color/primary">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- ImageView -->
             <ImageView
                 android:id="@+id/ivPicture"
-                android:layout_width="112dp"
-                android:layout_height="145dp"
-                android:layout_margin="14dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="12dp"
+                android:adjustViewBounds="true"
                 android:contentDescription="sentence"
-                android:scaleType="centerCrop"
-                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-            <!-- Toggle Learning Status -->
             <ImageButton
                 android:id="@+id/btnToggleLearning"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_margin="4dp"
+                android:layout_margin="6dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="Toggle learning status"
-                android:src="@android:drawable/btn_star_big_off"
                 android:scaleType="fitCenter"
+                android:src="@android:drawable/btn_star_big_off"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:tint="@android:color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- TextView -->
     <TextView
         android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:maxLines="2"
+        android:minHeight="48dp"
+        android:textAlignment="center"
         android:textColor="@color/primary"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/card"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card"
         tools:text="Sentence" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
