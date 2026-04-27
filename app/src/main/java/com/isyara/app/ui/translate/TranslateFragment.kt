@@ -1,12 +1,14 @@
 package com.isyara.app.ui.translate
 
+import android.os.Build
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
@@ -24,7 +26,6 @@ import com.isyara.app.util.ObjectDetectorHelper
 import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetectorResult
 import java.text.NumberFormat
 import java.util.Locale
-import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
@@ -36,8 +37,6 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var objectDetectorHelper: ObjectDetectorHelper
     private val resultList = mutableListOf<String>()
     private lateinit var textToSpeech: TextToSpeech
-    private lateinit var cameraExecutor: ExecutorService
-    private var latestDetectedLabel: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +44,6 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
     ): View {
         _binding = FragmentTranslateBinding.inflate(inflater, container, false)
         textToSpeech = TextToSpeech(requireContext(), this)
-        cameraExecutor = Executors.newSingleThreadExecutor()
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
@@ -57,32 +55,11 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
         super.onViewCreated(view, savedInstanceState)
         startCamera()
 
-        binding.btnAdd.setOnClickListener {
-            if (latestDetectedLabel.isNotEmpty()) {
-                resultList.add(latestDetectedLabel)
-                binding.textBox.text = resultList.joinToString(" ")
-            }
-        }
-
-        binding.btnDelete.setOnClickListener {
-            latestDetectedLabel = ""
-            resultList.clear()
-            binding.textBox.text = ""
-        }
-
-        binding.btnTextToSpeech.setOnClickListener {
-            val textToSpeak = binding.textBox.text.toString()
-            if (textToSpeak.isNotEmpty()) {
-                speakOut(textToSpeak)
-            }
-        }
-
-        binding.toggleGroupModel.addOnButtonCheckedListener { _, checkedId, isChecked ->
+        binding.toggleGroupModel.addOnButtonCheckedListener { group, checkedId, isChecked ->
             if (isChecked && ::objectDetectorHelper.isInitialized) {
                 // Clear old results
                 binding.tvResult.text = "Ganti Model..."
                 resultList.clear()
-                latestDetectedLabel = ""
                 binding.textBox.text = ""
                 binding.overlay.clear()
 
@@ -94,6 +71,13 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
                     else -> "abjad_v3.tflite"
                 }
                 objectDetectorHelper.updateModel(newModel)
+            }
+        }
+
+        binding.btnTextToSpeech.setOnClickListener {
+            val textToSpeak = binding.tvResult.text.toString()
+            if (textToSpeak.isNotEmpty()) {
+                speakOut(textToSpeak)
             }
         }
     }
@@ -111,6 +95,11 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private fun speakOut(text: String) {
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startCamera()
     }
 
     override fun onDestroy() {
@@ -140,26 +129,43 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
                     imageWidth: Int,
                 ) {
                     activity?.runOnUiThread {
-                        val currentBinding = _binding ?: return@runOnUiThread
                         if (isAdded) {
-                            val detections = results?.detections().orEmpty()
-                            currentBinding.overlay.setResults(detections, imageHeight, imageWidth)
+                            binding.overlay.setResults(results?.detections(), imageHeight, imageWidth)
+                            
+                            results?.detections()?.let { it ->
+                                if (it.isNotEmpty() && it[0].categories().isNotEmpty()) {
+                                    val sortedCategories =
+                                        it[0].categories().sortedByDescending { it?.score() }
+                                    val displayResult =
+                                        sortedCategories.joinToString("\n") { cat ->
+                                            "${cat.categoryName()} " + NumberFormat.getPercentInstance()
+                                                .format(cat.score()).trim()
+                                        }
 
-                            if (detections.isNotEmpty() && detections[0].categories().isNotEmpty()) {
-                                val sortedCategories =
-                                    detections[0].categories().sortedByDescending { it?.score() }
-                                val displayResult =
-                                    sortedCategories.joinToString("\n") { cat ->
-                                        "${cat.categoryName()} " + NumberFormat.getPercentInstance()
-                                            .format(cat.score()).trim()
+                                    binding.tvResult.text = displayResult
+                                    binding.btnAdd.setOnClickListener {
+                                        // Menambahkan label ke list
+                                        val label = sortedCategories.firstOrNull()?.categoryName() ?: ""
+                                        resultList.add(label)
+
+                                        // Mengupdate textBox dengan list yang ada
+                                        binding.textBox.text = resultList.joinToString(" ")
                                     }
 
-                                currentBinding.tvResult.text = displayResult
-                                latestDetectedLabel =
-                                    sortedCategories.firstOrNull()?.categoryName().orEmpty()
-                            } else {
-                                latestDetectedLabel = ""
-                                currentBinding.tvResult.text = ""
+                                    binding.btnDelete.setOnClickListener {
+                                        resultList.clear()
+                                        binding.textBox.text = ""
+                                    }
+
+                                    binding.btnTextToSpeech.setOnClickListener {
+                                        val textToSpeak = binding.textBox.text.toString()
+                                        if (textToSpeak.isNotEmpty()) {
+                                            speakOut(textToSpeak)
+                                        }
+                                    }
+                                } else {
+                                    binding.tvResult.text = ""
+                                }
                             }
                         }
                     }
@@ -170,20 +176,16 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener({
-            val currentBinding = _binding ?: return@addListener
-            if (cameraExecutor.isShutdown) return@addListener
-
-            val targetRotation = currentBinding.cameraView.display?.rotation ?: Surface.ROTATION_0
             val resolutionSelector = ResolutionSelector.Builder()
                 .setAspectRatioStrategy(AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY)
                 .build()
             val imageAnalyzer = ImageAnalysis.Builder()
                 .setResolutionSelector(resolutionSelector)
-                .setTargetRotation(targetRotation)
+                .setTargetRotation(binding.cameraView.display.rotation)
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                 .build()
-            imageAnalyzer.setAnalyzer(cameraExecutor) { image ->
+            imageAnalyzer.setAnalyzer(Executors.newSingleThreadExecutor()) { image ->
                 val bitmapBuffer = Bitmap.createBitmap(
                     image.width,
                     image.height,
@@ -195,12 +197,12 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
 
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(currentBinding.cameraView.surfaceProvider)
+                it.setSurfaceProvider(binding.cameraView.surfaceProvider)
             }
             try {
                 cameraProvider.unbindAll()
                 cameraProvider.bindToLifecycle(
-                    viewLifecycleOwner,
+                    requireActivity(),
                     cameraSelector,
                     preview,
                     imageAnalyzer
@@ -219,12 +221,6 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
 
 
     override fun onDestroyView() {
-        if (::objectDetectorHelper.isInitialized) {
-            objectDetectorHelper.clearObjectDetector()
-        }
-        if (::cameraExecutor.isInitialized) {
-            cameraExecutor.shutdown()
-        }
         super.onDestroyView()
         _binding = null
     }
