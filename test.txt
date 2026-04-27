@@ -1,0 +1,424 @@
+❯ adb logcat | grep -i "com.isyara.app"
+04-18 21:14:08.209 19099 24298 F libc    : Fatal signal 7 (SIGBUS), code 2 (BUS_ADRERR), fault addr 0x777cf59b58 in tid 24298 (drishti/24298), pid 19099 (com.isyara.app)
+04-18 21:14:09.653 24701 24701 F DEBUG   : Cmdline: com.isyara.app
+04-18 21:14:09.653 24701 24701 F DEBUG   : pid: 19099, tid: 24298, name: drishti/24298  >>> com.isyara.app <<<
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #00 pc 00000000006ad448  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #01 pc 000000000083d314  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #02 pc 000000000083cb9c  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #03 pc 000000000082dfe0  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #04 pc 000000000039c628  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #05 pc 0000000000386c20  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #06 pc 0000000000389ff0  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #07 pc 00000000003870a4  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #08 pc 00000000005910b4  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #09 pc 000000000057f7ac  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-18 21:14:09.653 24701 24701 F DEBUG   :       #10 pc 000000000058d128  /data/app/~~TSUiWRfTfIxsgbceEOQgKA==/com.isyara.app-xKwfQOA2EWDFZDKGHcZUug==/base.apk!libmediapipe_tasks_vision_jni.so (offset 0x22ec000) (BuildId: f91d3cebee5cfa58ec6b207d25959f23)
+04-20 13:43:30.712 16975 16975 E AndroidRuntime: Process: com.isyara.app, PID: 16975
+04-20 13:43:40.268 17217 17217 E AndroidRuntime: Process: com.isyara.app, PID: 17217
+04-27 10:37:46.376  1772  2968 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@75dfc4b
+04-27 10:37:50.523  1772  3076 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@922e0a5
+04-27 10:37:51.687  1772  1823 V WindowManager:         {WCT{RemoteToken{f9f35bd Task{24d901d #3767 type=standard A=10392:com.isyara.app.debuggable}}} m=TO_BACK f=NONE leash=Surface(name=Task=3767#255080)/@0x6332349 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0},
+04-27 10:37:52.589  1772  4432 D CoreBackPreview: Window{d4ddab3 u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@a1efd7e, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+04-27 10:37:53.102  1772  2332 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@17e1cf
+04-27 10:39:02.623  1772  2349 D ActivityManager: freezing 13883 com.isyara.app.debuggable
+04-27 10:50:45.169  1772  1933 I AppsFilter: interaction: PackageSetting{8a369e5 com.example.webhook_qris/10377} -> PackageSetting{aacc71 com.isyara.app.debuggable/10392} BLOCKED
+04-27 10:50:45.169  1772  1933 I AppsFilter: interaction: PackageSetting{969bc7f com.google.android.microdroid.empty_payload/10261} -> PackageSetting{aacc71 com.isyara.app.debuggable/10392} BLOCKED
+04-27 10:50:45.169  1772  1933 I AppsFilter: interaction: PackageSetting{9bf9edd com.sholatbre.app/10371} -> PackageSetting{aacc71 com.isyara.app.debuggable/10392} BLOCKED
+04-27 10:50:45.170  1772  1933 I AppsFilter: interaction: PackageSetting{8a369e5 com.example.webhook_qris/10377} -> PackageSetting{aacc71 com.isyara.app.debuggable/10392} BLOCKED
+04-27 10:50:45.170  1772  1933 I AppsFilter: interaction: PackageSetting{969bc7f com.google.android.microdroid.empty_payload/10261} -> PackageSetting{aacc71 com.isyara.app.debuggable/10392} BLOCKED
+04-27 10:50:45.170  1772  1933 I AppsFilter: interaction: PackageSetting{9bf9edd com.sholatbre.app/10371} -> PackageSetting{aacc71 com.isyara.app.debuggable/10392} BLOCKED
+04-27 10:50:45.171  1772  1846 I ActivityManager: Force stopping com.isyara.app.debuggable appid=10392 user=0: deletePackageX
+04-27 10:50:45.203  1772  1846 I ActivityManager: Killing 13883:com.isyara.app.debuggable/u0a392 (adj 900): stop com.isyara.app.debuggable due to deletePackageX
+04-27 10:50:45.207  1772  1846 W ActivityTaskManager: Force removing ActivityRecord{239329709 u0 com.isyara.app.debuggable/com.isyara.app.MainActivity t3767 f}}: app died, no saved state
+04-27 10:50:45.208  1772  2337 W UsageStatsService: Unexpected activity event reported! (com.isyara.app.debuggable/com.isyara.app.MainActivity event : 23 instanceId : 199955934)
+04-27 10:50:45.298  1772  5139 V ActivityManager: Got obituary of 13883:com.isyara.app.debuggable
+04-27 10:50:45.325  1772  2553 D BackgroundInstallControlService: handlePackageRemove: removing com.isyara.app.debuggable from 0
+04-27 10:50:45.353  1772  1933 I ActivityManager: Force stopping com.isyara.app.debuggable appid=10392 user=0: pkg removed
+04-27 10:50:45.397  1772  1933 I ActivityManager: Force stopping com.isyara.app.debuggable appid=10392 user=0: pkg removed
+04-27 10:50:45.416  1772  2549 D ShortcutService: removing package: com.isyara.app.debuggable userId=0
+04-27 10:50:45.424  1772  2374 V StorageManagerService: Package com.isyara.app.debuggable does not have legacy storage
+04-27 10:50:45.551  1772  2340 I RollbackManager: broadcast=ACTION_PACKAGE_FULLY_REMOVED pkg=com.isyara.app.debuggable
+04-27 10:50:45.702  1772  1772 I Telecom : CarModeTracker: Package com.isyara.app.debuggable is not tracked.: SSH.oR@P8g
+04-27 10:50:45.857  1772  1772 I ConditionProviders: Disallowing condition provider com.isyara.app.debuggable (userSet: true)
+04-27 10:50:48.183  1772  1845 D LauncherAppsService: onPackageRemoved: triggering onPackageRemoved for user=UserHandle{0}, packageName=com.isyara.app.debuggable
+04-27 10:50:48.184  2607  2637 D Bubbles : BubbleData.removeBubblesWithPackageName() package=com.isyara.app.debuggable
+04-27 10:50:48.190  1772  1845 D LauncherAppsService: onPackageRemoved: triggering onPackageRemoved for user=UserHandle{0}, packageName=com.isyara.app.debuggable
+04-27 10:50:48.190  1772  1845 D LauncherAppsService: onPackageRemoved: triggering onPackageRemoved for user=UserHandle{0}, packageName=com.isyara.app.debuggable
+04-27 10:51:52.215  2963  3040 D InstallSessionTracker: onCreated: Install session created for appPackageName=com.isyara.app.debuggable, sessionId=1115669527, appIcon=null, appLabel=null
+04-27 10:51:52.235  8131  8164 I VerificationCheck: Verifying com.isyara.app.debuggable (id: 97f0bdf2b23f0a90a058895eba8442ac)
+04-27 10:51:52.235  8131  8164 I VerificationCheck: Verification finished for com.isyara.app.debuggable. Result: Pass
+04-27 10:51:53.658 32056 32056 I Finsky  : [2] VerifyApps: Install-time verification requested for package com.isyara.app.debuggable, PackageManager id = 33, Verifier id = da80cd00-afa7-4d21-9b65-9095f587b2cf
+04-27 10:51:53.831 32056 17418 I Finsky  : [3542] VerifyApps: Anti-malware verification task started for package=com.isyara.app.debuggable
+04-27 10:51:54.176 32056 17418 I Finsky  : [3542] VerifyApps: chooseScanResult for package=com.isyara.app.debuggable with timeout=15000ms
+04-27 10:51:54.182 32056 32083 I Finsky  : [2459] VerifyApps: Starting APK Analysis scan for com.isyara.app.debuggable.
+04-27 10:51:54.190 32056 32083 I Finsky  : [2459] Scanning package com.isyara.app.debuggable contents with client side protections. File: [hrCOmwyQrlaX4j7qAz29xPYpllNTilPMqGejMQ5YOX0]
+04-27 10:51:54.191 32056 32083 I Finsky  : [2459] VerifyApps: APK Analysis scan finished for com.isyara.app.debuggable. Verdict: SAFE
+04-27 10:51:54.194 32056 17418 I Finsky  : [3542] VerifyApps: firstScanResult for package=com.isyara.app.debuggable: SAFE
+04-27 10:51:55.387 32056 17426 I Finsky  : [3546] VerifyApps: Verification package=com.isyara.app.debuggable, id=33, response=9, upload_requested=false, enable_ecm=true
+04-27 10:51:55.391 32056 17418 I Finsky  : [3542] VerifyApps: overallScanResult for package=com.isyara.app.debuggable: PENDING
+04-27 10:51:55.394 32056 17418 I Finsky  : [3542] VerifyApps: chooseScanResult returning verdict PENDING for package=com.isyara.app.debuggable
+04-27 10:51:59.508 32056 32083 I Finsky  : [2459] VerifyApps: waiting for app installation for com.isyara.app.debuggable
+04-27 10:51:59.516 32056 32056 I Finsky  : [2] VerifyApps: Install-time verification complete: id=33, package_name=com.isyara.app.debuggable
+04-27 10:51:59.742  1772  1933 D BackupManagerService: [UserID:0] restoreAtInstall pkg=com.isyara.app.debuggable token=20 restoreSet=0
+04-27 10:51:59.745  1772  1933 I PackageManager: installation completed for package:com.isyara.app.debuggable. Final code path: /data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==
+04-27 10:51:59.746  1772  1933 I AppsFilter: interaction: PackageSetting{fa0d123 com.example.webhook_qris/10377} -> PackageSetting{3f9fba4 com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:51:59.746  1772  1933 I AppsFilter: interaction: PackageSetting{b64b99e com.google.android.microdroid.empty_payload/10261} -> PackageSetting{3f9fba4 com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:51:59.746  1772  1933 I AppsFilter: interaction: PackageSetting{8a55c7f com.sholatbre.app/10371} -> PackageSetting{3f9fba4 com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:51:59.753  3990 14781 D MediaGrants: Removed 0 media_grants for 0 user for [com.isyara.app.debuggable]. Reason: Mode changed: android:read_external_storage
+04-27 10:51:59.756  2963  3040 D SessionCommitReceiver: Adding package name to install queue. Package name: com.isyara.app.debuggable, has app icon: false, has app label: false
+04-27 10:51:59.756  2963  3040 D InstallSessionTracker: onFinished: active install session finished for appPackageName=com.isyara.app.debuggable, sessionId=1115669527, success=true
+04-27 10:51:59.765  2945  3139 I SatelliteAppTracker: onPackageAdded : com.isyara.app.debuggable
+04-27 10:51:59.765  2945  2945 D CarrierSvcBindHelper: onPackageAdded: com.isyara.app.debuggable
+04-27 10:51:59.773  1772  2549 D ShortcutService: adding package: com.isyara.app.debuggable userId=0
+04-27 10:51:59.781  1772  1772 D AS.AudioService: received android.intent.action.PACKAGE_ADDED replacing: false archival: false for package com.isyara.app.debuggable with uid 10393
+04-27 10:51:59.782  1772  2559 I SdkSandboxManager: No SDKs used. Skipping SDK data reconcilation for CallingInfo{mUid=10393, mPackageName='com.isyara.app.debuggable, mAppProcessToken='null'}
+04-27 10:51:59.795  5749  5749 I SafetyLabelChangedBroadcastReceiver: received broadcast packageName: com.isyara.app.debuggable, current user: UserHandle{0}, packageChangeEvent: NEW_INSTALL, intent user: UserHandle{0}
+04-27 10:51:59.850  2945  3219 D ImsResolver: maybeAddedImsService, packageName: com.isyara.app.debuggable
+04-27 10:51:59.850  2945  3219 V ImsResolver: searchForImsServices: package=com.isyara.app.debuggable, users=[UserHandle{0}]
+04-27 10:51:59.850  2945  3219 V ImsResolver: searchForImsServices: package=com.isyara.app.debuggable, users=[UserHandle{0}]
+04-27 10:51:59.866  2945  2945 W VvmPkgInstalledRcvr: carrierVvmPkgAdded: carrier vvm packages doesn't contain com.isyara.app.debuggable
+04-27 10:51:59.875  1397 19002 D NativePermissionController: updatePackagesForUid, UidPackageState{uid: 10393, packageStates: [PackageState{packageName: com.isyara.app.debuggable, targetSdk: 36, isPlaybackCaptureAllowed: true}]}
+04-27 10:51:59.878  1772  1772 I AppsFilter: interaction: PackageSetting{e268e27 com.example.webhook_qris/10377} -> PackageSetting{ee498d4 com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:51:59.878  1772  1772 I AppsFilter: interaction: PackageSetting{5ddda7d com.google.android.microdroid.empty_payload/10261} -> PackageSetting{ee498d4 com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:51:59.878  1772  1772 I AppsFilter: interaction: PackageSetting{1b64d72 com.sholatbre.app/10371} -> PackageSetting{ee498d4 com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:51:59.883  1772  2549 D ShortcutService: changing package: com.isyara.app.debuggable userId=0
+04-27 10:51:59.898  2945  2945 D CarrierSvcBindHelper: onPackageModified: com.isyara.app.debuggable
+04-27 10:51:59.899 32056 32056 I Finsky  : [2] AIM: AppInfoCacheUpdater -> invalidating apps: [com.isyara.app.debuggable]
+04-27 10:51:59.900 32056 32083 I Finsky  : [2459] AIM: AppInfoManager-Perf > OnDeviceAppInfo > cacheHitCount=0, cacheMissCount=1. Missed  in cache (limit 10) : [com.isyara.app.debuggable]
+04-27 10:51:59.900 32056 32088 I Finsky  : [2464] AIM: AppInfoManager-Perf > OnDeviceAppInfo > cacheHitCount=0, cacheMissCount=1. Missed  in cache (limit 10) : [com.isyara.app.debuggable]
+04-27 10:51:59.916 32056 32056 I Finsky  : [2] VerifyApps: app installation complete for com.isyara.app.debuggable
+04-27 10:51:59.922 32056 32056 I Finsky  : [2] AIM: AppInfoCacheUpdater -> invalidating apps: [com.isyara.app.debuggable]
+04-27 10:51:59.943 32056 32083 I Finsky  : [2459] AIM: AppInfoManager-Perf > OnDeviceAppInfo > cacheHitCount=0, cacheMissCount=1. Missed  in cache (limit 10) : [com.isyara.app.debuggable]
+04-27 10:51:59.945  2945  3219 D ImsResolver: maybeAddedImsService, packageName: com.isyara.app.debuggable
+04-27 10:51:59.945  2945  3219 V ImsResolver: searchForImsServices: package=com.isyara.app.debuggable, users=[UserHandle{0}]
+04-27 10:51:59.946  2945  3219 V ImsResolver: searchForImsServices: package=com.isyara.app.debuggable, users=[UserHandle{0}]
+04-27 10:51:59.949 32056 32093 I Finsky  : [2469] AIM: AppInfoManager-Perf > OnDeviceAppInfo > cacheHitCount=0, cacheMissCount=1. Missed  in cache (limit 10) : [com.isyara.app.debuggable]
+04-27 10:51:59.952  2945  2945 D SatelliteController: packageStateChanged: package:com.isyara.app.debuggable defaultSmsPackageName: com.google.android.apps.messaging satelliteGatewayServicePackageName:
+04-27 10:51:59.974 32056 32083 I Finsky  : [2459] VerifyApps: running post install verification task for package: com.isyara.app.debuggable, install ID: da80cd00-afa7-4d21-9b65-9095f587b2cf
+04-27 10:51:59.984 32056 32083 I Finsky  : [2459] VerifyApps: Putting package com.isyara.app.debuggable in ECM mode succeeded
+04-27 10:51:59.991 32056 32083 I Finsky  : [2459] Calculating dex embeddings for package com.isyara.app.debuggable. File: [HjC9dJIZgk35W7zwa30f3dnRb45DXeoaDqApaUnUN-s]
+04-27 10:52:00.034 31609 17486 I ProximityAuth: [RecentAppsMediator] Package added: (user=UserHandle{0}) com.isyara.app.debuggable
+04-27 10:52:00.058  2945  3139 I SatelliteAppTracker: onPackageModified : com.isyara.app.debuggable
+04-27 10:52:00.347 32056 32056 I Finsky  : [2] Received an install/uninstall event for package com.isyara.app.debuggable
+04-27 10:52:00.954  1772  1845 D LauncherAppsService: onPackageAdded: user=UserHandle{0}, packageName=com.isyara.app.debuggable
+04-27 10:52:00.954  1772  1845 D LauncherAppsService: onPackageAdded: triggering onPackageAdded for user=UserHandle{0}, packageName=com.isyara.app.debuggable
+04-27 10:52:00.954  1772  1845 D LauncherAppsService: onPackageAdded: triggering onPackageAdded for user=UserHandle{0}, packageName=com.isyara.app.debuggable
+04-27 10:52:00.954  1772  1845 D LauncherAppsService: onPackageAdded: triggering onPackageAdded for user=UserHandle{0}, packageName=com.isyara.app.debuggable
+04-27 10:52:00.956  2607  2621 D LauncherApps: onPackageAdded 0,com.isyara.app.debuggable
+04-27 10:52:00.956  4006  4707 D LauncherApps: onPackageAdded 0,com.isyara.app.debuggable
+04-27 10:52:00.956  2963  3110 D LauncherApps: onPackageAdded 0,com.isyara.app.debuggable
+04-27 10:52:00.957  2963  3040 D LauncherAppsCallbackImpl: onPackageAdded triggered for packageName=com.isyara.app.debuggable, user=UserHandle{0}
+04-27 10:52:01.181  1772  2991 V ActivityTaskManager: TaskLaunchParamsModifier: phase=3 task=Task{f38659f #3773 type=standard A=10393:com.isyara.app.debuggable} activity=ActivityRecord{82293566 u0 com.isyara.app.debuggable/com.isyara.app.MainActivity t-1} display-area-from-source=DefaultTaskDisplayArea@147252179 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@147252179 inherit-from-source=fullscreen non-freeform-task-display-area display-area=DefaultTaskDisplayArea@147252179 default-portrait freeform-size-mismatch=Rect(278, 687 - 803, 1767)
+04-27 10:52:01.181  1772  2991 I ActivityTaskManager: START u0 {act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 xflg=0x4 pkg=com.isyara.app.debuggable cmp=com.isyara.app.debuggable/com.isyara.app.MainActivity} with LAUNCH_MULTIPLE from uid 10099 (com.google.android.packageinstaller) (sr=249443460) (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+04-27 10:52:01.185  1772  2333 I AppsFilter: interaction: PackageSetting{e268e27 com.example.webhook_qris/10377} -> PackageSetting{327c54a com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:52:01.185  1772  2333 I AppsFilter: interaction: PackageSetting{5ddda7d com.google.android.microdroid.empty_payload/10261} -> PackageSetting{327c54a com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:52:01.185  1772  2333 I AppsFilter: interaction: PackageSetting{1b64d72 com.sholatbre.app/10371} -> PackageSetting{327c54a com.isyara.app.debuggable/10393} BLOCKED
+04-27 10:52:01.208  1772  1848 I ActivityManager: Start proc 17527:com.isyara.app.debuggable/u0a393 for top-activity {com.isyara.app.debuggable/com.isyara.app.MainActivity}
+04-27 10:52:01.209 17527 17527 I Zygote  : Process 17527 created for com.isyara.app.debuggable
+04-27 10:52:01.288  4772 17525 I bte     : Handling installed or updated package: com.isyara.app.debuggable
+04-27 10:52:01.288  4772 17525 I ckk     : Attempting to classify package: com.isyara.app.debuggable using model: bll_1
+04-27 10:52:01.393  4772 17525 I buj     : BLL finished for package: com.isyara.app.debuggable, score: 6.0, verdict: NOT_HARMFUL
+04-27 10:52:01.393  4772 17525 I ckk     : Finished new classification for package: com.isyara.app.debuggable, model: bll_1, verdict: NOT_HARMFUL, score: 6.0
+04-27 10:52:01.531 32056 32093 I Finsky  : [2469] Installer package name of package com.isyara.app.debuggable is com.google.android.packageinstaller
+04-27 10:52:01.547 17527 17527 D nativeloader: Configuring clns-9 for other apk /data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/lib/arm64:/data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.isyara.app.debuggable
+04-27 10:52:01.558 17527 17527 V GraphicsEnvironment: com.isyara.app.debuggable is not listed in per-application setting
+04-27 10:52:01.584 17527 17543 D vulkan  : searching for layers in '/data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/lib/arm64'
+04-27 10:52:01.585 17527 17543 D vulkan  : searching for layers in '/data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/base.apk!/lib/arm64-v8a'
+04-27 10:52:01.599  1772  1823 V WindowManager:         {WCT{RemoteToken{1b44bba Task{f38659f #3773 type=standard A=10393:com.isyara.app.debuggable}}} m=OPEN f=MOVE_TO_TOP leash=Surface(name=Task=3773#255675)/@0x2ded262 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0},
+04-27 10:52:01.636 17527 17527 I ActivityThread: Schedule relaunch activity: com.isyara.app.MainActivity
+04-27 10:52:01.717 17527 17527 I ActivityThread: Schedule relaunch activity: com.isyara.app.MainActivity
+04-27 10:52:01.814  1772  2991 D CoreBackPreview: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@d7e22e6, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+04-27 10:52:01.815  1772  4431 D CoreBackPreview: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@13b2027, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+04-27 10:52:01.906  1772  4431 I WindowManager: finishDrawing of relaunch: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity} 156ms
+04-27 10:52:01.910  1772  1823 I ActivityTaskManager: Displayed com.isyara.app.debuggable/com.isyara.app.MainActivity for user 0: +732ms
+04-27 10:52:01.939  1772  2368 I ImeTracker: com.isyara.app.debuggable:c8c16338: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false userId 0 displayId 0
+04-27 10:52:01.942 17527 17527 I ImeTracker: com.isyara.app.debuggable:c8c16338: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+04-27 10:52:01.945  6321  6321 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1347 onStartInput(EditorInfo{EditorInfo{packageName=com.isyara.app.debuggable, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+04-27 10:52:01.947  1772  2991 W PackageConfigPersister: App-specific configuration not found for packageName: com.isyara.app.debuggable and userId: 0
+04-27 10:52:02.697 32056 32094 I Finsky  : [2470] VerifyApps: Scanning package com.isyara.app.debuggable with Raccoon
+04-27 10:52:02.931  4772  4772 I bzz     : Starting to handle end event for package: com.isyara.app.debuggable
+04-27 10:52:02.939  4772  9088 I bsx     : Starting CP from work service for com.isyara.app.debuggable
+04-27 10:52:02.952  4772  9088 I bzz     : Finished handling login for package: com.isyara.app.debuggable, latency: PT1.041S, events: 22, score: 0.0, verdict: NOT_HARMFUL
+04-27 10:52:03.708  1772  5139 I AppsFilter: interaction: PackageSetting{327c54a com.isyara.app.debuggable/10393} -> PackageSetting{8e16ffa com.google.android.inputmethod.latin/10200} BLOCKED
+04-27 10:52:03.715 17527 17527 I ImeTracker: com.isyara.app.debuggable:5ea1a3db: onRequestShow at ORIGIN_CLIENT reason SHOW_SOFT_INPUT fromUser true userId 0 displayId 0
+04-27 10:52:03.728  6321  6321 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1347 onStartInput(EditorInfo{EditorInfo{packageName=com.isyara.app.debuggable, inputType=21, inputTypeString=EmailAddress[], enableLearning=true, autoCorrection=false, autoComplete=true, imeOptions=8000005, privateImeOptions=null, actionName=NEXT, actionLabel=null, initialSelStart=0, initialSelEnd=0, initialCapsMode=0, label=null, fieldId=2131230981, fieldName=null, extras=Bundle[mParcelledData.dataSize=404], hintText=non-empty, hintLocales=[]}}, false)
+04-27 10:52:03.730  1772  2575 W PackageConfigPersister: App-specific configuration not found for packageName: com.isyara.app.debuggable and userId: 0
+04-27 10:52:03.741  6321  6321 I GoogleInputMethodService: GoogleInputMethodService.onStartInputView():1440 onStartInputView(EditorInfo{EditorInfo{packageName=com.isyara.app.debuggable, inputType=21, inputTypeString=EmailAddress[], enableLearning=true, autoCorrection=false, autoComplete=true, imeOptions=8000005, privateImeOptions=null, actionName=NEXT, actionLabel=null, initialSelStart=0, initialSelEnd=0, initialCapsMode=0, label=null, fieldId=2131230981, fieldName=null, extras=Bundle[{android.support.text.emoji.emojiCompat_metadataVersion=12, androidx.core.view.inputmethod.EditorInfoCompat.STYLUS_HANDWRITING_ENABLED=true, android.support.text.emoji.emojiCompat_replaceAll=false}], hintText=non-empty, hintLocales=[]}}, false)
+04-27 10:52:03.743  6321  6321 I AndroidIME: AbstractIme.onActivate():96 LatinIme.onActivate() : EditorInfo = EditorInfo{packageName=com.isyara.app.debuggable, inputType=21, inputTypeString=EmailAddress[], enableLearning=true, autoCorrection=false, autoComplete=true, imeOptions=8000005, privateImeOptions=null, actionName=NEXT, actionLabel=null, initialSelStart=0, initialSelEnd=0, initialCapsMode=0, label=null, fieldId=2131230981, fieldName=null, extras=Bundle[{android.support.text.emoji.emojiCompat_metadataVersion=12, androidx.core.view.inputmethod.EditorInfoCompat.STYLUS_HANDWRITING_ENABLED=true, android.support.text.emoji.emojiCompat_replaceAll=false}], hintText=non-empty, hintLocales=[]}, IncognitoMode = false, DeviceLocked = false
+04-27 10:52:03.782  6321  6321 D ImeBackCallbackSender: Register OnBackInvokedCallback with priority=-1 at app window (packageName=com.isyara.app.debuggable)
+04-27 10:52:03.783  1772  2333 D CoreBackPreview: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@2edee77, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+04-27 10:52:03.809 17527 17565 W InteractionJankMonitor: Initializing without READ_DEVICE_CONFIG permission. enabled=false, interval=1, missedFrameThreshold=3, frameTimeThreshold=64, package=com.isyara.app.debuggable
+04-27 10:52:04.008 17527 17527 I ImeTracker: com.isyara.app.debuggable:5ea1a3db: onShown
+04-27 10:52:07.536 17527 17628 D ProfileInstaller: Installing profile for com.isyara.app.debuggable
+04-27 10:52:09.025 17527 17527 I ImeTracker: com.isyara.app.debuggable:5c6dca51: onRequestShow at ORIGIN_CLIENT reason SHOW_SOFT_INPUT fromUser true userId 0 displayId 0
+04-27 10:52:09.025  1772  9269 I AppsFilter: interaction: PackageSetting{327c54a com.isyara.app.debuggable/10393} -> PackageSetting{8e16ffa com.google.android.inputmethod.latin/10200} BLOCKED
+04-27 10:52:09.025 17527 17527 I ImeTracker: com.isyara.app.debuggable:5c6dca51: onCancelled at PHASE_CLIENT_APPLY_ANIMATION
+04-27 10:52:09.026  1772  2368 I ImeTracker: com.isyara.app.debuggable:a261bb60: onRequestShow at ORIGIN_SERVER reason ATTACH_NEW_INPUT fromUser false userId 0 displayId 0
+04-27 10:52:09.032  6321  6321 D ImeBackCallbackSender: Unregister OnBackInvokedCallback at app window (packageName=com.isyara.app.debuggable)
+04-27 10:52:09.032  6321  6321 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1347 onStartInput(EditorInfo{EditorInfo{packageName=com.isyara.app.debuggable, inputType=81, inputTypeString=Password[], enableLearning=false, autoCorrection=false, autoComplete=true, imeOptions=4000006, privateImeOptions=null, actionName=DONE, actionLabel=null, initialSelStart=0, initialSelEnd=0, initialCapsMode=0, label=null, fieldId=2131231212, fieldName=null, extras=Bundle[mParcelledData.dataSize=404], hintText=non-empty, hintLocales=[]}}, false)
+04-27 10:52:09.033  1772  9269 D CoreBackPreview: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@b06692b, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+04-27 10:52:09.035  1772  2333 W PackageConfigPersister: App-specific configuration not found for packageName: com.isyara.app.debuggable and userId: 0
+04-27 10:52:09.036  6321  6321 I GoogleInputMethodService: GoogleInputMethodService.onStartInputView():1440 onStartInputView(EditorInfo{EditorInfo{packageName=com.isyara.app.debuggable, inputType=81, inputTypeString=Password[], enableLearning=false, autoCorrection=false, autoComplete=true, imeOptions=4000006, privateImeOptions=null, actionName=DONE, actionLabel=null, initialSelStart=0, initialSelEnd=0, initialCapsMode=0, label=null, fieldId=2131231212, fieldName=null, extras=Bundle[{android.support.text.emoji.emojiCompat_metadataVersion=12, androidx.core.view.inputmethod.EditorInfoCompat.STYLUS_HANDWRITING_ENABLED=false, android.support.text.emoji.emojiCompat_replaceAll=false}], hintText=non-empty, hintLocales=[]}}, false)
+04-27 10:52:09.040  6321  6321 I AndroidIME: AbstractIme.onActivate():96 PasswordIme.onActivate() : EditorInfo = EditorInfo{packageName=com.isyara.app.debuggable, inputType=81, inputTypeString=Password[], enableLearning=false, autoCorrection=false, autoComplete=true, imeOptions=4000006, privateImeOptions=null, actionName=DONE, actionLabel=null, initialSelStart=0, initialSelEnd=0, initialCapsMode=0, label=null, fieldId=2131231212, fieldName=null, extras=Bundle[{android.support.text.emoji.emojiCompat_metadataVersion=12, androidx.core.view.inputmethod.EditorInfoCompat.STYLUS_HANDWRITING_ENABLED=false, android.support.text.emoji.emojiCompat_replaceAll=false}], hintText=non-empty, hintLocales=[]}, IncognitoMode = false, DeviceLocked = false
+04-27 10:52:09.071  6321  6321 D ImeBackCallbackSender: Register OnBackInvokedCallback with priority=-1 at app window (packageName=com.isyara.app.debuggable)
+04-27 10:52:09.072  1772  2991 D CoreBackPreview: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@8081188, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+04-27 10:52:09.074  1772  2991 I ImeTracker: com.isyara.app.debuggable:a261bb60: onCancelled at PHASE_SERVER_POST_LAYOUT_NOTIFY_CONTROLS_CHANGED
+04-27 10:52:13.419 17527 17527 I ImeTracker: com.isyara.app.debuggable:d538081a: onRequestHide at ORIGIN_CLIENT reason HIDE_CLOSE_CURRENT_SESSION fromUser false userId 0 displayId 0
+04-27 10:52:13.420  1772  2575 D CoreBackPreview: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@514cd24, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+04-27 10:52:13.647  6321  6321 D ImeBackCallbackSender: Unregister OnBackInvokedCallback at app window (packageName=com.isyara.app.debuggable)
+04-27 10:52:13.647  6321  6321 I ImeTracker: com.isyara.app.debuggable:d538081a: onHidden
+04-27 10:52:14.882  1772  2368 I ImeTracker: com.isyara.app.debuggable:9c9b8c92: onRequestHide at ORIGIN_SERVER reason HIDE_SAME_WINDOW_FOCUSED_WITHOUT_EDITOR fromUser false userId 0 displayId 0
+04-27 10:52:14.883 17527 17527 I ImeTracker: com.isyara.app.debuggable:9c9b8c92: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+04-27 10:52:14.885  6321  6321 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1347 onStartInput(EditorInfo{EditorInfo{packageName=com.isyara.app.debuggable, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+04-27 10:52:14.886  1772  4344 W PackageConfigPersister: App-specific configuration not found for packageName: com.isyara.app.debuggable and userId: 0
+04-27 10:52:15.642  1772  4344 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@a659ba8
+04-27 10:52:16.624  1772  2575 V ActivityTaskManager: TaskLaunchParamsModifier: phase=3 task=Task{f38659f #3773 type=standard A=10393:com.isyara.app.debuggable} activity=ActivityRecord{3315111 u0 com.google.android.permissioncontroller/com.android.permissioncontroller.permission.ui.GrantPermissionsActivity t-1} display-area-from-source=DefaultTaskDisplayArea@147252179 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@147252179 inherit-from-source=fullscreen non-freeform-task-display-area display-area=DefaultTaskDisplayArea@147252179 default-portrait freeform-size-mismatch=Rect(278, 687 - 803, 1767)
+04-27 10:52:16.624  1772  2575 I ActivityTaskManager: START u0 {act=android.content.pm.action.REQUEST_PERMISSIONS xflg=0x4 pkg=com.google.android.permissioncontroller cmp=com.google.android.permissioncontroller/com.android.permissioncontroller.permission.ui.GrantPermissionsActivity (has extras)} with LAUNCH_MULTIPLE from uid 10393 (com.isyara.app.debuggable) (rr=82293566) (BAL_ALLOW_VISIBLE_WINDOW) result code=0
+04-27 10:52:16.625  2607  2637 V WindowManagerShell: Transition requested (#16897): android.os.BinderProxy@b879aaa TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=3773 effectiveUid=10393 displayId=0 isRunning=true baseIntent=Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 pkg=com.isyara.app.debuggable cmp=com.isyara.app.debuggable/com.isyara.app.MainActivity } baseActivity=ComponentInfo{com.isyara.app.debuggable/com.isyara.app.MainActivity} topActivity=ComponentInfo{com.google.android.permissioncontroller/com.android.permissioncontroller.permission.ui.GrantPermissionsActivity} origActivity=null realActivity=ComponentInfo{com.isyara.app.debuggable/com.isyara.app.MainActivity} realActivityIsAppLockEnabled=false numActivities=2 lastActiveTime=962368220 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{android.os.BinderProxy@358d69b} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=ActivityInfo{518ca38 com.android.permissioncontroller.permission.ui.GrantPermissionsActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=true isActivityStackTransparent=false lastNonFullscreenBounds=Rect(278, 687 - 803, 1767) leafTaskBoundsFromOptions= false capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransitionInfo = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, fullscreenRequestChange = null, flags = 0, debugId = 16897 }
+04-27 10:52:16.722  1772  1823 V WindowManager: Sent Transition (#16897) createdAt=04-27 10:52:16.619 via request=TransitionRequestInfo { type = OPEN, triggerTask = TaskInfo{userId=0 taskId=3773 effectiveUid=10393 displayId=0 isRunning=true baseIntent=Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 pkg=com.isyara.app.debuggable cmp=com.isyara.app.debuggable/com.isyara.app.MainActivity } baseActivity=ComponentInfo{com.isyara.app.debuggable/com.isyara.app.MainActivity} topActivity=ComponentInfo{com.google.android.permissioncontroller/com.android.permissioncontroller.permission.ui.GrantPermissionsActivity} origActivity=null realActivity=ComponentInfo{com.isyara.app.debuggable/com.isyara.app.MainActivity} realActivityIsAppLockEnabled=false numActivities=2 lastActiveTime=962368220 supportsMultiWindow=true resizeMode=1 isResizeable=true minWidth=-1 minHeight=-1 defaultMinSize=220 token=WCT{RemoteToken{1b44bba Task{f38659f #3773 type=standard A=10393:com.isyara.app.debuggable}}} topActivityType=1 pictureInPictureParams=null shouldDockBigOverlays=false launchIntoPipHostTaskId=-1 lastParentTaskIdBeforePip=-1 displayCutoutSafeInsets=Rect(0, 0 - 0, 0) topActivityInfo=ActivityInfo{9b1d359 com.android.permissioncontroller.permission.ui.GrantPermissionsActivity} launchCookies=[] positionInParent=Point(0, 0) parentTaskId=-1 isFocused=true isVisible=true isVisibleRequested=true isTopActivityNoDisplay=false isSleeping=false locusId=null displayAreaFeatureId=1 isTopActivityTransparent=true isActivityStackTransparent=false lastNonFullscreenBounds=Rect(278, 687 - 803, 1767) leafTaskBoundsFromOptions= false capturedLink=null capturedLinkTimestamp=0 requestedVisibleTypes=503 topActivityRequestOpenInBrowserEducationTimestamp=0 appCompatTaskInfo=AppCompatTaskInfo { topActivityInSizeCompat=false isLeafTask= true eligibleForLetterboxEducation= false isLetterboxEducationEnabled= false isLetterboxDoubleTapEnabled= false eligibleForUserAspectRatioButton= false topActivityBoundsLetterboxed= false isFromLetterboxDoubleTap= false topActivityLetterboxVerticalPosition= -1 topActivityLetterboxHorizontalPosition= -1 topActivityLetterboxWidth=-1 topActivityLetterboxHeight=-1 topActivityAppBounds=Rect(0, 0 - 1080, 2400) isUserFullscreenOverrideEnabled=false isSystemFullscreenOverrideEnabled=false hasMinAspectRatioOverride=false topActivityLetterboxBounds=null topNonResizableActivityAspectRatio=-1.0} topActivityMainWindowFrame=null isAppBubble=false}, pipChange = null, remoteTransitionInfo = null, displayChange = null, requestedLocation = null, userChange = null, windowingLayerChange = null, fullscreenRequestChange = null, flags = 0, debugId = 16897 }
+04-27 10:52:17.341  5749  5749 I GrantPermissionsViewModel: Logged buttons presented and clicked permissionGroupName=android.permission-group.CAMERA uid=10393 package=com.isyara.app.debuggable presentedButtons=44 clickedButton=4 isPermissionRationaleShown=false sessionId=6682176071773301609 targetSdk=36 prompt=ONE_TIME_FG initialLocationPrecision=0 selectedLocationPrecision=0 locationAccuracyButtonClicked= false
+04-27 10:52:17.361  1772  2368 I ImeTracker: com.isyara.app.debuggable:9298e10f: onRequestHide at ORIGIN_SERVER reason HIDE_UNSPECIFIED_WINDOW fromUser false userId 0 displayId 0
+04-27 10:52:17.362 17527 17527 I ImeTracker: com.isyara.app.debuggable:9298e10f: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+04-27 10:52:17.363  6321  6321 I GoogleInputMethodService: GoogleInputMethodService.onStartInput():1347 onStartInput(EditorInfo{EditorInfo{packageName=com.isyara.app.debuggable, inputType=0, inputTypeString=NULL, enableLearning=false, autoCorrection=false, autoComplete=false, imeOptions=0, privateImeOptions=null, actionName=UNSPECIFIED, actionLabel=null, initialSelStart=-1, initialSelEnd=-1, initialCapsMode=0, label=null, fieldId=0, fieldName=null, extras=null, hintText=null, hintLocales=[]}}, false)
+04-27 10:52:17.364  1772  4344 W PackageConfigPersister: App-specific configuration not found for packageName: com.isyara.app.debuggable and userId: 0
+04-27 10:52:19.220 17527 17527 D nativeloader: Load /data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/base.apk!/lib/arm64-v8a/libmediapipe_tasks_vision_jni.so using class loader ns clns-9 (caller=/data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/base.apk): ok
+04-27 10:52:19.363  1502  1146 I CameraService: CameraService::connect call (PID 17527 "com.isyara.app.debuggable", camera ID 0) and Camera API version 2
+04-27 10:52:19.385  2800  2878 D LyricConfigProviderService: onCameraOpened: cameraId 0 used by packageId com.isyara.app.debuggable for versionCode 7
+04-27 10:52:19.391   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.402   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.412   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.422   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.434   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.445   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.451   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.456   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.468   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.479   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.490   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.501   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.512   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.523   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.534   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.545   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.552   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.556   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.567   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.577   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.589   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.601   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.652   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.687  1502 17731 I CameraService: Start camera streaming for com.isyara.app.debuggable (PID 17527, UID 10393)
+04-27 10:52:19.753   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.816   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.828 17527 17802 D nativeloader: Load /data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/base.apk!/lib/arm64-v8a/libimage_processing_util_jni.so using class loader ns clns-9 (caller=/data/app/~~7A9gFM2b26jhGqhzve-HrA==/com.isyara.app.debuggable-u3DY8bS3leznDRcdOtExjg==/base.apk): ok
+04-27 10:52:19.835   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.851   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.854   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.868   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:19.955   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.055   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.155   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.255   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.356   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.456   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.556   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.656   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.756   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.857   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:20.957   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:21.058   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:21.158   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:21.258   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:21.547 17527 17540 E BufferQueueProducer: [d3504b8 SurfaceView[com.isyara.app.debuggable/com.isyara.app.MainActivity]#1(BLAST Consumer)1](id:447700000005,api:4,p:1502,c:17527) dequeueBuffer: BufferQueue has been abandoned
+04-27 10:52:21.555 17527 17542 E BufferQueueProducer: [d3504b8 SurfaceView[com.isyara.app.debuggable/com.isyara.app.MainActivity]#1(BLAST Consumer)1](id:447700000005,api:4,p:1502,c:17527) queueBuffer: BufferQueue has been abandoned
+04-27 10:52:21.555  1502 30199 E Surface : [d3504b8 SurfaceView[com.isyara.app.debuggable/com.isyara.app.MainActivity]#1(BLAST Consumer)1](id:447700000005) queueBuffer: error queuing buffer, -19
+04-27 10:52:21.688  1502 17731 I CameraService: Stop camera streaming for com.isyara.app.debuggable (PID 17527, UID 10393)
+04-27 10:52:21.861  1772  2575 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@b367337
+04-27 10:52:24.453  1772  2575 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@30ba428
+04-27 10:52:32.563   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.570   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.581   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.592   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.604   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.614   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.625   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.637   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.648   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.659   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.664   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.670   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.681   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.692   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.703   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.714   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.720  1502 30200 I CameraService: CameraService::connect call (PID 17527 "com.isyara.app.debuggable", camera ID 0) and Camera API version 2
+04-27 10:52:32.723  2800  2878 D LyricConfigProviderService: onCameraOpened: cameraId 0 used by packageId com.isyara.app.debuggable for versionCode 7
+04-27 10:52:32.725   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.736   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.747   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.758   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.765   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.769   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.806  1502 17882 I CameraService: Start camera streaming for com.isyara.app.debuggable (PID 17527, UID 10393)
+04-27 10:52:32.865   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.892   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.937   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.949   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.960   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:32.976   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.079   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.179   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.279   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.379   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.479   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.579   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.679   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.780   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.880   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:33.981   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.081   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.181   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.283   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.387   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.487   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.589   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.690   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.790   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.897   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:34.997   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.063  1772  2333 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@39fba42
+04-27 10:52:35.093   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.098   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.110   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.194   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.199   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.208   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.301   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.400   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.500   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.600   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.701   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.802   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:35.904   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.005   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.106   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.209   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.309   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.410   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.510   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.574   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.594   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.611   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.673   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.690   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.711   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.812   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.912   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.956   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.973   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:36.990   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.012   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.112   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.213   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.313   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.413   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.514   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.615   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.629  1772  2991 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@c3a7902
+04-27 10:52:37.656   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.673   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.689   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.715   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.816   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:37.917   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.018   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.120   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.222   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.323   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.425   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.430   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.441   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.533   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.631   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.732   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.833   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.855   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.872   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:38.932   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.033   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.133   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.233   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.324   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.334   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.340   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.440   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.540   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.641   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.743   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.843   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.871   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.888   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:39.946   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.046   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.146   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.171   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.188   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.212  1772  2953 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@372a062
+04-27 10:52:40.238   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.247   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.255   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.271   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.347   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.447   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.547   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.648   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.697  1772  2953 E NotificationService: Package has already queued 5 toasts. Not showing more. Package=com.isyara.app.debuggable
+04-27 10:52:40.749   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.842  1772  2953 E NotificationService: Package has already queued 5 toasts. Not showing more. Package=com.isyara.app.debuggable
+04-27 10:52:40.849   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:40.950   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.029  1772  2953 E NotificationService: Package has already queued 5 toasts. Not showing more. Package=com.isyara.app.debuggable
+04-27 10:52:41.055   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.156   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.259   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.360   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.460   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.527  2963  2963 D RecentsView: onGestureAnimationStart - groupedTaskInfo: Desk ID= -1, Desk Display ID=-1, Tasks=[id=3773 winMode=fullscreen visReq=true vis=true excluded=false baseIntent=com.isyara.app.debuggable/com.isyara.app.MainActivity], Type=FULLSCREEN, Minimized Task IDs=null
+04-27 10:52:41.531  2963  2963 D RecentsView: showCurrentTask(onGestureAnimationStart) - groupedTaskInfo: Desk ID= -1, Desk Display ID=-1, Tasks=[id=3773 winMode=fullscreen visReq=true vis=true excluded=false baseIntent=com.isyara.app.debuggable/com.isyara.app.MainActivity], Type=FULLSCREEN, Minimized Task IDs=null
+04-27 10:52:41.561   701   773 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.566  2963  2963 D RecentsView: onGestureAnimationStart - groupedTaskInfo: Desk ID= -1, Desk Display ID=-1, Tasks=[id=3773 winMode=fullscreen visReq=true vis=true excluded=false baseIntent=com.isyara.app.debuggable/com.isyara.app.MainActivity], Type=FULLSCREEN, Minimized Task IDs=null
+04-27 10:52:41.566  2963  2963 D RecentsView: showCurrentTask(onGestureAnimationStart) - groupedTaskInfo: Desk ID= -1, Desk Display ID=-1, Tasks=[id=3773 winMode=fullscreen visReq=true vis=true excluded=false baseIntent=com.isyara.app.debuggable/com.isyara.app.MainActivity], Type=FULLSCREEN, Minimized Task IDs=null
+04-27 10:52:41.568  1772  4431 I InputDispatcher: Channel [Gesture Monitor] swipe-up is stealing input gesture for device 5 from [8b62a4b com.isyara.app.debuggable/com.isyara.app.MainActivity, [Gesture Monitor] edge-swipe]
+04-27 10:52:41.603   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.620   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.628  1772  1823 V WindowManager:         {WCT{RemoteToken{1b44bba Task{f38659f #3773 type=standard A=10393:com.isyara.app.debuggable}}} m=TO_BACK f=NONE leash=Surface(name=Task=3773#255675)/@0x2ded262 sb=Rect(0, 0 - 1080, 2400) eb=Rect(0, 0 - 1080, 2400) epz=Point(1080, 2400) d=0 taskParent=-1 winMode=1 userId=0},
+04-27 10:52:41.631   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.643   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.653   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.664   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.667  2963  3040 D AddWorkspaceItemsTask: Adding item info to workspace: ItemInfo(id=-1 type=APP container=# com.android.launcher3.logger.LauncherAtom$ContainerInfo@30b12e8 targetComponent=ComponentInfo{com.isyara.app.debuggable/com.isyara.app.MainActivity} ResolvedTargetInfo=ResolvedTargetInfo(targetActivityComponentName=null, componentName=ComponentInfo{com.isyara.app.debuggable/com.isyara.app.MainActivity}, user=UserHandle{0}) screen=3 cell(0,3) span(1,1) minSpan(1,1) rank=0 user=UserHandle{0} title=Isyara supportsMultiInstance=false nonResizeable=false)
+04-27 10:52:41.676   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.686   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.697   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.708   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.719   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.731   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.741   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.754   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.764   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.775   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.786   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.797   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:41.808   701   701 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:42.082   701  2704 D SurfaceFlinger: Layer: com.isyara.app.debuggable/com.isyara.app.MainActivity#255688 had an out of bounds transparent region
+04-27 10:52:42.120 17527 17542 E BufferQueueProducer: [150deb6 SurfaceView[com.isyara.app.debuggable/com.isyara.app.MainActivity]#2(BLAST Consumer)2](id:44770000000a,api:4,p:1502,c:17527) dequeueBuffer: BufferQueue has been abandoned
+04-27 10:52:42.132 17527 17539 E BufferQueueProducer: [150deb6 SurfaceView[com.isyara.app.debuggable/com.isyara.app.MainActivity]#2(BLAST Consumer)2](id:44770000000a,api:4,p:1502,c:17527) queueBuffer: BufferQueue has been abandoned
+04-27 10:52:42.132  1502 30200 E Surface : [150deb6 SurfaceView[com.isyara.app.debuggable/com.isyara.app.MainActivity]#2(BLAST Consumer)2](id:44770000000a) queueBuffer: error queuing buffer, -19
+04-27 10:52:42.238  1772  5139 D CoreBackPreview: Window{8b62a4b u0 com.isyara.app.debuggable/com.isyara.app.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@3b09e1, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+04-27 10:52:42.246  1502 17882 I CameraService: Stop camera streaming for com.isyara.app.debuggable (PID 17527, UID 10393)
+04-27 10:52:42.795  1772  3290 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@b10a145
+04-27 10:52:45.410  1772  2260 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@b4d0ee2
+04-27 10:52:48.010  1772  2260 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@7022cc7
+04-27 10:52:50.283  1772  1772 W NotificationService: Package com.isyara.app.debuggable is above allowed toast quota, the following toast was blocked and discarded: TextToastRecord{8152c89 17527:com.isyara.app.debuggable/u0a393 isSystemToast=false token=android.os.BinderProxy@f8be48e text=Image classifier failed to initialize. See error logs for details duration=0}
+04-27 10:52:50.619  1772  4423 W NotificationService: Toast already killed. pkg=com.isyara.app.debuggable token=android.os.BinderProxy@465bb9a
+^C

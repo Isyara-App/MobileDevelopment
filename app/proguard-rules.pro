@@ -37,3 +37,9 @@
 -keepclassmembers,allowobfuscation class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
+
+# MediaPipe Tasks uses generated protobuf fields from native/JNI code. R8 cannot
+# see those reflective/native accesses, so release minification can remove fields
+# such as ExternalFile.filePointerMeta_ and make the detector fail to initialize.
+-keep class com.google.mediapipe.** { *; }
+-keep class com.google.protobuf.** { *; }
