@@ -80,7 +80,8 @@ class QuestionFragment : Fragment() {
                     context = requireContext(),
                     imageView = binding.levelImage,
                     imageUrl = image,
-                    placeholder = R.color.placeholder
+                    placeholder = R.color.placeholder,
+                    keepFullImageVisible = true
                 )
 
                 val adapter = QuestionAdapter(options) { selectedOption ->
