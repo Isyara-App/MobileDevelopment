@@ -14,8 +14,8 @@ import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetector
 import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetectorResult
 
 class ObjectDetectorHelper(
-    var threshold: Float = 0.4f, // Menurunkan batas sedikit agar lebih peka mendeteksi
-    var maxResults: Int = 3,     // Ditingkatkan agar kandidat yang terhalang skor wajah tetap keluar
+    var threshold: Float = 0.5f,
+    var maxResults: Int = 1,
     var modelName: String = "abjad_v3.tflite",
     val context: Context,
     val objectDetectorListener: DetectorListener?
@@ -54,9 +54,7 @@ class ObjectDetectorHelper(
             .setBaseOptions(baseOptionsBuilder.build())
             .setScoreThreshold(threshold)
             .setMaxResults(maxResults)
-            .setRunningMode(RunningMode.LIVE_STREAM)
-            .setResultListener(this::returnLivestreamResult)
-            .setErrorListener(this::returnLivestreamError)
+            .setRunningMode(RunningMode.IMAGE)
 
         try {
             objectDetector = ObjectDetector.createFromOptions(context, optionsBuilder.build())
@@ -70,6 +68,8 @@ class ObjectDetectorHelper(
         synchronized(lock) {
             val detector = objectDetector ?: return
 
+            var inferenceTime = SystemClock.uptimeMillis()
+
             // Physically rotate the bitmap so MediaPipe sees an upright image.
             val rotatedBitmap = if (imageRotation != 0) {
                 val matrix = Matrix().apply { postRotate(imageRotation.toFloat()) }
@@ -80,22 +80,18 @@ class ObjectDetectorHelper(
 
             val mpImage = BitmapImageBuilder(rotatedBitmap).build()
 
-            // Mode LIVE_STREAM me-wajibkan pengiriman via asinkron dengan waktu frame (timestamp)
-            detector.detectAsync(mpImage, SystemClock.uptimeMillis())
+            // No rotation hint needed — the bitmap is already upright.
+            val results = detector.detect(mpImage)
+
+            inferenceTime = SystemClock.uptimeMillis() - inferenceTime
+
+            objectDetectorListener?.onResults(
+                results,
+                inferenceTime,
+                rotatedBitmap.height,
+                rotatedBitmap.width
+            )
         }
-    }
-
-    private fun returnLivestreamResult(
-        result: ObjectDetectorResult,
-        image: com.google.mediapipe.framework.image.MPImage
-    ) {
-        val finishTimeMs = SystemClock.uptimeMillis()
-        val inferenceTime = finishTimeMs - result.timestampMs()
-        objectDetectorListener?.onResults(result, inferenceTime, image.height, image.width)
-    }
-
-    private fun returnLivestreamError(error: RuntimeException) {
-        objectDetectorListener?.onError(error.message ?: "An unknown error has occurred")
     }
 
     interface DetectorListener {
