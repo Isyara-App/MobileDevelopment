@@ -58,9 +58,13 @@ class ObjectDetectorHelper(
 
         try {
             objectDetector = ObjectDetector.createFromOptions(context, optionsBuilder.build())
+            Log.d(TAG, "Object detector initialized with model: $modelName")
         } catch (e: Exception) {
-            objectDetectorListener?.onError(context.getString(R.string.image_classifier_failed))
-            Log.e(TAG, "MediaPipe failed to load model with error: " + e.message)
+            objectDetector = null
+            objectDetectorListener?.onError(
+                context.getString(R.string.image_detector_failed, modelName)
+            )
+            Log.e(TAG, "MediaPipe failed to load object detector model: $modelName", e)
         }
     }
 

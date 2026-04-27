@@ -61,6 +61,9 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    androidResources {
+        noCompress += "tflite"
+    }
     packaging {
         jniLibs {
             excludes.add("**/libdatastore_shared_counter.so")
