@@ -115,11 +115,11 @@ jobs:
           chmod +x gradlew
           ./gradlew --no-daemon lint
 
-      - name: Build release APK and AAB
+      - name: Build release APK, debuggable APK, and AAB
         shell: bash
         run: |
           chmod +x gradlew
-          ./gradlew --no-daemon clean assembleRelease bundleRelease
+          ./gradlew --no-daemon clean assembleRelease assembleReleaseDebuggable bundleRelease
 
       - name: Prepare release assets
         shell: bash
@@ -128,10 +128,15 @@ jobs:
           mkdir -p release-assets
 
           cp app/build/outputs/apk/release/app-release.apk "release-assets/isyara-${TAG}.apk"
+          cp app/build/outputs/apk/releaseDebuggable/app-releaseDebuggable.apk "release-assets/isyara-${TAG}-debuggable.apk"
           cp app/build/outputs/bundle/release/app-release.aab "release-assets/isyara-${TAG}.aab"
 
           if [[ -f app/build/outputs/mapping/release/mapping.txt ]]; then
             cp app/build/outputs/mapping/release/mapping.txt "release-assets/isyara-${TAG}-mapping.txt"
+          fi
+
+          if [[ -f app/build/outputs/mapping/releaseDebuggable/mapping.txt ]]; then
+            cp app/build/outputs/mapping/releaseDebuggable/mapping.txt "release-assets/isyara-${TAG}-debuggable-mapping.txt"
           fi
 
       - name: Publish to GitHub Releases

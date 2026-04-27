@@ -53,6 +53,14 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
         }
+        create("releaseDebuggable") {
+            initWith(getByName("release"))
+            isDebuggable = true
+            applicationIdSuffix = ".debuggable"
+            versionNameSuffix = "-debuggable"
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+        }
         debug {
             isDebuggable = true
         }
