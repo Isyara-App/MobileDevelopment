@@ -23,10 +23,10 @@ class DictionaryWordViewModel(private val repository: DictionaryRepository) : Vi
     private val _toggleResult = MutableLiveData<Boolean>()
     val toggleResult: LiveData<Boolean> get() = _toggleResult
 
-    fun searchSentence(token: String, query: String, isBisindo: String? = null) {
+    fun searchSentence(token: String, query: String, isBisindo: String? = null, isHijaiyah: String? = null) {
         _isLoading.value = true
         viewModelScope.launch {
-            when (val result = repository.searchWord(token, query, isBisindo)) {
+            when (val result = repository.searchWord(token, query, isBisindo, isHijaiyah)) {
                 is Result.Success -> {
                     _isLoading.value = false
                     _sentences.value = result.data.data?.filterNotNull() ?: emptyList()

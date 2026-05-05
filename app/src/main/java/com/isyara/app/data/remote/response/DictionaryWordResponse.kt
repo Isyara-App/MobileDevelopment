@@ -25,6 +25,9 @@ data class DataItemWord(
     @field:SerializedName("huruf")
     val huruf: String? = null,
 
+    @field:SerializedName("is_hijaiyah")
+    val isHijaiyah: Int? = null,
+
     @field:SerializedName("is_bisindo")
     val isBisindo: Int? = null,
 

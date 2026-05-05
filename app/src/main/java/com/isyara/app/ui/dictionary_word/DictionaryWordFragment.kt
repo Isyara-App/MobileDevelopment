@@ -34,7 +34,8 @@ class DictionaryWordFragment : Fragment() {
     private lateinit var adapter: DictionaryWordAdapter
 
     private lateinit var token: String
-    private var currentFilter: String? = null
+    private var isBisindoFilter: String? = null
+    private var isHijaiyahFilter: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,7 +58,7 @@ class DictionaryWordFragment : Fragment() {
         setupFilterChips()
 
         // Fetch all data initially
-        dictionaryWordViewModel.searchSentence(token, "", currentFilter)
+        dictionaryWordViewModel.searchSentence(token, "", isBisindoFilter, isHijaiyahFilter)
 
         // Tambahkan TextWatcher untuk melakukan pencarian saat user mengetik
         binding.tfSearch.editText?.addTextChangedListener(object : TextWatcher {
@@ -75,7 +76,7 @@ class DictionaryWordFragment : Fragment() {
                 // Buat runnable baru dengan debounce
                 runnable = Runnable {
                     val query = s.toString()
-                    dictionaryWordViewModel.searchSentence(token, query, currentFilter)
+                    dictionaryWordViewModel.searchSentence(token, query, isBisindoFilter, isHijaiyahFilter)
                 }
 
                 // Jalankan pencarian dengan delay
@@ -87,22 +88,26 @@ class DictionaryWordFragment : Fragment() {
         // Perform search when user inputs a query
         binding.tfSearch.editText?.setOnEditorActionListener { _, _, _ ->
             val query = binding.tfSearch.editText?.text.toString()
-            dictionaryWordViewModel.searchSentence(token, query, currentFilter)
+            dictionaryWordViewModel.searchSentence(token, query, isBisindoFilter, isHijaiyahFilter)
             true
         }
     }
 
     private fun setupFilterChips() {
         binding.chipGroupFilter.setOnCheckedStateChangeListener { _, checkedIds ->
-            currentFilter = when {
+            isBisindoFilter = when {
                 checkedIds.contains(R.id.chipBisindo) -> "1"
                 checkedIds.contains(R.id.chipSibi) -> "0"
-                else -> null // "Semua"
+                else -> null
+            }
+            isHijaiyahFilter = when {
+                checkedIds.contains(R.id.chipHijaiyah) -> "1"
+                else -> null
             }
             if (!::token.isInitialized) return@setOnCheckedStateChangeListener
             
             val query = binding.tfSearch.editText?.text.toString()
-            dictionaryWordViewModel.searchSentence(token, query, currentFilter)
+            dictionaryWordViewModel.searchSentence(token, query, isBisindoFilter, isHijaiyahFilter)
         }
     }
 

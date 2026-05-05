@@ -83,7 +83,8 @@ interface ApiService {
     suspend fun searchLetters(
         @Header("Authorization") token: String,
         @Query("search") query: String,
-        @Query("is_bisindo") isBisindo: String? = null
+        @Query("is_bisindo") isBisindo: String? = null,
+        @Query("is_hijaiyah") isHijaiyah: String? = null
     ): DictionaryWordResponse
 
     @GET("dictionary/words")

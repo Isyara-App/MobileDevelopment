@@ -12,10 +12,11 @@ class DictionaryRepository private constructor(private val apiService: ApiServic
     suspend fun searchWord(
         token: String,
         query: String,
-        isBisindo: String? = null
+        isBisindo: String? = null,
+        isHijaiyah: String? = null
     ): Result<DictionaryWordResponse> {
         return safeApiCall {
-            apiService.searchLetters("Bearer $token", query, isBisindo)
+            apiService.searchLetters("Bearer $token", query, isBisindo, isHijaiyah)
         }
     }
 
