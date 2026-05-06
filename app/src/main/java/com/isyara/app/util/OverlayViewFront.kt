@@ -3,13 +3,13 @@ package com.isyara.app.util
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.isyara.app.R
 import com.google.mediapipe.tasks.components.containers.Detection
 import java.util.*
 import kotlin.math.max
+import kotlin.math.min
 
 class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
@@ -29,6 +29,7 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
     }
 
     fun clear() {
+        results = LinkedList()
         textPaint.reset()
         textBackgroundPaint.reset()
         boxPaint.reset()
@@ -54,25 +55,35 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
+        val canvasWidth = width.toFloat()
+        val canvasHeight = height.toFloat()
+
         val scaledWidth = imageWidth * scaleFactor
         val scaledHeight = imageHeight * scaleFactor
-        val offsetX = (width - scaledWidth) / 2f
-        val offsetY = (height - scaledHeight) / 2f
+        val offsetX = (canvasWidth - scaledWidth) / 2f
+        val offsetY = (canvasHeight - scaledHeight) / 2f
 
         for (result in results) {
             val boundingBox = result.boundingBox()
 
-            val top = boundingBox.top * scaleFactor + offsetY
-            val bottom = boundingBox.bottom * scaleFactor + offsetY
+            var top = boundingBox.top * scaleFactor + offsetY
+            var bottom = boundingBox.bottom * scaleFactor + offsetY
             var left = boundingBox.left * scaleFactor + offsetX
             var right = boundingBox.right * scaleFactor + offsetX
 
             // Flip horizontal for front camera
             val tempLeft = left
-            left = canvas.width.toFloat() - right
-            right = canvas.width.toFloat() - tempLeft
-            
-            Log.d("OverlayViewFront", "left: $left, width: ${canvas.width}, right: $right")
+            left = canvasWidth - right
+            right = canvasWidth - tempLeft
+
+            // Clamp bounding box to stay within screen bounds
+            left = max(0f, min(left, canvasWidth))
+            top = max(0f, min(top, canvasHeight))
+            right = max(0f, min(right, canvasWidth))
+            bottom = max(0f, min(bottom, canvasHeight))
+
+            // Skip if box is too small after clamping
+            if (right - left < 5f || bottom - top < 5f) continue
 
             // Draw bounding box around detected objects
             val drawableRect = RectF(left, top, right, bottom)
@@ -80,26 +91,49 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
 
             if (result.categories().isNotEmpty()) {
                 val category = result.categories()[0]
-                // Draw text for detected object
                 val drawableText = "${category.categoryName()} ${String.format("%.0f%%", category.score() * 100)}"
 
-                // Hitung posisi teks
-                textPaint.getTextBounds(drawableText, 0, drawableText.length, bounds)
+                // Measure text bounds
                 textBackgroundPaint.getTextBounds(drawableText, 0, drawableText.length, bounds)
                 val textWidth = bounds.width()
                 val textHeight = bounds.height()
-                val textX = left - textWidth
-                val textY = top + bounds.height()
 
-                canvas.drawRect(
-                    left,
-                    top,
-                    left - textWidth - BOUNDING_RECT_TEXT_PADDING,
-                    top + textHeight + BOUNDING_RECT_TEXT_PADDING,
-                    textBackgroundPaint
+                // Calculate label position - ensure it stays within screen
+                val labelPadding = BOUNDING_RECT_TEXT_PADDING
+                var labelLeft = left
+                var labelTop = top - textHeight - labelPadding
+
+                // If label would go above screen, place it below the top of bounding box
+                if (labelTop < 0f) {
+                    labelTop = top
+                }
+
+                // If label would go beyond right edge, shift it left
+                var labelRight = labelLeft + textWidth + labelPadding
+                if (labelRight > canvasWidth) {
+                    labelLeft = canvasWidth - textWidth - labelPadding
+                    labelRight = canvasWidth
+                }
+
+                // Ensure label left doesn't go negative
+                if (labelLeft < 0f) {
+                    labelLeft = 0f
+                    labelRight = (textWidth + labelPadding).toFloat()
+                }
+
+                val labelBottom = labelTop + textHeight + labelPadding
+
+                // Draw rounded rect behind display text
+                val textBgRect = RectF(labelLeft, labelTop, labelRight, labelBottom)
+                canvas.drawRoundRect(textBgRect, 8f, 8f, textBackgroundPaint)
+
+                // Draw text for detected object
+                canvas.drawText(
+                    drawableText,
+                    labelLeft + labelPadding / 2f,
+                    labelBottom - labelPadding / 2f,
+                    textPaint
                 )
-
-                canvas.drawText(drawableText, textX - (BOUNDING_RECT_TEXT_PADDING / 2), textY, textPaint)
             }
         }
     }
@@ -112,7 +146,7 @@ class OverlayViewFront(context: Context?, attrs: AttributeSet?) : View(context, 
         results = detectionResults ?: LinkedList<Detection>()
         this.imageHeight = imageHeight
         this.imageWidth = imageWidth
-        
+
         // PreviewView defaults to FILL_CENTER. We must scale and subsequently offset.
         scaleFactor = max(width * 1f / imageWidth, height * 1f / imageHeight)
         invalidate()

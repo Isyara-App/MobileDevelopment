@@ -28,7 +28,7 @@ class DictionaryWordAdapter(
             )
 
             val itemId = word.id ?: 0
-            val isKnowing = toggledStates[itemId] ?: false
+            val isKnowing = toggledStates[itemId] ?: (word.isKnowing ?: false)
             updateToggleIcon(isKnowing)
 
             binding.btnToggleLearning.setOnClickListener {

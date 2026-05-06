@@ -132,40 +132,40 @@ class TranslateFragment : Fragment(), TextToSpeech.OnInitListener {
                         if (isAdded) {
                             binding.overlay.setResults(results?.detections(), imageHeight, imageWidth)
                             
-                            results?.detections()?.let { it ->
-                                if (it.isNotEmpty() && it[0].categories().isNotEmpty()) {
-                                    val sortedCategories =
-                                        it[0].categories().sortedByDescending { it?.score() }
-                                    val displayResult =
-                                        sortedCategories.joinToString("\n") { cat ->
-                                            "${cat.categoryName()} " + NumberFormat.getPercentInstance()
-                                                .format(cat.score()).trim()
-                                        }
-
-                                    binding.tvResult.text = displayResult
-                                    binding.btnAdd.setOnClickListener {
-                                        // Menambahkan label ke list
-                                        val label = sortedCategories.firstOrNull()?.categoryName() ?: ""
-                                        resultList.add(label)
-
-                                        // Mengupdate textBox dengan list yang ada
-                                        binding.textBox.text = resultList.joinToString(" ")
+                            val detections = results?.detections()
+                            if (detections != null && detections.isNotEmpty() && detections[0].categories().isNotEmpty()) {
+                                val sortedCategories =
+                                    detections[0].categories().sortedByDescending { it?.score() }
+                                val displayResult =
+                                    sortedCategories.joinToString("\n") { cat ->
+                                        "${cat.categoryName()} " + NumberFormat.getPercentInstance()
+                                            .format(cat.score()).trim()
                                     }
 
-                                    binding.btnDelete.setOnClickListener {
-                                        resultList.clear()
-                                        binding.textBox.text = ""
-                                    }
+                                binding.tvResult.text = displayResult
+                                binding.btnAdd.setOnClickListener {
+                                    // Menambahkan label ke list
+                                    val label = sortedCategories.firstOrNull()?.categoryName() ?: ""
+                                    resultList.add(label)
 
-                                    binding.btnTextToSpeech.setOnClickListener {
-                                        val textToSpeak = binding.textBox.text.toString()
-                                        if (textToSpeak.isNotEmpty()) {
-                                            speakOut(textToSpeak)
-                                        }
-                                    }
-                                } else {
-                                    binding.tvResult.text = ""
+                                    // Mengupdate textBox dengan list yang ada
+                                    binding.textBox.text = resultList.joinToString(" ")
                                 }
+
+                                binding.btnDelete.setOnClickListener {
+                                    resultList.clear()
+                                    binding.textBox.text = ""
+                                }
+
+                                binding.btnTextToSpeech.setOnClickListener {
+                                    val textToSpeak = binding.textBox.text.toString()
+                                    if (textToSpeak.isNotEmpty()) {
+                                        speakOut(textToSpeak)
+                                    }
+                                }
+                            } else {
+                                binding.tvResult.text = ""
+                                binding.overlay.clear()
                             }
                         }
                     }

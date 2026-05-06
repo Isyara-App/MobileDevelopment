@@ -26,10 +26,13 @@ data class DataItemWord(
     val huruf: String? = null,
 
     @field:SerializedName("is_hijaiyah")
-    val isHijaiyah: Int? = null,
+    val isHijaiyah: Boolean? = null,
 
     @field:SerializedName("is_bisindo")
-    val isBisindo: Int? = null,
+    val isBisindo: Boolean? = null,
+
+    @field:SerializedName("is_knowing")
+    val isKnowing: Boolean? = null,
 
     @field:SerializedName("created_at")
     val createdAt: String? = null,

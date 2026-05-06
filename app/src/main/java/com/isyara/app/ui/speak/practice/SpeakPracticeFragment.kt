@@ -153,7 +153,7 @@ class SpeakPracticeFragment : Fragment() {
                 if (_binding == null) return
                 maxRmsDb = max(maxRmsDb, rmsdB)
                 // Count frames above speech-level threshold to confirm real vocalization
-                if (rmsdB > 2.5f) speechLevelFrames++
+                if (rmsdB > 1.5f) speechLevelFrames++
                 // Pulse mic button
                 val scale = 1.0f + (rmsdB.coerceIn(0f, 10f) / 50f)
                 binding.fabMic.scaleX = scale
@@ -284,9 +284,10 @@ class SpeakPracticeFragment : Fragment() {
             putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 10)
             putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
             // Extended silence windows so soft/slow speech from deaf children isn't cut off early
-            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 3500L)
-            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 3000L)
-            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 2500L)
+            // Longer timeouts help in noisy environments where ambient noise can trigger early cutoff
+            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, 5000L)
+            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 4000L)
+            putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 3500L)
             // API 33+: bias the recognizer toward the target word so unclear/soft
             // pronunciation has a better chance of being transcribed correctly
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && targetText.isNotBlank()) {
@@ -366,15 +367,12 @@ class SpeakPracticeFragment : Fragment() {
         }
 
         binding.tvResultText.visibility = View.VISIBLE
-        binding.tvResultText.text = if (usedPartialFallback) {
-            "Tangkapan sementara: \"$bestMatch\""
-        } else {
-            "Kamu bilang: \"$bestMatch\""
-        }
 
         // Threshold: 35% match — intentionally very forgiving for deaf/hard-of-hearing children
         when {
             highestScore >= 0.35 -> {
+                // Show the correct target word — not the raw STT output
+                binding.tvResultText.text = "✅ $targetText"
                 binding.tvResultText.setTextColor(android.graphics.Color.parseColor("#4CAF50"))
                 binding.tvStatus.text = if (usedPartialFallback) {
                     "🌟 BENAR! Aku tetap bisa menangkap suaramu yang pelan 🌟"
@@ -388,6 +386,7 @@ class SpeakPracticeFragment : Fragment() {
             }
             highestScore >= 0.2 -> {
                 // Close but not quite — show syllable breakdown as a hint
+                binding.tvResultText.text = "Hampir tepat! Coba lagi ucapkan: \"$targetText\""
                 binding.tvResultText.setTextColor(android.graphics.Color.parseColor("#FF9800"))
                 binding.tvStatus.text = "Hampir! Coba ucapkan suku kata satu per satu ya 😊 (Percobaan ke-$attemptCount)"
                 binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#FF9800"))
@@ -395,7 +394,8 @@ class SpeakPracticeFragment : Fragment() {
                 showSyllableHint()
             }
             attemptCount >= 3 -> {
-                // After 3 attempts, be very encouraging and lower the bar
+                // After 3 attempts, be very encouraging and show the correct word
+                binding.tvResultText.text = "✅ $targetText"
                 binding.tvResultText.setTextColor(android.graphics.Color.parseColor("#4CAF50"))
                 binding.tvStatus.text = "👏 Bagus sekali sudah mencoba ${attemptCount}x! Kamu hebat! 👏"
                 binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#4CAF50"))
@@ -403,6 +403,7 @@ class SpeakPracticeFragment : Fragment() {
                 binding.tvSyllableHint.visibility = View.GONE
             }
             else -> {
+                binding.tvResultText.text = "Coba ucapkan: \"$targetText\""
                 binding.tvResultText.setTextColor(android.graphics.Color.parseColor("#FF9800"))
                 binding.tvStatus.text = "Coba lagi, dekatkan HP ke mulut ya 😊 (Percobaan ke-$attemptCount)"
                 binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#FF9800"))
@@ -417,7 +418,8 @@ class SpeakPracticeFragment : Fragment() {
      * Stricter than heardSomethingInSession() — requires onBeginningOfSpeech AND sustained RMS.
      */
     private fun hadMeaningfulSpeech(): Boolean {
-        return detectedSpeechInSession && (speechLevelFrames >= 5 || maxRmsDb >= 3.5f)
+        // Lower threshold so softer speech in noisy environments is still recognized
+        return detectedSpeechInSession && (speechLevelFrames >= 3 || maxRmsDb >= 2.0f)
     }
 
     /**

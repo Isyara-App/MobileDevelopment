@@ -14,13 +14,13 @@ import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetector
 import com.google.mediapipe.tasks.vision.objectdetector.ObjectDetectorResult
 
 class ObjectDetectorHelper(
-    var threshold: Float = 0.5f,
-    var maxResults: Int = 1,
+    var threshold: Float = 0.3f,
+    var maxResults: Int = 3,
     var modelName: String = "abjad_v3.tflite",
     val context: Context,
     val objectDetectorListener: DetectorListener?
 ) {
-    var numThreads: Int = 2
+    var numThreads: Int = 4
     private val TAG = "ObjectDetectionHelper"
     private var objectDetector: ObjectDetector? = null
     private val lock = Any()

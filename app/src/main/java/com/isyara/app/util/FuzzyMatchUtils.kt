@@ -37,7 +37,7 @@ object FuzzyMatchUtils {
             val bestWordScores = targetWords.map { tw ->
                 spokenWords.maxOf { sw -> wordSimilarity(tw, sw) }
             }
-            val matchedWords = bestWordScores.count { it >= 0.65 }
+            val matchedWords = bestWordScores.count { it >= 0.50 }
             val wordMatchRatio = matchedWords.toDouble() / targetWords.size
             wordScore = when {
                 wordMatchRatio >= 0.8 -> max(bestWordScores.average(), 0.85)
@@ -93,6 +93,17 @@ object FuzzyMatchUtils {
             bestScore = max(bestScore, subsequenceScore)
         }
 
+        // Check if spoken word starts with same first 2+ chars (noisy environment partial capture)
+        if (w1.length >= 2 && w2.length >= 2) {
+            val prefixLen = w1.zip(w2).takeWhile { (a, b) -> a == b }.size
+            if (prefixLen >= 2) {
+                val prefixCoverage = prefixLen.toDouble() / w1.length
+                if (prefixCoverage >= 0.5) {
+                    bestScore = max(bestScore, 0.55 + prefixCoverage * 0.3)
+                }
+            }
+        }
+
         return bestScore
     }
 
@@ -115,6 +126,7 @@ object FuzzyMatchUtils {
             coverage >= 0.9 -> 0.96
             coverage >= 0.75 -> 0.9
             coverage >= 0.6 -> 0.82
+            coverage >= 0.45 -> 0.7  // More lenient for noisy captures
             else -> 0.0
         }
     }
